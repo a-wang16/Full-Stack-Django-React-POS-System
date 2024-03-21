@@ -10,6 +10,6 @@ Located in the `backend/` directory, the Django server provides REST API functio
 
 ### Frontend
 
-The frontend is a React application that consumes the REST API provided by the Django backend.
+Located in the `fronend/` directory, the frontend is a React application that consumes the REST API provided by the Django backend.
 
-
+Each part of the application has it's own README file with more detailed information.
