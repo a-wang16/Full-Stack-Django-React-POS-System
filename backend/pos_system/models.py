@@ -1,4 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+class Employee(AbstractUser):
+    position = models.CharField(max_length=255)
+    username = models.CharField(max_length=150, unique=True, null=True)
+
+    def __str__(self):
+        return self.username
+
 
 class Inventory(models.Model):
     name = models.CharField(max_length=255)
@@ -24,12 +34,8 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
-class Employee(models.Model):
-    name = models.CharField(max_length=255)
-    position = models.CharField(max_length=255)
 
-    def __str__(self):
-        return self.name
+
 
 class Recipe(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
