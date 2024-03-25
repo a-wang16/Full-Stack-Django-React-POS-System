@@ -1,6 +1,13 @@
 from django.contrib import admin
 from .models import Inventory, MenuItem, Customer, Employee, Recipe, CustomerOrder, OrderItems
 
+
+@admin.register(Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ('username', 'position', 'first_name', 'last_name', 'email')
+    search_fields = ('username', 'first_name', 'last_name')
+
+
 @admin.register(Inventory)
 class InventoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'quantity', 'unit')
@@ -13,9 +20,7 @@ class MenuItemAdmin(admin.ModelAdmin):
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'phone')
 
-@admin.register(Employee)
-class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'position')
+
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):

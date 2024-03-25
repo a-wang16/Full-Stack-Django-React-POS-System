@@ -1,5 +1,6 @@
 from django.urls import path, include
-from .views import InventoryViewSet, MenuItemViewSet, CustomerViewSet, EmployeeViewSet, RecipeViewSet, CustomerOrderViewSet, OrderItemsViewSet
+from .views import (InventoryViewSet, MenuItemViewSet, CustomerViewSet, EmployeeViewSet,
+                    RecipeViewSet, CustomerOrderViewSet, OrderItemsViewSet, register_user, login_employee)
 
 from rest_framework.routers import DefaultRouter
 
@@ -15,6 +16,8 @@ router.register(r'order-items', OrderItemsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('register/', register_user, name='register'),
+    path('login/', login_employee, name='login'),
 ]
 
 
