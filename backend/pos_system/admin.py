@@ -15,6 +15,8 @@ class InventoryAdmin(admin.ModelAdmin):
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'price', 'calories', 'category')
+    fields = ('name', 'price', 'calories', 'category', 'description', 'photo')
+    # list_editable = ('name', 'price', 'calories', 'category')
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):

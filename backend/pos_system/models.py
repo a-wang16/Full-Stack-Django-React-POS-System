@@ -24,6 +24,9 @@ class MenuItem(models.Model):
     calories = models.IntegerField()
     category = models.CharField(max_length=255)
 
+    description = models.TextField(blank=True, null=True)
+    photo = models.ImageField(upload_to='menu_items_photos/', blank=True, null=True)
+
     def __str__(self):
         return self.name
 

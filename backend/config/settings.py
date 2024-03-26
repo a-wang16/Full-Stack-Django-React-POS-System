@@ -143,3 +143,6 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'pos_system.Employee'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
