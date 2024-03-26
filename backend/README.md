@@ -1,3 +1,5 @@
+
+-- on macos 
 To get started, create a venv
 ```bash
 python3 -m venv venv
