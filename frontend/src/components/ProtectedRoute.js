@@ -8,7 +8,6 @@ import {Box} from "@mui/joy";
 const ProtectedRoute = () => {
     const { isAuthenticated, isLoading } = useAuth();
 
-
     // this makes sure that we have loaded from cookies before we render the protected route conditionally
     if (isLoading) {
         return (
@@ -23,7 +22,6 @@ const ProtectedRoute = () => {
             </Box>
         )
     }
-
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
