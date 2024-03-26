@@ -69,6 +69,8 @@ def login_employee(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return Response({"success": "Logged in successfully"})
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key, "success": "Logged in successfully"})
     else:
         return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
