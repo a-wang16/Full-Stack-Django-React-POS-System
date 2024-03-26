@@ -6,7 +6,7 @@ import {Input, Button, Typography, Card} from '@mui/joy'; // Importing Joy UI co
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
 
-const LoginForm = () => {
+const LoginPage = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState('');
@@ -76,4 +76,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default LoginPage;

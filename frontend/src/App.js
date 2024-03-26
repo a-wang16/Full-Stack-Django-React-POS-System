@@ -1,10 +1,10 @@
 import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import LoginForm from './pages/LoginForm';
+import LoginPage from './pages/LoginPage';
 import LandingPage from "./pages/LandingPage";
 import { CssVarsProvider } from '@mui/joy/styles';
 import {CssBaseline} from "@mui/joy";
-import DashboardExample from "./pages/DashboardExample";
+import DashboardExamplePage from "./pages/DashboardExamplePage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./utils/AuthContext";
@@ -18,10 +18,10 @@ function App() {
               <Router>
                   <Routes>
                       <Route path="/" element={<LandingPage />} />
-                      <Route path="/login" element={<LoginForm />} />
+                      <Route path="/login" element={<LoginPage />} />
 
                       <Route element={<ProtectedRoute />}>
-                          <Route path="/menu-board" element={<DashboardExample />} />
+                          <Route path="/menu-board" element={<DashboardExamplePage />} />
                       </Route>
 
 

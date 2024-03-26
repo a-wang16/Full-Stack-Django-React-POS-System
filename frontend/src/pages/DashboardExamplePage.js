@@ -2,7 +2,7 @@ import '../App.css';
 import {Typography} from "@mui/joy";
 import {useEffect} from "react";
 
-function DashboardExample() {
+function DashboardExamplePage() {
 
     useEffect(() => {
         console.log('DashboardExample mounted');
@@ -18,4 +18,4 @@ function DashboardExample() {
     );
 }
 
-export default DashboardExample;
+export default DashboardExamplePage;

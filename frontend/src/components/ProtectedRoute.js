@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../utils/AuthContext';
 import CircularProgress from '@mui/joy/CircularProgress';
