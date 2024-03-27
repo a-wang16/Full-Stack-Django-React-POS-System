@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../App.css';
-import axiosInstance from '../utils/axiosInstance'; // Import your axios instance
+import axiosInstance from '../utils/axiosInstance';
 import { Typography } from "@mui/joy";
 
 function DashboardExamplePage() {

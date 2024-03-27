@@ -1,13 +1,9 @@
-import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import LandingPage from "./pages/LandingPage";
-import { CssVarsProvider } from '@mui/joy/styles';
-import {CssBaseline} from "@mui/joy";
 import DashboardExamplePage from "./pages/DashboardExamplePage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthProvider } from "./utils/AuthContext";
 
 function App() {
   return (
@@ -18,6 +14,8 @@ function App() {
 
               <Route element={<ProtectedRoute />}>
                   <Route path="/menu-board" element={<DashboardExamplePage />} />
+                  <Route path="/user-asdf" element={<DashboardExamplePage />} />
+
               </Route>
           </Routes>
       </Router>
