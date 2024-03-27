@@ -10,7 +10,7 @@ function DashboardExamplePage() {
     useEffect(() => {
         const fetchMenuItem = async () => {
             try {
-                const response = await axiosInstance.get('api/menu-items/97/');
+                const response = await axiosInstance.get('api/menu-items/');
                 setMenuItem(response.data);
                 setIsLoading(false);
             } catch (err) {
@@ -27,16 +27,23 @@ function DashboardExamplePage() {
 
     return (
         <div>
-            {menuItem && (
-                <>
+            {menuItem.map(menuItem => (
+                <div style={{ overflow: 'auto' }}>
                     <Typography component="h1">
                         {menuItem.name}
                     </Typography>
+    
+                    <img 
+                    src={menuItem.photo} 
+                    alt={menuItem.name} 
+                    style={{ width: '200px', height: '200px' }} // Adjust the width and height as needed
+                    />
 
-                    <img src={menuItem.photo} alt={menuItem.name} />
-
-                </>
-            )}
+                    <Typography component="p">
+                        {menuItem.description}
+                    </Typography>
+                </div>
+            ))}
         </div>
     );
 }
