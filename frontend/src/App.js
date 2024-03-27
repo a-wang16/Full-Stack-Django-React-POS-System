@@ -14,8 +14,6 @@ function App() {
 
               <Route element={<ProtectedRoute />}>
                   <Route path="/menu-board" element={<DashboardExamplePage />} />
-                  <Route path="/user-asdf" element={<DashboardExamplePage />} />
-
               </Route>
           </Routes>
       </Router>
