@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-const axiosInstance = axios.create({
-    // baseURL: 'https://your.api/base/url', // where we end up hosting the server
-    baseURL: 'http://127.0.0.1:8000/', // for local development with django running
-});
+const baseURL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:8000/';
+
+const axiosInstance = axios.create({baseURL});
 
 axiosInstance.interceptors.request.use(
     config => {
