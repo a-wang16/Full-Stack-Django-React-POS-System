@@ -2,7 +2,9 @@
 venv/
 .idea/
 *.pyc
-
+pos_system/__pycache__
+pos_system/migrations/__pycache__
+.DS_Store
 
 
 
