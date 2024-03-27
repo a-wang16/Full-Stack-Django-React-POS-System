@@ -11,27 +11,16 @@ import { AuthProvider } from "./utils/AuthContext";
 
 function App() {
   return (
-      <AuthProvider>
-          <CssVarsProvider>
-              <CssBaseline/>
+      <Router>
+          <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<LoginPage />} />
 
-              <Router>
-                  <Routes>
-                      <Route path="/" element={<LandingPage />} />
-                      <Route path="/login" element={<LoginPage />} />
-
-                      <Route element={<ProtectedRoute />}>
-                          <Route path="/menu-board" element={<DashboardExamplePage />} />
-                      </Route>
-
-
-                  </Routes>
-              </Router>
-
-          </CssVarsProvider>
-
-      </AuthProvider>
-
+              <Route element={<ProtectedRoute />}>
+                  <Route path="/menu-board" element={<DashboardExamplePage />} />
+              </Route>
+          </Routes>
+      </Router>
   );
 }
 
