@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInstance';
-import { Typography } from "@mui/joy";
+import {Box, Grid, MenuItem, Typography} from "@mui/joy";
+import MenuItemCard from "../components/MenuItemCard";
 
 function DashboardExamplePage() {
     const [menuItem, setMenuItem] = useState(null);
@@ -26,25 +27,16 @@ function DashboardExamplePage() {
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <div>
-            {menuItem.map(menuItem => (
-                <div style={{ overflow: 'auto' }}>
-                    <Typography component="h1">
-                        {menuItem.name}
-                    </Typography>
-    
-                    <img 
-                    src={menuItem.photo} 
-                    alt={menuItem.name} 
-                    style={{ width: '200px', height: '200px' }} // Adjust the width and height as needed
-                    />
-
-                    <Typography component="p">
-                        {menuItem.description}
-                    </Typography>
-                </div>
-            ))}
-        </div>
+        <>
+            <Typography variant="h2">Menu Board</Typography>
+            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                {menuItem.map((item) => (
+                    <Grid xs={2} md={3}>
+                        <MenuItemCard item={item} key={item.id} />
+                    </Grid>
+                ))}
+            </Grid>
+        </>
     );
 }
 
