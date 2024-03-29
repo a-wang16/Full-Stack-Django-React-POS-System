@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useFormik } from 'formik';
 import { useAuth } from '../utils/AuthContext'; // Adjust path as necessary
 import axiosInstance from '../utils/axiosInstance'; // Adjust path as necessary
-import {Input, Button, Typography, Card} from '@mui/joy'; // Importing Joy UI components
+import {Input, Button, Typography, Card, Box} from '@mui/joy'; // Importing Joy UI components
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
 
@@ -30,7 +30,7 @@ const LoginPage = () => {
 
                 if (response.data.token) {
                     login(response.data.token, values.username);
-                    navigate('/menu-board');
+                    navigate('/order-entry');
                 } else {
                     setLoginError('Login failed: ' + response.data.error);
                 }
@@ -43,7 +43,19 @@ const LoginPage = () => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Card>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',
+                }}
+            >
+            <Card
+                sx={{
+                    width: 300,
+                }}
+            >
                 <Typography>
                     Username
                 </Typography>
@@ -72,6 +84,7 @@ const LoginPage = () => {
                 <Button type="submit">Login</Button>
             </Card>
 
+            </Box>
         </form>
     );
 };
