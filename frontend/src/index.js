@@ -4,15 +4,18 @@ import App from './App';
 import {AuthProvider} from "./utils/AuthContext";
 import {CssVarsProvider} from "@mui/joy/styles";
 import {CssBaseline} from "@mui/joy";
+import {OrderProvider} from "./utils/OrderContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(
       <React.StrictMode>
           <AuthProvider>
-              <CssVarsProvider>
-                  <CssBaseline/>
-                    <App />
-              </CssVarsProvider>
+              <OrderProvider>
+                  <CssVarsProvider>
+                      <CssBaseline/>
+                        <App />
+                  </CssVarsProvider>
+                </OrderProvider>
           </AuthProvider>
       </React.StrictMode>
 );

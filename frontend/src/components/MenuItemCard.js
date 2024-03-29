@@ -7,9 +7,17 @@ import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/joy/IconButton';
 import Link from '@mui/joy/Link';
+import {useOrder} from "../utils/OrderContext";
+import {Button} from "@mui/joy";
 
 export default function MenuItemCard({ item }) {
     const { id, name, price, calories, category, description, photo } = item;
+    const { addItem } = useOrder();
+
+    const handleAddToOrder = () => {
+        // console.log('Adding item:', item);
+        addItem(item);
+    };
 
     return (
         <Card variant="outlined" sx={{ width: 320 }}>
@@ -35,6 +43,7 @@ export default function MenuItemCard({ item }) {
                         bottom: 0,
                         transform: 'translateY(50%)',
                     }}
+                    onClick={handleAddToOrder}
                 >
                     {/*<AddIcon />*/}
                     <Typography level={"title-lg"}>
