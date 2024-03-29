@@ -10,10 +10,11 @@ from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 
 from django.contrib.auth import authenticate
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login
-
+from collections import defaultdict
+from rest_framework.views import APIView
+from .serializers import MenuItemSerializer
 
 class InventoryViewSet(viewsets.ModelViewSet):
     queryset = Inventory.objects.all()
@@ -61,6 +62,19 @@ def register_user(request):
     token, _ = Token.objects.get_or_create(user=user)
     return Response({"token": token.key}, status=status.HTTP_201_CREATED)
 
+
+
+
+
+class GroupedMenuItemsView(APIView):
+    def get(self, request, *args, **kwargs):
+        menu_items = MenuItem.objects.all()
+        grouped_items = defaultdict(list)
+
+        for item in menu_items:
+            grouped_items[item.category].append(MenuItemSerializer(item).data)
+
+        return Response(grouped_items)
 
 @api_view(['POST'])
 def login_employee(request):
