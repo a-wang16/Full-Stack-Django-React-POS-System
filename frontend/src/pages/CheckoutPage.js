@@ -1,4 +1,4 @@
-import { Typography, Button } from "@mui/joy";
+import { Typography, Button, Box } from "@mui/joy";
 import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -26,25 +26,44 @@ function CheckoutPage() {
     };
 
     return (
-        <div>
-            <Button onClick={() => navigate('/order-entry')}>Back to Order Entry</Button> {}
-            <Typography variant="h2">Checkout</Typography>
-            {order.map(item => (
-                <div key={item.id}>
-                    <Typography>{item.name} - Quantity: {item.quantity}</Typography>
-                    <Typography>Price: ${item.price}</Typography>
-                    <Typography>Item Subtotal: ${item.price * item.quantity}</Typography>
-                    <Button onClick={() => removeItem(item.id)}>Remove</Button>
-                </div>
-            ))}
-            <Typography variant="h4">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
-            <Typography variant="h4">Tax: ${tax.toFixed(2)}</Typography>
-            <Typography variant="h4">Total: ${totalPrice.toFixed(2)}</Typography>
-            <Button onClick={handlePlaceOrder} disabled={isProcessing}>
-                {isProcessing ? "Processing..." : "Place Order"}
-            </Button>
+        <Box display="flex" flexDirection="column" alignItems="center"> 
+            <Box display="flex" justifyContent="flex-start" width="100%">  
+                <Typography variant="h2">Our Menu</Typography>
+                <Button onClick={() => navigate('/order-entry')}>Back to Order Entry</Button>
+            </Box>
             
-        </div>
+            <Box display="flex" justifyContent="flex-start" width="100%"> 
+                <Box 
+                    display="flex" 
+                    flexDirection="column" 
+                    alignItems="flex-start" 
+                    width="75%"  
+                    ml="auto" 
+                > 
+                     <Typography variant="h2" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black'  }}>Your Order</Typography>
+                </Box>
+            </Box>
+            
+            <Box display="flex" flexDirection="column" alignItems="center"> 
+                {order.map((item, index) => (
+                    <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '10px', marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <img src={item.image} alt={item.name} style={{ marginRight: '10px', width: '50px', height: '50px' }} /> {/* Image displayed to the left */}
+                        <div>
+                            <Typography>{item.name} - Quantity: {item.quantity}</Typography>
+                            <Typography>Price: ${item.price}</Typography>
+                            <Typography>Item Subtotal: ${item.price * item.quantity}</Typography>
+                            <Button onClick={() => removeItem(item.id)}>Remove</Button>
+                        </div>
+                    </div>
+                ))}
+                <Typography variant="h4">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
+                <Typography variant="h4">Tax: ${tax.toFixed(2)}</Typography>
+                <Typography variant="h4">Total: ${totalPrice.toFixed(2)}</Typography>
+                <Button onClick={handlePlaceOrder} disabled={isProcessing}>
+                    {isProcessing ? "Processing..." : "Place Order"}
+                </Button>
+            </Box>
+        </Box>
     );
 }
 
