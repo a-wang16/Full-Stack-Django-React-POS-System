@@ -90,6 +90,7 @@ function OrderEntryPage() {
                     </Box>
                 </Stack>
             </Sheet>
+            
                 <Grid container spacing={2} sx={{flex: 1}}>
                     {/*map different Catagories based on button selection*/}
                     {menuItem.map((item) => (

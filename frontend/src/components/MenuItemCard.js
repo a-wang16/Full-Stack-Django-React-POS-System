@@ -14,6 +14,8 @@ export default function MenuItemCard({ item }) {
     const { id, name, price, calories, category, description, photo } = item;
     const { addItem } = useOrder();
 
+    console.log(photo);
+
     const handleAddToOrder = () => {
         // console.log('Adding item:', item);
         addItem(item);
@@ -25,7 +27,6 @@ export default function MenuItemCard({ item }) {
                 <AspectRatio ratio="2">
                     <img
                         src={photo}
-                        // srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
                         loading="lazy"
                         alt=""
                     />

@@ -1,13 +1,8 @@
 import * as React from 'react';
-import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
-import IconButton from '@mui/joy/IconButton';
-import Link from '@mui/joy/Link';
-import {useOrder} from "../utils/OrderContext";
 import {Button, Sheet, autocompleteClasses} from "@mui/joy";
 
 export default function FAQCard({item}) {
@@ -26,7 +21,7 @@ export default function FAQCard({item}) {
             sx={{
                 textAlign: 'left',
                 maxWidth: '100%',
-                width: 600,
+                width: '100%',
                 overflow: 'auto',
             }}
             >
