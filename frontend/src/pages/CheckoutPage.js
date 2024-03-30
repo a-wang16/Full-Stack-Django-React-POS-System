@@ -40,29 +40,37 @@ function CheckoutPage() {
                     width="75%"  
                     ml="auto" 
                 > 
-                     <Typography variant="h2" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black'  }}>Your Order</Typography>
+                    <Typography variant="h2" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black' }}>Your Order</Typography>
                 </Box>
             </Box>
             
-            <Box display="flex" flexDirection="column" alignItems="center"> 
-                {order.map((item, index) => (
-                    <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '10px', marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                        <img src={item.image} alt={item.name} style={{ marginRight: '10px', width: '50px', height: '50px' }} /> {/* Image displayed to the left */}
-                        <div>
-                            <Typography>{item.name} - Quantity: {item.quantity}</Typography>
-                            <Typography>Price: ${item.price}</Typography>
-                            <Typography>Item Subtotal: ${item.price * item.quantity}</Typography>
-                            <Button onClick={() => removeItem(item.id)}>Remove</Button>
+            {subtotalPrice === 0 && (
+                <Typography variant="h4" style={{ color: 'red', marginTop: '10px' }}>
+                    Please choose at least 1 menu item before placing an order.
+                </Typography>
+            )}
+            
+            {subtotalPrice !== 0 && (
+                <Box display="flex" flexDirection="column" alignItems="center"> 
+                    {order.map((item, index) => (
+                        <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '10px', marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                            <img src={item.image} alt={item.name} style={{ marginRight: '10px', width: '50px', height: '50px' }} /> {/* Image displayed to the left */}
+                            <div>
+                                <Typography>{item.name} - Quantity: {item.quantity}</Typography>
+                                <Typography>Price: ${item.price}</Typography>
+                                <Typography>Item Subtotal: ${item.price * item.quantity}</Typography>
+                                <Button onClick={() => removeItem(item.id)}>Remove</Button>
+                            </div>
                         </div>
-                    </div>
-                ))}
-                <Typography variant="h4">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
-                <Typography variant="h4">Tax: ${tax.toFixed(2)}</Typography>
-                <Typography variant="h4">Total: ${totalPrice.toFixed(2)}</Typography>
-                <Button onClick={handlePlaceOrder} disabled={isProcessing}>
-                    {isProcessing ? "Processing..." : "Place Order"}
-                </Button>
-            </Box>
+                    ))}
+                    <Typography variant="h4">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
+                    <Typography variant="h4">Tax: ${tax.toFixed(2)}</Typography>
+                    <Typography variant="h4">Total: ${totalPrice.toFixed(2)}</Typography>
+                    <Button onClick={handlePlaceOrder} disabled={isProcessing}>
+                        {isProcessing ? "Processing..." : "Place Order"}
+                    </Button>
+                </Box>
+            )}
         </Box>
     );
 }
