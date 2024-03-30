@@ -47,7 +47,7 @@ export default function MenuItemCard({ item }) {
                     onClick={handleAddToOrder}
                 >
                     {/*<AddIcon />*/}
-                    <Typography level={"title-lg"}>
+                    <Typography level={"title-lg"} color="white">
                         +
                     </Typography>
                 </IconButton>
