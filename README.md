@@ -11,7 +11,7 @@ Navigation between pages is hidden and protected to prevent a customer from view
 #### Meeting 1
 Date: 3/26/2024 12:10-12:25pm
 #### Meeting 2
-Date: 3/27/2024 8:00-8:20pm
+Date: 3/27/2024 4:00-4:25pm
 #### Meeting 3
 Date: 3/28/2024 12:10-12:25pm
 
