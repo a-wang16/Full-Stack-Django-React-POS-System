@@ -46,7 +46,7 @@ export default function MenuItemCard({ item }) {
                     }}
                     onClick={handleAddToOrder}
                 >
-                    <Typography level={"h3"} sx={{ color: 'white'}}>
+                    <Typography level={"h3"} sx={{ color: 'white'}} color="white">
                         +
                     </Typography>
                 </IconButton>
