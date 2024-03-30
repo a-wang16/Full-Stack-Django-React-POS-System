@@ -8,7 +8,7 @@ import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/joy/IconButton';
 import Link from '@mui/joy/Link';
 import {useOrder} from "../utils/OrderContext";
-import {Button} from "@mui/joy";
+import {Button, colors} from "@mui/joy";
 
 export default function MenuItemCard({ item }) {
     const { id, name, price, calories, category, description, photo } = item;
@@ -46,8 +46,7 @@ export default function MenuItemCard({ item }) {
                     }}
                     onClick={handleAddToOrder}
                 >
-                    {/*<AddIcon />*/}
-                    <Typography level={"title-lg"} color="white">
+                    <Typography level={"h3"} sx={{ color: 'white'}} color="white">
                         +
                     </Typography>
                 </IconButton>

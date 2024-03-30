@@ -72,7 +72,8 @@ class GroupedMenuItemsView(APIView):
         grouped_items = defaultdict(list)
 
         for item in menu_items:
-            grouped_items[item.category].append(MenuItemSerializer(item).data)
+            serializer = MenuItemSerializer(item, context={'request': request})
+            grouped_items[item.category].append(serializer.data)
 
         return Response(grouped_items)
 

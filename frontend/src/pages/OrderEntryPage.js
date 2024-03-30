@@ -103,13 +103,14 @@ function OrderEntryPage() {
                 onClick={() => navigate('/checkout')}
                 sx={{
                     position: 'fixed',
-                    bottom: 16,
-                    right: 16,
+                    bottom: 50,
+                    right: 70,
                     zIndex: 1100,
+                    borderRadius: '40px'
                 }}
 
             >
-                <Typography>
+                <Typography level={"h4"} sx={{ color: 'white', paddingRight: 4, paddingLeft: 4, paddingTop: 2, paddingBottom: 2}}>
                     {itemCount} Checkout
                 </Typography>
 

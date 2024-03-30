@@ -48,7 +48,7 @@ function MenuDisplayPage() {
                     ))}
                 </Box>
             </Grid>
-            {/* Grid for Rotating Image */}
+
             <Grid item sx={{ height: '100%', width: '600px' }}>
                 <div >
                     <RotatingImage imageList={imageList} />
