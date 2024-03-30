@@ -6,23 +6,25 @@ const INCREMENT_ITEM = 'INCREMENT_ITEM';
 const DECREMENT_ITEM = 'DECREMENT_ITEM';
 
 const addItemToOrder = (state, newItem) => {
-    const existingItemIndex = state.findIndex(item => item.id === newItem.id);
+    const existingItemIndex = state.findIndex((item) => item.name === newItem.name);
 
     if (existingItemIndex > -1) {
         // Item already exists, increment the quantity
-        return state.map((item, index) => {
-            if (index === existingItemIndex) {
+        return state.map((item) => {
+            if (item.name === newItem.name) {
+                console.log('Incremeting existing item!');
                 return { ...item, quantity: item.quantity + 1 };
             }
             return item;
         });
     } else {
+        console.log('New Item!');
         return [...state, { ...newItem, quantity: 1 }];
     }
 };
 
-const removeItemFromOrder = (state, itemId) => {
-    const existingItemIndex = state.findIndex(item => item.id === itemId);
+const removeItemFromOrder = (state, itemName) => {
+    const existingItemIndex = state.findIndex(item => item.name === itemName);
 
     if (existingItemIndex > -1) {
         const existingItem = state[existingItemIndex];
@@ -35,7 +37,7 @@ const removeItemFromOrder = (state, itemId) => {
                 return item;
             });
         } else {
-            return state.filter(item => item.id !== itemId);
+            return state.filter(item => item.name !== itemName);
         }
     } else {
         return state;

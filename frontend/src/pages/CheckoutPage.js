@@ -12,6 +12,7 @@ function CheckoutPage() {
     const taxRate = 0.0825; // 8.25% tax rate
     const tax = subtotalPrice * taxRate;
     const totalPrice = subtotalPrice + tax;
+    const numItems = getItemCount();
 
     const handlePlaceOrder = async () => {
         setIsProcessing(true);
@@ -28,7 +29,6 @@ function CheckoutPage() {
     return (
         <Box display="flex" flexDirection="column" alignItems="center"> 
             <Box display="flex" justifyContent="flex-start" width="100%">  
-                <Typography variant="h2">Our Menu</Typography>
                 <Button onClick={() => navigate('/order-entry')}>Back to Order Entry</Button>
             </Box>
             
@@ -40,7 +40,7 @@ function CheckoutPage() {
                     width="75%"  
                     ml="auto" 
                 > 
-                    <Typography variant="h2" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black' }}>Your Order</Typography>
+                    <Typography variant="h2" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black' }}>Your Order: {numItems} Items</Typography>
                 </Box>
             </Box>
             
@@ -52,14 +52,14 @@ function CheckoutPage() {
             
             {subtotalPrice !== 0 && (
                 <Box display="flex" flexDirection="column" alignItems="center"> 
-                    {order.map((item, index) => (
+                    {order.map((item) => (
                         <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '10px', marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
                             <img src={item.image} alt={item.name} style={{ marginRight: '10px', width: '50px', height: '50px' }} /> {/* Image displayed to the left */}
                             <div>
                                 <Typography>{item.name} - Quantity: {item.quantity}</Typography>
                                 <Typography>Price: ${item.price}</Typography>
                                 <Typography>Item Subtotal: ${item.price * item.quantity}</Typography>
-                                <Button onClick={() => removeItem(item.id)}>Remove</Button>
+                                <Button onClick={() => removeItem(item.name)}>Remove</Button>
                             </div>
                         </div>
                     ))}
