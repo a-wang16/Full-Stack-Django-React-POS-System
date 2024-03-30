@@ -9,9 +9,17 @@ class InventorySerializer(serializers.ModelSerializer):
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
+    photo_url = serializers.SerializerMethodField()
+
     class Meta:
         model = MenuItem
-        fields = '__all__'
+        fields = ('name', 'price', 'calories', 'category', 'description', 'photo', 'photo_url')
+
+    def get_photo_url(self, obj):
+        request = self.context.get('request')
+        if obj.photo and hasattr(obj.photo, 'url'):
+            return request.build_absolute_uri(obj.photo.url)
+        return None
 
 
 class CustomerSerializer(serializers.ModelSerializer):
