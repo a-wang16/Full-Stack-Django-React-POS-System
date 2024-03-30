@@ -56,7 +56,7 @@ function OrderEntryPage() {
             >
                 <Stack>
                     <Box>
-                        <Typography variant="h4">Our Menu</Typography>
+                        <Typography level="h4">Our Menu</Typography>
 
                         <Stack direction={'row'}>
                             <Button
