@@ -3,7 +3,7 @@ import {Typography} from "@mui/joy";
 function LandingPage() {
     return (
        <Typography>
-           Hello world!
+           Click in the top left to open the navigation drawer
        </Typography>
     );
 }
