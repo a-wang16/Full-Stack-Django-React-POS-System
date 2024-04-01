@@ -25,10 +25,6 @@ const NavigationDrawer = ({open, setOpen}) => {
     return (
         <Drawer open={open}>
             <Stack>
-                <Typography>
-                    Menu
-                </Typography>
-
                 <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display')}>
                     Menu Board
                 </Button>
