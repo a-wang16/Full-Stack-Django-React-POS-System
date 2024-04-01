@@ -1,7 +1,8 @@
 import { Typography, Button, Box } from "@mui/joy";
 import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import Card from "@mui/joy/Card"; // Import useNavigate
 
 function CheckoutPage() {
     const { order, removeItem, getItemCount } = useOrder();
@@ -52,10 +53,11 @@ function CheckoutPage() {
             )}
             
             {subtotalPrice !== 0 && (
-                <Box display="flex" flexDirection="column" alignItems="center"> 
+                <Card display="flex" flexDirection="column" alignItems="center">
                     {order.map((item) => (
                         <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '10px', marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                            <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '50px', height: '50px' }} /> {/* Image displayed to the left */}
+                            <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '50px', height: '50px' }} />
+
                             <div>
                                 <Typography>{item.name} - Quantity: {item.quantity}</Typography>
                                 <Typography>Price: ${item.price}</Typography>
@@ -70,7 +72,7 @@ function CheckoutPage() {
                     <Button onClick={handlePlaceOrder} disabled={isProcessing}>
                         {isProcessing ? "Processing..." : "Place Order"}
                     </Button>
-                </Box>
+                </Card>
             )}
         </Box>
     );
