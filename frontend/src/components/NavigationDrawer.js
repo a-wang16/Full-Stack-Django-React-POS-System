@@ -26,7 +26,22 @@ const NavigationDrawer = ({open, setOpen}) => {
         <Drawer open={open}>
             <Stack>
                 <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display')}>
-                    Menu Board
+                    Rotating Menu Board
+                </Button>
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/sandwiches')}>
+                    Sandwich Menu
+                </Button>
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/burgers')}>
+                    Burger Menu
+                </Button>
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/drinks')}>
+                    Drink Menu
+                </Button>
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/salad')}>
+                    Salad Menu
+                </Button>
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/seasonal')}>
+                    Seasonal Menu
                 </Button>
                 <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./order-entry')}>
                     Order Entry
