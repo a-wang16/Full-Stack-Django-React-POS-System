@@ -5,11 +5,12 @@ import OrderEntryPage from "./pages/OrderEntryPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import {Button, Drawer, Stack, Typography} from "@mui/joy";
-import {useState} from "react";
+import React, {useState} from "react";
 import NavigationDrawer from "./components/NavigationDrawer";
 import CheckoutPage from "./pages/CheckoutPage";
 import RotatingMenuDisplayPage from "./pages/RotatingMenuDisplayPage";
 import MenuDisplayByCategoryPage from "./pages/MenuDisplayByCategoryPage";
+import FullScreenButton from "./components/FullScreenButton";
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
                       }}>
               </Button>
               <NavigationDrawer open={open} setOpen={setOpen}/>
+              <FullScreenButton/>
+
 
               <Routes>
                   <Route path="/" element={<LoginPage />} />
