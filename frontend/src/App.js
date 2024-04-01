@@ -8,7 +8,9 @@ import {Button, Drawer, Stack, Typography} from "@mui/joy";
 import {useState} from "react";
 import NavigationDrawer from "./components/NavigationDrawer";
 import CheckoutPage from "./pages/CheckoutPage";
-import MenuDisplayPage from "./pages/MenuDisplayPage";
+import RotatingMenuDisplayPage from "./pages/RotatingMenuDisplayPage";
+import MenuDisplayByCategoryPage from "./pages/MenuDisplayByCategoryPage";
+
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -31,7 +33,9 @@ function App() {
                   <Route element={<ProtectedRoute />}>
                       <Route path="/order-entry" element={<OrderEntryPage />} />
                       <Route path="/checkout" element={<CheckoutPage />} />
-                      <Route path="/menu-display" element={<MenuDisplayPage />} />
+                      <Route path="/menu-display" element={<RotatingMenuDisplayPage />} />
+                      <Route path="/menu-display/:categoryName" element={<MenuDisplayByCategoryPage />} />
+
                   </Route>
               </Routes>
           </Router>

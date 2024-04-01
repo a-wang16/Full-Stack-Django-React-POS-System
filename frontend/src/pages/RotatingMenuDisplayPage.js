@@ -4,7 +4,7 @@ import {Box, Grid, Sheet, Stack, Typography, stackClasses} from "@mui/joy";
 import MenuDisplayCard from "../components/MenuDisplayCard";
 import RotatingImage from "../components/RotatingImage";
 
-function MenuDisplayPage() {
+function RotatingMenuDisplayPage() {
     const [menuItem, setMenuItem] = useState(null);
     const [imageList, setImageList] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -59,4 +59,4 @@ function MenuDisplayPage() {
     
 }
 
-export default MenuDisplayPage;
+export default RotatingMenuDisplayPage;
