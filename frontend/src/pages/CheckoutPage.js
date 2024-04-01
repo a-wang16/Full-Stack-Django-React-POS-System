@@ -14,6 +14,7 @@ function CheckoutPage() {
     const totalPrice = subtotalPrice + tax;
     const numItems = getItemCount();
 
+    console.log(order);
     const handlePlaceOrder = async () => {
         setIsProcessing(true);
 
@@ -54,7 +55,7 @@ function CheckoutPage() {
                 <Box display="flex" flexDirection="column" alignItems="center"> 
                     {order.map((item) => (
                         <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '10px', marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                            <img src={item.image} alt={item.name} style={{ marginRight: '10px', width: '50px', height: '50px' }} /> {/* Image displayed to the left */}
+                            <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '50px', height: '50px' }} /> {/* Image displayed to the left */}
                             <div>
                                 <Typography>{item.name} - Quantity: {item.quantity}</Typography>
                                 <Typography>Price: ${item.price}</Typography>
