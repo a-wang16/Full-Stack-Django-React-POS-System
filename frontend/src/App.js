@@ -26,8 +26,7 @@ function App() {
               <MenuDrawer open={open} setOpen={setOpen}/>
 
               <Routes>
-                  <Route path="/" element={<LandingPage />} />
-                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/" element={<LoginPage />} />
 
                   <Route element={<ProtectedRoute />}>
                       <Route path="/order-entry" element={<OrderEntryPage />} />

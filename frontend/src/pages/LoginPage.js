@@ -65,8 +65,7 @@ const LoginPage = () => {
                     label="Username"
                     value={formik.values.username}
                     onChange={formik.handleChange}
-                    // error={formik.touched.username && Boolean(formik.errors.username)}
-                    // helperText={formik.touched.username && formik.errors.username}
+
                 />
                 <Typography>
                     Password

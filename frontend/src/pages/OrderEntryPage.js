@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInstance';
-import {Box, Button, Grid, MenuItem, Sheet, Stack, Typography} from "@mui/joy";
+import { Box, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
 import MenuItemCard from "../components/MenuItemCard";
-import IconButton from "@mui/joy/IconButton";
-import {useOrder} from "../utils/OrderContext";
-import {useNavigate} from "react-router-dom";
+import { useOrder } from "../utils/OrderContext";
+import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/joy/CircularProgress";
 
 function OrderEntryPage() {
-    const [menuItem, setMenuItem] = useState(null);
+    const [menuItems, setMenuItems] = useState({});
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -17,10 +19,13 @@ function OrderEntryPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchMenuItem = async () => {
+        const fetchMenuItems = async () => {
             try {
-                const response = await axiosInstance.get('api/menu-items/');
-                setMenuItem(response.data);
+                const response = await axiosInstance.get('api/grouped-menu-items/');
+                console.log(response.data);
+                setMenuItems(response.data);
+                setCategories(Object.keys(response.data));
+                setSelectedCategory(Object.keys(response.data)[0]);
                 setIsLoading(false);
             } catch (err) {
                 setError(err);
@@ -28,96 +33,58 @@ function OrderEntryPage() {
             }
         };
 
-        fetchMenuItem();
+        fetchMenuItems();
     }, []);
 
-    if (isLoading) return <p>Loading...</p>;
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category);
+    };
+
+    if (isLoading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        );
+    }
+
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <Stack
-            direction={'row'}
-            sx={{
-                height: '100%',
-                width: '100%',
-            }}
+        <Box sx={{ height: '100%', width: '100%' }}>
 
-        >
-            <Sheet
-                variant={'soft'}
-                sx={{
-                    width: '20vw',
-                    // display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center',
-                    height: '100%',
-                }}
-            >
-                <Stack>
-                    <Box>
-                        <Typography level="h4">Our Menu</Typography>
-
-                        <Stack direction={'row'}>
-                            <Button
-                                variant={'plain'}
-                                color={'neutral'}
-                                sx={{width: '100%'}}
-
-                            >
-                                <Typography>
-                                    Breakfast
-                                </Typography>
-
-                            </Button>
-
-                        </Stack>
-                        <Stack direction={'row'}>
-                            <Button
-                                variant={'plain'}
-                                color={'neutral'}
-                                sx={{width: '100%'}}
-                            >
-                                <Typography>
-                                    Lunch
-                                </Typography>
-
-                            </Button>
-
-                        </Stack>
-
-
-                    </Box>
-                </Stack>
+        <Stack direction={'row'} sx={{ height: '100%', width: '100%' }}>
+            <Sheet variant={'soft'} sx={{
+                width: '20vw',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                height: '100vh',
+                overflowY: 'auto',
+            }}>
+                <Typography level="h3" sx={{ margin: 1 }}>Our Menu</Typography>
+                {categories.map((category) => (
+                    <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'neutral'} sx={{ width: '100%', mb: 1 }} onClick={() => handleCategoryClick(category)}>
+                        <Typography>{category}</Typography>
+                    </Button>
+                ))}
             </Sheet>
-                <Grid container spacing={2} sx={{flex: 1}} margin={1}>
-                    {/*map different Catagories based on button selection*/}
-                    {menuItem.map((item) => (
-                        <Grid xs={8} md={4} key={item.id}>
-                            <MenuItemCard item={item}/>
-                        </Grid>
-                    ))}
-                </Grid>
-
-            <Button
-                onClick={() => navigate('/checkout')}
-                sx={{
-                    position: 'fixed',
-                    bottom: 50,
-                    right: 70,
-                    zIndex: 1100,
-                    borderRadius: '40px'
-                }}
-
-            >
-                <Typography level={"h4"} sx={{ color: 'white', paddingRight: 4, paddingLeft: 4, paddingTop: 2, paddingBottom: 2}}>
+            <Grid container spacing={2} sx={{ flex: 1, overflow: 'auto' }} margin={1}>
+                {menuItems[selectedCategory]?.map((item) => (
+                    <Grid item xs={12} sm={6} md={4} key={item.name}>
+                        <MenuItemCard item={item} />
+                    </Grid>
+                ))}
+            </Grid>
+            <Button onClick={() => navigate('/checkout')} sx={{ position: 'fixed', bottom: 50, right: 70, zIndex: 1100, borderRadius: '40px' }}>
+                <ion-icon name="cart-outline" style={{ fontSize: '32px'}}></ion-icon>
+                <Typography level={"h4"} sx={{ color: 'white', padding: 2}}>
                     {itemCount} Checkout
                 </Typography>
-
-                <ion-icons name="cart-outline"></ion-icons>
             </Button>
-
         </Stack>
+        </Box>
+
     );
 }
 

@@ -14,7 +14,7 @@ export default function MenuItemCard({ item }) {
     const { id, name, price, calories, category, description, photo } = item;
     const { addItem } = useOrder();
 
-    console.log(photo);
+    // console.log(photo);
 
     const handleAddToOrder = () => {
         // console.log('Adding item:', item);
@@ -46,9 +46,7 @@ export default function MenuItemCard({ item }) {
                     }}
                     onClick={handleAddToOrder}
                 >
-                    <Typography level={"h3"} sx={{ color: 'white'}} color="white">
-                        +
-                    </Typography>
+                    <ion-icon name="add-outline" style={{ fontSize: '24px'}}></ion-icon>
                 </IconButton>
             </CardOverflow>
             <CardContent>
@@ -56,7 +54,7 @@ export default function MenuItemCard({ item }) {
                     {name}
                 </Typography>
                 <Typography level="body-sm">
-                    {price}
+                    $ {price}
                 </Typography>
             </CardContent>
         </Card>
