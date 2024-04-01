@@ -69,6 +69,7 @@ function OrderEntryPage() {
                     </Button>
                 ))}
             </Sheet>
+
             <Grid container spacing={2} sx={{ flex: 1, overflow: 'auto' }} margin={1}>
                 {menuItems[selectedCategory]?.map((item) => (
                     <Grid item xs={12} sm={6} md={4} key={item.name}>
