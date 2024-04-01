@@ -19,7 +19,6 @@ function MenuDisplayByCategoryPage() {
             setIsLoading(true);
             try {
                 const response = await axiosInstance.get('api/grouped-menu-items/');
-                console.log(response.data);
                 const fetchedData = response.data;
 
                 const categoryNameCapitalized = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
@@ -40,7 +39,6 @@ function MenuDisplayByCategoryPage() {
         fetchMenuItems();
     }, [categoryName]);
 
-
     if (isLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -53,22 +51,19 @@ function MenuDisplayByCategoryPage() {
 
     return (
         <Grid container spacing={3} sx={{ padding: 5 }}>
-            <Grid item xs={12} md={6}>
-                <Box sx={{ height: '100%', width: '100%' }}>
-                    <Typography level="h4" sx={{ mb: 2 }}>
-                        {categoryName} Menu
-                    </Typography>
+            <Grid item >
+                <Box sx={{ height: '100%', width: '600px', bgcolor: '#ffffff'}}>
+                    <Typography level="h1"> {categoryName} Menu </Typography>
                     {menuItems.map((item) => (
                         <MenuDisplayCard key={item.id} item={item} />
                     ))}
                 </Box>
             </Grid>
-
-            <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Grid item sx={{ height: '100%', width: '600px' }}>
                 <RotatingImage imageList={imageList} />
-            </Grid>
+            </Grid> 
         </Grid>
-    );
+        );
 }
 
 export default MenuDisplayByCategoryPage;

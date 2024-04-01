@@ -4,6 +4,8 @@ import AspectRatio from '@mui/joy/AspectRatio';
 function RotatingImage({ imageList }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    console.log(imageList);
+
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentIndex(prevIndex => (prevIndex === imageList.length - 1 ? 0 : prevIndex + 1));
@@ -14,7 +16,6 @@ function RotatingImage({ imageList }) {
 
     return (
         <AspectRatio variant="outlined" ratio="9/17" objectFit="cover">
-        {/* only layout="fill" makes sense for using with AspectRatio */}
         <img
             src={imageList[currentIndex]}
             alt="Test image"
