@@ -1,7 +1,7 @@
 from django.urls import path, include
 from .views import (InventoryViewSet, MenuItemViewSet, CustomerViewSet, EmployeeViewSet,
                     RecipeViewSet, CustomerOrderViewSet, OrderItemsViewSet, register_user,
-                    login_employee, GroupedMenuItemsView)
+                    login_employee, GroupedMenuItemsView, create_order)
 
 from rest_framework.routers import DefaultRouter
 
@@ -22,6 +22,8 @@ urlpatterns = [
 
     # custom views
     path('grouped-menu-items/', GroupedMenuItemsView.as_view(), name='grouped-menu-items'),
+
+    path('create-order/', create_order, name='create_order'),
 
 ]
 

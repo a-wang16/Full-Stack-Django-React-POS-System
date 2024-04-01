@@ -89,3 +89,35 @@ def login_employee(request):
     else:
         return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def create_order(request):
+    menuId = request.data.get('menuId')
+    menuQuantity = int(request.data.get('quantity'))
+    # totalPrice = request.data.get('totalPrice')
+
+    # access recipie table and extract all inventory items associated with it
+    inventory_items = list(Recipe.objects.filter(menu_item=menuId).values_list('inventory_item', 'qty'))
+
+    parsed_inventory_items = [{'inventoryId': item[0], 'quantity': item[1] * menuQuantity} for item in inventory_items]
+    
+    # subtract each item from the inventory
+    for item in parsed_inventory_items:
+        inventoryId = item['inventoryId']
+        quantity = item['quantity']
+
+        inventory = Inventory.objects.get(id=inventoryId)
+
+        if inventory.quantity < quantity:
+            return Response({"error": "not enough items in inventory"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        inventory.quantity = inventory.quantity - quantity
+        inventory.save()
+
+    return Response({"inventory updated": "success"})
+
+    # populate customer order
+    
+
+
+
+    
