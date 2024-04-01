@@ -4,7 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import OrderEntryPage from "./pages/OrderEntryPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import {Button, Drawer, Stack, Typography} from "@mui/joy";
+import {Button, Drawer, Stack, Typography, useColorScheme} from "@mui/joy";
 import React, {useState} from "react";
 import NavigationDrawer from "./components/NavigationDrawer";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -15,6 +15,7 @@ import FullScreenButton from "./components/FullScreenButton";
 
 function App() {
     const [open, setOpen] = useState(false);
+
 
       return (
           <Router>

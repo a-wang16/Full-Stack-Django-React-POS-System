@@ -52,7 +52,7 @@ function MenuDisplayByCategoryPage() {
     return (
         <Grid container spacing={3} sx={{ padding: 5 }}>
             <Grid item >
-                <Box sx={{ height: '100%', width: '600px', bgcolor: '#ffffff'}}>
+                <Box sx={{ height: '100%', width: '600px'}}>
                     <Typography level="h1"> {categoryName} Menu </Typography>
                     {menuItems.map((item) => (
                         <MenuDisplayCard key={item.id} item={item} />
