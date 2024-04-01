@@ -4,7 +4,7 @@ import {useAuth} from "../utils/AuthContext";
 import {useNavigate} from "react-router-dom";
 
 const NavigationDrawer = ({open, setOpen}) => {
-    const { logout } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -34,9 +34,12 @@ const NavigationDrawer = ({open, setOpen}) => {
                 <Button variant={'outlined'} onClick={() => setOpen(false)}>
                     Close
                 </Button>
-                <Button variant={'soft'} onClick={handleLogout}>
-                    Logout
-                </Button>
+
+                {isAuthenticated && (
+                    <Button variant={'soft'} onClick={handleLogout}>
+                        Logout
+                    </Button>
+                )}
 
 
             </Stack>
