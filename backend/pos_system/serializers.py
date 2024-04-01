@@ -13,8 +13,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MenuItem
-        fields = ('name', 'price', 'calories', 'category', 'description', 'photo', 'photo_url')
-
+        fields = '__all__'
     def get_photo_url(self, obj):
         request = self.context.get('request')
         if obj.photo and hasattr(obj.photo, 'url'):
