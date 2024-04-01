@@ -6,7 +6,7 @@ import OrderEntryPage from "./pages/OrderEntryPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import {Button, Drawer, Stack, Typography} from "@mui/joy";
 import {useState} from "react";
-import MenuDrawer from "./components/MenuDrawer";
+import NavigationDrawer from "./components/NavigationDrawer";
 import CheckoutPage from "./pages/CheckoutPage";
 import MenuDisplayPage from "./pages/MenuDisplayPage";
 
@@ -23,7 +23,7 @@ function App() {
                           opacity: 0,
                       }}>
               </Button>
-              <MenuDrawer open={open} setOpen={setOpen}/>
+              <NavigationDrawer open={open} setOpen={setOpen}/>
 
               <Routes>
                   <Route path="/" element={<LoginPage />} />

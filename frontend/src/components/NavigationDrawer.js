@@ -3,7 +3,7 @@ import {Drawer, Button, Typography, Stack} from '@mui/joy';
 import {useAuth} from "../utils/AuthContext";
 import {useNavigate} from "react-router-dom";
 
-const MenuDrawer = ({open, setOpen}) => {
+const NavigationDrawer = ({open, setOpen}) => {
     const { logout } = useAuth();
     const navigate = useNavigate();
 
@@ -48,4 +48,4 @@ const MenuDrawer = ({open, setOpen}) => {
     );
 };
 
-export default MenuDrawer;
+export default NavigationDrawer;
