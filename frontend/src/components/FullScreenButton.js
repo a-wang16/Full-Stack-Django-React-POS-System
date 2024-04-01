@@ -21,6 +21,7 @@ const FullScreenButton = () => {
                 sx={{
                     position: 'fixed',
                     right: 0,
+                    top: 0,
                     zIndex: 20,
                     opacity: .5,
                 }}>
