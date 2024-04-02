@@ -3,7 +3,7 @@ import LoginPage from './pages/LoginPage';
 import LandingPage from "./pages/LandingPage";
 import OrderEntryPage from "./pages/OrderEntryPage";
 import CashierPage from "./pages/CashierPage";
-
+import CashierConfirmPage from './pages/CashierConfirmPage';
 import ProtectedRoute from "./components/ProtectedRoute";
 import {Button, Drawer, Stack, Typography, useColorScheme} from "@mui/joy";
 import React, {useState} from "react";
@@ -42,6 +42,7 @@ function App() {
                       <Route path="/menu-display" element={<RotatingMenuDisplayPage />} />
                       <Route path="/menu-display/:categoryName" element={<MenuDisplayByCategoryPage />} />
                       <Route path="/cashier-display" element={<CashierPage />} />
+                      <Route path="/cashier-checkout" element={<CashierConfirmPage />} />
                   </Route>
               </Routes>
           </Router>
