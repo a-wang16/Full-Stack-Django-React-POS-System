@@ -46,6 +46,9 @@ const NavigationDrawer = ({open, setOpen}) => {
                 <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./order-entry')}>
                     Order Entry
                 </Button>
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./cashier-display')}>
+                    Cashier Page
+                </Button>
                 <Button variant={'outlined'} onClick={() => setOpen(false)}>
                     Close
                 </Button>

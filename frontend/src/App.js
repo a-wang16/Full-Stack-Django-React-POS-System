@@ -2,6 +2,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import LandingPage from "./pages/LandingPage";
 import OrderEntryPage from "./pages/OrderEntryPage";
+import CashierPage from "./pages/CashierPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import {Button, Drawer, Stack, Typography, useColorScheme} from "@mui/joy";
@@ -40,7 +41,7 @@ function App() {
                       <Route path="/checkout" element={<CheckoutPage />} />
                       <Route path="/menu-display" element={<RotatingMenuDisplayPage />} />
                       <Route path="/menu-display/:categoryName" element={<MenuDisplayByCategoryPage />} />
-
+                      <Route path="/cashier-display" element={<CashierPage />} />
                   </Route>
               </Routes>
           </Router>
