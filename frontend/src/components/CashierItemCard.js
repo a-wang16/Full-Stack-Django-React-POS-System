@@ -8,7 +8,7 @@ import {useOrder} from "../utils/OrderContext";
 
 export default function CashierItemCard ({ item }) {
     const { id, name, price, category, description} = item;
-    const { addItem } = useOrder();
+    const { addItem, removeItem} = useOrder();
 
     // console.log(photo);
     
@@ -16,6 +16,11 @@ export default function CashierItemCard ({ item }) {
         // console.log('Adding item:', item);
         addItem(item);
     };
+
+
+    const handleRemoveFromOrder = () => {
+        removeItem(item.name); 
+      };
 
     return (
         <Card variant="outlined" sx={{ width: 320 }}>
@@ -33,6 +38,25 @@ export default function CashierItemCard ({ item }) {
                 </Typography>
             </CardContent>
             <CardOverflow>
+            <IconButton
+                    aria-label="Like minimal photography"
+                    size="md"
+                    variant="solid"
+                    color="warning"
+                    sx={{
+                        position: 'absolute',
+                        zIndex: 2,
+                        borderRadius: '50%',
+                        right: '4rem',
+                        bottom: '0rem',
+                        transform: 'translateY(50%)',
+                    }}
+                    onClick={handleRemoveFromOrder}
+                >
+                    <ion-icon name="remove-outline" style={{ fontSize: '24px'}}></ion-icon>
+                </IconButton>
+                
+                
                 <IconButton
                     aria-label="Like minimal photography"
                     size="md"
