@@ -23,8 +23,9 @@ function App() {
                       sx={{
                           position: 'fixed',
                           left: 0,
+                          bottom: 0,
                           zIndex: 20,
-                          opacity: 0,
+                          opacity: 1,
                       }}>
               </Button>
               <NavigationDrawer open={open} setOpen={setOpen}/>
