@@ -3,6 +3,7 @@ from .models import Inventory, MenuItem, Customer, Employee, Recipe, CustomerOrd
 from .serializers import (InventorySerializer, MenuItemSerializer, CustomerSerializer,
                           EmployeeSerializer, RecipeSerializer, CustomerOrderSerializer, OrderItemsSerializer)
 
+from django.utils import timezone
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.response import Response
@@ -14,6 +15,10 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login
 from collections import defaultdict
 from rest_framework.views import APIView
+from django.db import transaction
+from django.db.models.functions import TruncDay
+from django.db.models import Count
+
 from .serializers import MenuItemSerializer
 
 class InventoryViewSet(viewsets.ModelViewSet):
@@ -120,4 +125,54 @@ def create_order(request):
 
 
 
-    
+@api_view(['POST'])
+def create_order_example(request):
+    order_items = request.data
+    print(order_items)
+
+    with transaction.atomic():
+        for item in order_items:
+            menu_id = item['id']
+            menu_quantity = item['quantity']
+
+            inventory_items = list(Recipe.objects.filter(menu_item=menu_id).values_list('inventory_item', 'qty'))
+            parsed_inventory_items = [{'inventoryId': inv_item[0], 'quantity': inv_item[1] * menu_quantity} for inv_item
+                                      in inventory_items]
+
+            for inv_item in parsed_inventory_items:
+                inventory_id = inv_item['inventoryId']
+                required_quantity = inv_item['quantity']
+
+                inventory = Inventory.objects.select_for_update().get(id=inventory_id)
+                if inventory.quantity < required_quantity:
+                    return Response({"error": "Not enough items in inventory for item ID " + str(menu_id)},
+                                    status=status.HTTP_400_BAD_REQUEST)
+
+                inventory.quantity -= required_quantity
+                inventory.save()
+
+    return Response({"message": "Inventory updated successfully"}, status=status.HTTP_200_OK)
+
+
+class OrdersPerDayView(APIView):
+    def get(self, request, *args, **kwargs):
+        start_date = request.query_params.get('start_date')
+        end_date = request.query_params.get('end_date')
+
+        if not start_date or not end_date:
+            return Response({"error": "Both 'start_date' and 'end_date' query parameters are required."},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        start_date = timezone.datetime.strptime(start_date, '%Y-%m-%d')
+        end_date = timezone.datetime.strptime(end_date, '%Y-%m-%d')
+
+        end_date += timezone.timedelta(days=1)
+
+        orders_per_day = CustomerOrder.objects.filter(created_at__range=[start_date, end_date]) \
+                          .annotate(date=TruncDay('created_at')) \
+                          .values('date') \
+                          .annotate(count=Count('id')) \
+                          .values('date', 'count') \
+                          .order_by('date')
+
+        return Response(orders_per_day)
