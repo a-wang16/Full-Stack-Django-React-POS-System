@@ -8,9 +8,8 @@ import {useOrder} from "../utils/OrderContext";
 
 export default function CashierItemCard ({ item }) {
     const { id, name, price, category, description} = item;
-    const { addItem, removeItem} = useOrder();
+    const { addItem, removeItem, order} = useOrder();
 
-    // console.log(photo);
     
     const handleAddToOrder = () => {
         // console.log('Adding item:', item);
@@ -20,7 +19,11 @@ export default function CashierItemCard ({ item }) {
 
     const handleRemoveFromOrder = () => {
         removeItem(item.name); 
-      };
+    };
+
+    const menuItem = order.find(orderItem => orderItem.id === item.id);
+    const quantity = menuItem ? menuItem.quantity : 0;
+
 
     return (
         <Card variant="outlined" sx={{ width: 320 }}>
@@ -36,18 +39,19 @@ export default function CashierItemCard ({ item }) {
                 <Typography level="body-sm">
                     $ {price}
                 </Typography>
+                
             </CardContent>
             <CardOverflow>
             <IconButton
                     aria-label="Like minimal photography"
                     size="md"
                     variant="solid"
-                    color="warning"
+                    color="danger"
                     sx={{
                         position: 'absolute',
                         zIndex: 2,
                         borderRadius: '50%',
-                        right: '4rem',
+                        right: '4.5rem',
                         bottom: '0rem',
                         transform: 'translateY(50%)',
                     }}
@@ -56,12 +60,15 @@ export default function CashierItemCard ({ item }) {
                     <ion-icon name="remove-outline" style={{ fontSize: '24px'}}></ion-icon>
                 </IconButton>
                 
+                <Typography sx={{ position: 'absolute', zIndex: 2, right: '3.5rem', bottom: '0rem', transform: 'translateY(50%)' }}>
+                    {quantity}
+                </Typography>
                 
                 <IconButton
                     aria-label="Like minimal photography"
                     size="md"
                     variant="solid"
-                    color="danger"
+                    color="success"
                     sx={{
                         position: 'absolute',
                         zIndex: 2,
@@ -74,6 +81,7 @@ export default function CashierItemCard ({ item }) {
                 >
                     <ion-icon name="add-outline" style={{ fontSize: '24px'}}></ion-icon>
                 </IconButton>
+                
             </CardOverflow>
         </Card>
     );
