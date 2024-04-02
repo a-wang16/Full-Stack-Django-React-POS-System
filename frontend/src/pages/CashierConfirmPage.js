@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "@mui/joy/Card"; // Import useNavigate
 
 function CashierConfirmPage() {
-    const { order, removeItem, getItemCount } = useOrder();
+    const { order, removeItem, getItemCount, addItem } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
 
@@ -61,6 +61,7 @@ function CashierConfirmPage() {
                                 <Typography>Price: ${item.price}</Typography>
                                 <Typography>Item Subtotal: ${item.price * item.quantity}</Typography>
                                 <Button onClick={() => removeItem(item.name)}>Remove</Button>
+                                <Button onClick={() => addItem(item)}>Add</Button>
                             </div>
                         </div>
                     ))}
