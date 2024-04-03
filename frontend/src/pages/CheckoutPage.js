@@ -6,7 +6,7 @@ import Card from "@mui/joy/Card";
 import axiosInstance from "../utils/axiosInstance"; // Import useNavigate
 
 function CheckoutPage() {
-    const { order, removeItem, getItemCount } = useOrder();
+    const { order, removeItem, getItemCount, clearOrder } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
 
@@ -24,7 +24,9 @@ function CheckoutPage() {
 
         try {
             const response = await axiosInstance.post('api/create-order/', payload);
+            clearOrder();
             console.log('Order placed successfully', response.data);
+
             navigate('/order-entry');
         } catch (error) {
             console.error('Error placing order:', error);

@@ -4,6 +4,7 @@ const ADD_ITEM = 'ADD_ITEM';
 const REMOVE_ITEM = 'REMOVE_ITEM';
 const INCREMENT_ITEM = 'INCREMENT_ITEM';
 const DECREMENT_ITEM = 'DECREMENT_ITEM';
+const CLEAR_ORDER = 'CLEAR_ORDER';
 
 const addItemToOrder = (state, newItem) => {
     const existingItemIndex = state.findIndex((item) => item.name === newItem.name);
@@ -50,6 +51,8 @@ function orderReducer(state, action) {
             return addItemToOrder(state, action.payload);
         case REMOVE_ITEM:
             return removeItemFromOrder(state, action.payload.id);
+        case CLEAR_ORDER:
+            return [];
         default:
             return state;
     }
@@ -73,8 +76,15 @@ const OrderProvider = ({ children }) => {
         return order.reduce((total, item) => total + item.quantity, 0);
     };
 
+    const clearOrder = () => {
+        dispatch({ type: CLEAR_ORDER });
+        console.log('Order cleared');
+    };
+
+
+
     return (
-        <OrderContext.Provider value={{ order, addItem, removeItem, getItemCount }}>
+        <OrderContext.Provider value={{ order, addItem, removeItem, getItemCount, clearOrder }}>
             {children}
         </OrderContext.Provider>
     );
