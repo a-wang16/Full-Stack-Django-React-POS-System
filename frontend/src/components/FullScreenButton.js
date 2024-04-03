@@ -23,7 +23,7 @@ const FullScreenButton = () => {
                     right: 0,
                     top: 0,
                     zIndex: 20,
-                    opacity: .5,
+                    opacity: 0,
                 }}>
             {isFullScreen ? 'Exit Full Screen' : 'Enter Full Screen'}
         </Button>

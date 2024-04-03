@@ -26,7 +26,7 @@ function App() {
                           left: 0,
                           bottom: 0,
                           zIndex: 20,
-                          opacity: 1,
+                          opacity: 0,
                       }}>
               </Button>
               <NavigationDrawer open={open} setOpen={setOpen}/>
