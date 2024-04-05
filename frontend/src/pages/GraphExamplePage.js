@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInstance';
-import { Box, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
+import {Box, Button, Grid, Input, Sheet, Stack, Typography} from "@mui/joy";
 import MenuItemCard from "../components/MenuItemCard";
 import { useOrder } from "../utils/OrderContext";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/joy/CircularProgress";
+import {Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
+import moment from "moment";
 
-function OrderEntryPage() {
-    const [menuItems, setMenuItems] = useState({});
-    const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState("");
+function GraphExamplePage() {
+    const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -21,11 +21,15 @@ function OrderEntryPage() {
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await axiosInstance.get('api/grouped-menu-items/');
+                const response = await axiosInstance.get('/api/orders-per-day/?start_date=2020-10-10&end_date=2024-04-05');
                 console.log(response.data);
-                setMenuItems(response.data);
-                setCategories(Object.keys(response.data));
-                setSelectedCategory(Object.keys(response.data)[0]);
+                const formattedData = response.data.map(item => ({
+                    ...item,
+                    date: moment(item.date).format('YYYY-MM-DD') // Format date
+                }));
+                setData(formattedData);
+
+                setData(response.data);
                 setIsLoading(false);
             } catch (err) {
                 setError(err);
@@ -36,9 +40,6 @@ function OrderEntryPage() {
         fetchMenuItems();
     }, []);
 
-    const handleCategoryClick = (category) => {
-        setSelectedCategory(category);
-    };
 
     if (isLoading) {
         return (
@@ -64,12 +65,7 @@ function OrderEntryPage() {
                 height: '100vh',
             }}>
 
-                <Typography level="h3" sx={{ margin: 1 }}>Our Menu</Typography>
-                {categories.map((category) => (
-                    <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'neutral'} sx={{ width: '100%', mb: 1 }} onClick={() => handleCategoryClick(category)}>
-                        <Typography>{category}</Typography>
-                    </Button>
-                ))}
+
             </Sheet>
 
             <Stack>
@@ -84,35 +80,45 @@ function OrderEntryPage() {
                     <Stack
                         direction={'row'}
                         justifyContent="flex-end"
-
                     >
-                        <Typography level="h3" sx={{ margin: 1 }}>Weather API</Typography>
+                        <Typography level="h3" sx={{ margin: 1 }}>Graph View</Typography>
                         {/*<Typography level="h3" sx={{ margin: 1 }}>Weather API</Typography>*/}
 
                     </Stack>
-
                 </Sheet>
 
-            <Grid container spacing={2} sx={{ flex: 1, overflow: 'auto' }} margin={1}>
-                {menuItems[selectedCategory]?.map((item) => (
-                    <Grid item xs={12} sm={6} md={4} key={item.name}>
-                        <MenuItemCard item={item} />
-                    </Grid>
-                ))}
-            </Grid>
+                 <Input
+                    type="date"
+                    slotProps={{
+                      input: {
+                        min: '2018-06-07',
+                        max: '2025-06-14',
+                      },
+                    }}
+                  />
+
+                <Input
+                    type="date"
+                    slotProps={{
+                      input: {
+                        min: '2025-06-07',
+                        max: '2018-06-14',
+                      },
+                    }}
+                  />
+            <LineChart width={600} height={300} data={data}>
+                <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+            </LineChart>
 
             </Stack>
 
-            <Button onClick={() => navigate('/checkout')} sx={{ position: 'fixed', bottom: 50, right: 70, zIndex: 1100, borderRadius: '40px' }}>
-                <ion-icon name="cart-outline" style={{ fontSize: '32px'}}></ion-icon>
-                <Typography level={"h4"} sx={{ color: 'white', padding: 2}}>
-                    {itemCount} Checkout
-                </Typography>
-            </Button>
         </Stack>
         </Box>
 
     );
 }
 
-export default OrderEntryPage;
+export default GraphExamplePage;
