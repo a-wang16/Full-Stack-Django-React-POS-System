@@ -25,7 +25,7 @@ function GraphExamplePage() {
                 console.log(response.data);
                 const formattedData = response.data.map(item => ({
                     ...item,
-                    date: moment(item.date).format('YYYY-MM-DD') // Format date
+                    date: moment(item.date).format('YYYY-MM-DD')
                 }));
                 setData(formattedData);
 
