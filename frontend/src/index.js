@@ -14,7 +14,7 @@ root.render(
           <AuthProvider>
               <OrderProvider>
                   <CssVarsProvider
-                      defaultMode="dark"
+                    defaultMode='light'
                   >
                   <CssBaseline />
                         <App />

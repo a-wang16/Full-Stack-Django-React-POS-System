@@ -1,11 +1,11 @@
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import LandingPage from "./pages/LandingPage";
+// import LandingPage from "./pages/LandingPage";
 import OrderEntryPage from "./pages/OrderEntryPage";
 import CashierPage from "./pages/CashierPage";
 import CashierConfirmPage from './pages/CashierConfirmPage';
 import ProtectedRoute from "./components/ProtectedRoute";
-import {Button, Drawer, Stack, Typography, useColorScheme} from "@mui/joy";
+import {Button} from "@mui/joy";
 import React, {useState} from "react";
 import NavigationDrawer from "./components/NavigationDrawer";
 import CheckoutPage from "./pages/CheckoutPage";
