@@ -16,29 +16,32 @@ function GraphExamplePage() {
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
 
+    const currDate = new Date().toISOString().split('T')[0];
+    let initialDate = "2018-04-10";
+    let finalDate = currDate;
+
     const navigate = useNavigate();
 
+    const fetchMenuItems = async () => {
+        try {
+            const response = await axiosInstance.get('/api/orders-per-day/?start_date='+initialDate+'&end_date='+finalDate);
+            console.log(response.data);
+            const formattedData = response.data.map(item => ({
+                ...item,
+                date: moment(item.date).format('MM-DD-YY')
+            }));
+            setData(formattedData);
+            setIsLoading(false);
+        } catch (err) {
+            setError(err);
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchMenuItems = async () => {
-            try {
-                const response = await axiosInstance.get('/api/orders-per-day/?start_date=2020-10-10&end_date=2024-04-05');
-                console.log(response.data);
-                const formattedData = response.data.map(item => ({
-                    ...item,
-                    date: moment(item.date).format('YYYY-MM-DD')
-                }));
-                setData(formattedData);
-
-                setData(response.data);
-                setIsLoading(false);
-            } catch (err) {
-                setError(err);
-                setIsLoading(false);
-            }
-        };
-
         fetchMenuItems();
     }, []);
+
 
 
     if (isLoading) {
@@ -68,7 +71,7 @@ function GraphExamplePage() {
 
             </Sheet>
 
-            <Stack>
+            <Stack margin={2}>
                 <Sheet variant={'plain'}
                        color={'neutral'}
                        sx={{
@@ -92,8 +95,14 @@ function GraphExamplePage() {
                     slotProps={{
                       input: {
                         min: '2018-06-07',
-                        max: '2025-06-14',
+                        max:  currDate,
                       },
+                    }}
+                    id='initial'
+                    defaultValue={'2018-06-07'}
+                    onChange={function() {
+                        initialDate = document.getElementById("initial").value;
+                        fetchMenuItems();
                     }}
                   />
 
@@ -101,17 +110,33 @@ function GraphExamplePage() {
                     type="date"
                     slotProps={{
                       input: {
-                        min: '2025-06-07',
-                        max: '2018-06-14',
+                        min: '2018-06-07',
+                        max:  currDate,
                       },
                     }}
+                    id='final'
+                    defaultValue={currDate}
+                    onChange={function() {
+                        finalDate = document.getElementById("final").value;
+                        fetchMenuItems();
+                    }}
                   />
-            <LineChart width={600} height={300} data={data}>
-                <Line type="monotone" dataKey="count" stroke="#8884d8" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-            </LineChart>
+
+            {data.length == 0 && (
+                <Typography variant="h4" style={{ color: 'red', marginTop: '10px' }}>
+                    No data for given date range.
+                </Typography>
+            )}
+
+            {data.length != 0 && (
+                <LineChart width={600} height={300} data={data}>
+                    <XAxis dataKey="date"/>
+                    <YAxis />
+                    <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                    <Tooltip />
+                </LineChart>
+            )}
+            
 
             </Stack>
 
@@ -119,6 +144,14 @@ function GraphExamplePage() {
         </Box>
 
     );
+    
+    document.getElementById("initial").addEventListener("change", function() {
+        initialDate = this.value;
+    });
+
+    document.getElementById("final").addEventListener("change", function() {
+        finalDate = this.value;
+    });
 }
 
 export default GraphExamplePage;
