@@ -3,6 +3,7 @@ import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "@mui/joy/Card"; // Import useNavigate
+import axiosInstance from "../utils/axiosInstance"; // Import useNavigate
 
 function CashierConfirmPage() {
     const { order, removeItem, getItemCount, addItem } = useOrder();
@@ -16,13 +17,19 @@ function CashierConfirmPage() {
     const numItems = getItemCount();
     
     console.log(order);
+
+    const payload = order.map(({id, quantity}) => ({id, quantity}));
+
     const handlePlaceOrder = async () => {
         setIsProcessing(true);
 
         try {
-            console.log('Placing order:', order);
+            const response = await axiosInstance.post('api/create-order/', payload);
+            console.log('Order placed successfully', response.data);
+            navigate('/cashier-display');
         } catch (error) {
             console.error('Error placing order:', error);
+            alert('Failed to place order. Please try again.');
         } finally {
             setIsProcessing(false);
         }
