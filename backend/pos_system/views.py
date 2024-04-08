@@ -15,7 +15,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login
 from collections import defaultdict
 from rest_framework.views import APIView
-from django.db import transaction
+from django.db import transaction, connection
 from django.db.models.functions import TruncDay
 from django.db.models import Count
 
@@ -176,3 +176,47 @@ class OrdersPerDayView(APIView):
                           .order_by('date')
 
         return Response(orders_per_day)
+
+@api_view(['GET'])
+def best_selling_combo(request):
+    start = request.query_params.get('start_date')
+    end = request.query_params.get('end_date')
+
+    if not start or not end:
+        return Response({"error": "Both 'start_date' and 'end_date' query parameters are required."},
+                        status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        start = timezone.datetime.strptime(start, "%Y-%m-%d").strftime("%m/%d/%Y")
+        end = timezone.datetime.strptime(end, "%Y-%m-%d").strftime("%m/%d/%Y")
+    except ValueError:
+        return Response({"error": "Invalid date format. Use MM/DD/YYYY."},
+                        status=status.HTTP_400_BAD_REQUEST)
+
+    query = """
+        SELECT aMenu.name as Menu_Item_1, bMenu.name as Menu_Item_2, COUNT(*) AS Times_Ordered_Together 
+        FROM Order_Items a 
+        JOIN Order_Items b ON a.Order_ID = b.Order_ID AND a.Menu_Item_ID < b.Menu_Item_ID 
+        JOIN Menu_Item aMenu ON a.Menu_Item_ID = aMenu.ID 
+        JOIN Menu_Item bMenu ON b.Menu_Item_ID = bMenu.ID 
+        JOIN Customer_Order co ON co.ID = a.Order_ID 
+        WHERE co.Created_At >= %s AND co.Created_At < %s 
+        GROUP BY aMenu.name, bMenu.name 
+        ORDER BY Times_Ordered_Together DESC 
+        LIMIT 15;
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, [start, end])
+
+        res = cursor.fetchall()
+
+        formatted_result = []
+        for row in res:
+            formatted_result.append({
+                "item1": row[0],
+                "item2": row[1],
+                "count": row[2]
+            })
+
+    return Response(formatted_result, status=status.HTTP_200_OK)
+
