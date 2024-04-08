@@ -22,7 +22,7 @@ export default function MenuItemCard({ item }) {
     };
 
     return (
-        <Card variant="outlined" sx={{ width: 320 }}>
+        <Card variant="outlined" sx={{ minWidth: '350px', maxWidth: '350px', margin: '20px' }}>
             <CardOverflow>
                 <AspectRatio ratio="2">
                     <img
@@ -50,10 +50,10 @@ export default function MenuItemCard({ item }) {
                 </IconButton>
             </CardOverflow>
             <CardContent>
-                <Typography level="title-md">
+                <Typography level="title-lg">
                     {name}
                 </Typography>
-                <Typography level="body-sm">
+                <Typography level="body-md">
                     $ {price}
                 </Typography>
             </CardContent>

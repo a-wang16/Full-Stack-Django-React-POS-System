@@ -53,63 +53,62 @@ function OrderEntryPage() {
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
 
-        <Stack direction={'row'} sx={{ height: '100%', width: '100%' }}>
-            <Sheet variant={'soft'} sx={{
-                width: '20vw',
-                maxWidth: '20vw',
-                minWidth: '20vw',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                height: '100vh',
-            }}>
+            <Stack direction={'row'} sx={{ height: '100%', width: '100%' }}>
+                <Sheet variant={'soft'} sx={{
+                    width: '20vw',
+                    maxWidth: '20vw',
+                    minWidth: '20vw',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    height: '100vh',
+                }}>
 
-                <Typography level="h3" sx={{ margin: 1 }}>Our Menu</Typography>
-                {categories.map((category) => (
-                    <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'neutral'} sx={{ width: '100%', mb: 1 }} onClick={() => handleCategoryClick(category)}>
-                        <Typography>{category}</Typography>
-                    </Button>
-                ))}
-            </Sheet>
-
-            <Stack>
-                <Sheet variant={'plain'}
-                       color={'neutral'}
-                       sx={{
-                        width: '100%',
-                        height: '5vh',
-                        flexDirection: 'row',
-                }}
-                >
-                    <Stack
-                        direction={'row'}
-                        justifyContent="flex-end"
-
-                    >
-                        <Typography level="h3" sx={{ margin: 1 }}>Weather API</Typography>
-                        {/*<Typography level="h3" sx={{ margin: 1 }}>Weather API</Typography>*/}
-
-                    </Stack>
-
+                    <Typography level="h3" sx={{ margin: 1 }}>Our Menu</Typography>
+                    {categories.map((category) => (
+                        <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'neutral'} sx={{ width: '100%', mb: 1 }} onClick={() => handleCategoryClick(category)}>
+                            <Typography>{category}</Typography>
+                        </Button>
+                    ))}
                 </Sheet>
 
-            <Grid container spacing={2} sx={{ flex: 1, overflow: 'auto' }} margin={1}>
-                {menuItems[selectedCategory]?.map((item) => (
-                    <Grid item xs={12} sm={6} md={4} key={item.name}>
-                        <MenuItemCard item={item} />
+                <Stack>
+                    <Sheet variant={'plain'}
+                        color={'neutral'}
+                        sx={{
+                            width: '100%',
+                            height: '5vh',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <Stack
+                            direction={'row'}
+                            justifyContent="flex-end"
+
+                        >
+                            <Typography level="h3" sx={{ margin: 1 }}>Weather API</Typography>
+
+                        </Stack>
+
+                    </Sheet>
+
+                    <Grid container spacing={3} sx={{ overflow: 'auto' }} margin={2}>
+                        {menuItems[selectedCategory]?.map((item) => (
+                            <Grid item key={item.name}>
+                                <MenuItemCard item={item} />
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
 
+                </Stack>
+
+                <Button onClick={() => navigate('/checkout')} sx={{ position: 'fixed', bottom: 50, right: 70, zIndex: 1100, borderRadius: '40px' }}>
+                    <ion-icon name="cart-outline" style={{ fontSize: '32px' }}></ion-icon>
+                    <Typography level={"h4"} sx={{ color: 'white', padding: 2 }}>
+                        {itemCount} Checkout
+                    </Typography>
+                </Button>
             </Stack>
-
-            <Button onClick={() => navigate('/checkout')} sx={{ position: 'fixed', bottom: 50, right: 70, zIndex: 1100, borderRadius: '40px' }}>
-                <ion-icon name="cart-outline" style={{ fontSize: '32px'}}></ion-icon>
-                <Typography level={"h4"} sx={{ color: 'white', padding: 2}}>
-                    {itemCount} Checkout
-                </Typography>
-            </Button>
-        </Stack>
         </Box>
 
     );
