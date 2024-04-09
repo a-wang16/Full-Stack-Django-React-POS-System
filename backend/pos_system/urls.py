@@ -23,6 +23,8 @@ urlpatterns = [
     path('create-order/', views.create_order_example, name='create_order'),
     path('orders-per-day/', views.OrdersPerDayView.as_view(), name='orders-per-day'),
     path('best-selling-combo/', views.best_selling_combo, name='best-selling-combo'),
+    path('sales-trend/', views.sales_trend, name='sales-trend'),
+
 ]
 
 

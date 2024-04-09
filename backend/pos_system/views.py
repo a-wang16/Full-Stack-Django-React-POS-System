@@ -220,3 +220,47 @@ def best_selling_combo(request):
 
     return Response(formatted_result, status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+def sales_trend(request):
+    start = request.query_params.get('start_date')
+    end = request.query_params.get('end_date')
+
+    if not start or not end:
+        return Response({"error": "Both 'start_date' and 'end_date' query parameters are required."},
+                        status=status.HTTP_400_BAD_REQUEST)
+    try:
+        start = timezone.datetime.strptime(start, "%Y-%m-%d").strftime("%m/%d/%Y")
+        end = timezone.datetime.strptime(end, "%Y-%m-%d").strftime("%m/%d/%Y")
+    except ValueError:
+        return Response({"error": "Invalid date format. Use MM/DD/YYYY."},
+                        status=status.HTTP_400_BAD_REQUEST)
+    
+    query = """
+        SELECT 
+            mi.Name AS Menu_Item_Name,
+            SUM(oi.Quantity) AS Total_Quantity_Sold,
+            SUM(oi.Quantity * mi.Price) AS Total_Revenue
+            FROM Order_Items oi
+                JOIN Menu_Item mi ON oi.Menu_Item_ID = mi.ID
+                JOIN Customer_Order co ON oi.Order_ID = co.ID
+                WHERE co.Created_At >= %s AND co.Created_At < %s
+                    GROUP BY mi.Name
+                    ORDER BY Total_Quantity_Sold DESC;
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, [start, end])
+
+        res = cursor.fetchall()
+
+        formatted_result = []
+        for row in res:
+            formatted_result.append({
+                "item_name": row[0],
+                "total_quantity": row[1],
+                "total_revenue": row[2]
+            })
+
+    return Response(formatted_result, status=status.HTTP_200_OK)
+
