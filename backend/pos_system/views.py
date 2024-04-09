@@ -4,6 +4,7 @@ from .serializers import (InventorySerializer, MenuItemSerializer, CustomerSeria
                           EmployeeSerializer, RecipeSerializer, CustomerOrderSerializer, OrderItemsSerializer)
 
 from django.utils import timezone
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.response import Response
@@ -177,21 +178,28 @@ class OrdersPerDayView(APIView):
 
         return Response(orders_per_day)
 
-@api_view(['GET'])
-def best_selling_combo(request):
+
+def get_and_validate_dates(request):
     start = request.query_params.get('start_date')
     end = request.query_params.get('end_date')
 
     if not start or not end:
-        return Response({"error": "Both 'start_date' and 'end_date' query parameters are required."},
-                        status=status.HTTP_400_BAD_REQUEST)
-    
+        return None, None, JsonResponse({"error": "Both 'start_date' and 'end_date' query parameters are required."}, status=400)
+
     try:
         start = timezone.datetime.strptime(start, "%Y-%m-%d").strftime("%m/%d/%Y")
         end = timezone.datetime.strptime(end, "%Y-%m-%d").strftime("%m/%d/%Y")
     except ValueError:
-        return Response({"error": "Invalid date format. Use MM/DD/YYYY."},
-                        status=status.HTTP_400_BAD_REQUEST)
+        return None, None, JsonResponse({"error": "Invalid date format. Use YYYY-MM-DD."}, status=400)
+
+    return start, end, None
+
+
+@api_view(['GET'])
+def best_selling_combo(request):
+    start, end, error_response = get_and_validate_dates(request)
+    if error_response:
+        return error_response
 
     query = """
         SELECT aMenu.name as Menu_Item_1, bMenu.name as Menu_Item_2, COUNT(*) AS Times_Ordered_Together 
@@ -205,6 +213,7 @@ def best_selling_combo(request):
         ORDER BY Times_Ordered_Together DESC 
         LIMIT 15;
     """
+
     with connection.cursor() as cursor:
         cursor.execute(query, [start, end])
 
@@ -223,19 +232,10 @@ def best_selling_combo(request):
 
 @api_view(['GET'])
 def sales_trend(request):
-    start = request.query_params.get('start_date')
-    end = request.query_params.get('end_date')
+    start, end, error_response = get_and_validate_dates(request)
+    if error_response:
+        return error_response
 
-    if not start or not end:
-        return Response({"error": "Both 'start_date' and 'end_date' query parameters are required."},
-                        status=status.HTTP_400_BAD_REQUEST)
-    try:
-        start = timezone.datetime.strptime(start, "%Y-%m-%d").strftime("%m/%d/%Y")
-        end = timezone.datetime.strptime(end, "%Y-%m-%d").strftime("%m/%d/%Y")
-    except ValueError:
-        return Response({"error": "Invalid date format. Use MM/DD/YYYY."},
-                        status=status.HTTP_400_BAD_REQUEST)
-    
     query = """
         SELECT 
             mi.Name AS Menu_Item_Name,
