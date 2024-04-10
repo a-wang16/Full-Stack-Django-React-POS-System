@@ -1,13 +1,13 @@
-import { Typography, Button, Box } from "@mui/joy";
+import { Typography, Button, Box, Modal, Card, ModalClose, ModalDialog, DialogTitle, Input } from "@mui/joy";
 import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "@mui/joy/Card";
 import axiosInstance from "../utils/axiosInstance"; // Import useNavigate
 
 function CheckoutPage() {
     const { order, removeItem, getItemCount, clearOrder } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
 
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
@@ -61,7 +61,7 @@ function CheckoutPage() {
             )}
 
             {subtotalPrice !== 0 && (
-                <Card variant="plain" display="flex" flexDirection="column" alignItems="center" sx={{ width: '50%', padding: '30px'}}>
+                <Card variant="plain" display="flex" flexDirection="column" alignItems="center" sx={{ width: '50%', padding: '30px' }}>
                     {order.map((item) => (
                         <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '25px', marginBottom: '10px', display: 'flex', }}>
                             <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '150px', height: '150px', borderRadius: '5px', objectFit: 'cover' }} />
@@ -76,9 +76,25 @@ function CheckoutPage() {
                     <Typography level="title-lg">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
                     <Typography level="h4">Tax: ${tax.toFixed(2)}</Typography>
                     <Typography level="h3" >Total: ${totalPrice.toFixed(2)}</Typography>
-                    <Button sx={{ width: '25%', margin: 'auto', paddingTop: '10px', paddingBottom: '10px'}} onClick={handlePlaceOrder} disabled={isProcessing}>
+                    <Button sx={{ width: '25%', margin: 'auto', paddingTop: '10px', paddingBottom: '10px' }} onClick={() => setModalOpen(true)} disabled={isProcessing}>
                         {isProcessing ? "Processing..." : "Place Order"}
                     </Button>
+
+
+                    <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                        <ModalDialog
+                            color="primary"
+                            layout="center"
+                            size="lg"
+                            variant="plain"
+                        >
+                            <DialogTitle>Name on Order: </DialogTitle>
+                            <ModalClose />
+                            <Input placeholder="Type name here" variant="outlined" />
+                            <Button onClick={handlePlaceOrder}>Place Order</Button>
+                        </ModalDialog>
+                    </Modal>
+
                 </Card>
             )}
         </Box>
