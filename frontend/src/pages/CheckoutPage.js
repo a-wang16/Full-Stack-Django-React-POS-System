@@ -2,7 +2,8 @@ import { Typography, Button, Box, Modal, Card, ModalClose, ModalDialog, DialogTi
 import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../utils/axiosInstance"; // Import useNavigate
+import axiosInstance from "../utils/axiosInstance";
+import IconButton from "@mui/joy/IconButton"; // Import useNavigate
 
 function CheckoutPage() {
     const { order, removeItem, getItemCount, clearOrder } = useOrder();
@@ -21,12 +22,17 @@ function CheckoutPage() {
     const totalPrice = subtotalPrice + tax;
     const numItems = getItemCount();
 
-    console.log(order);
+    // console.log(order);
     const handlePlaceOrder = async () => {
-        console.log(name);
+        // console.log(name);
         setIsProcessing(true);
 
-        const payload = order.map(({ id, quantity }) => ({ id, quantity }));
+        const payload = {
+            name,
+            order_items: order.map(({ id, quantity }) => ({ id, quantity }))
+        };
+
+        // console.log(payload);
 
         try {
             const response = await axiosInstance.post('api/create-order/', payload);
@@ -45,7 +51,11 @@ function CheckoutPage() {
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
             <Box display="flex" justifyContent="flex-start" width="100%">
-                <Button onClick={() => navigate('/order-entry')}>Back to Order Entry</Button>
+                <IconButton size={'lg'}
+                            onClick={() => navigate('/order-entry')}
+                >
+                    <ion-icon size="large" name="arrow-back-outline"></ion-icon>
+                </IconButton>
             </Box>
 
             <Box display="flex" justifyContent="flex-start" width="100%">
