@@ -12,6 +12,7 @@ function OrderEntryPage() {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [weather, setWeather] = useState(null);
 
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
@@ -33,6 +34,17 @@ function OrderEntryPage() {
             }
         };
 
+        const fetchWeather = async () => {
+            try {
+                const weatherResponse = await axiosInstance.get('api/get-weather/');
+                console.log(weatherResponse.data);
+                setWeather(weatherResponse.data);
+            } catch (err) {
+                setError(err);
+            }
+        };
+
+        fetchWeather();
         fetchMenuItems();
     }, []);
 
@@ -72,6 +84,12 @@ function OrderEntryPage() {
                     ))}
                 </Sheet>
 
+
+                <Box
+                    sx={{
+                       width: '100%',
+                    }}
+                    >
                 <Stack>
                     <Sheet variant={'plain'}
                         color={'neutral'}
@@ -86,13 +104,16 @@ function OrderEntryPage() {
                             justifyContent="flex-end"
 
                         >
-                            <Typography level="h3" sx={{ margin: 1 }}>Weather API</Typography>
-
+                            <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} />
+                            <Typography level="h4" sx={{ margin: 1 }}>{weather.city}  -  {weather.temperature}°C  -   {weather.description}</Typography>
                         </Stack>
 
                     </Sheet>
 
-                    <Grid container spacing={3} sx={{ overflow: 'auto' }} margin={2}>
+
+                     <Grid container spacing={3} sx={{
+                        overflow: 'auto',
+                    }} margin={2}>
                         {menuItems[selectedCategory]?.map((item) => (
                             <Grid item key={item.name}>
                                 <MenuItemCard item={item} />
@@ -100,8 +121,10 @@ function OrderEntryPage() {
                         ))}
                     </Grid>
 
-                </Stack>
 
+
+                </Stack>
+              </Box>
                 <Button onClick={() => navigate('/checkout')} sx={{ position: 'fixed', bottom: 50, right: 70, zIndex: 1100, borderRadius: '40px' }}>
                     <ion-icon name="cart-outline" style={{ fontSize: '32px' }}></ion-icon>
                     <Typography level={"h4"} sx={{ color: 'white', padding: 2 }}>
