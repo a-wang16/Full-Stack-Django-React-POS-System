@@ -15,6 +15,7 @@ manager_view = [
     path('best-selling-combo/', views.best_selling_combo, name='best-selling-combo'),
     path('sales-trend/', views.sales_trend, name='sales-trend'),
     path('inventory-usage/', views.inventory_usage, name='inventory-usage'),
+    path('orders-per-day/', views.OrdersPerDayView.as_view(), name='orders-per-day'),
 ]
 
 urlpatterns = [
@@ -25,8 +26,7 @@ urlpatterns = [
     # custom views
     path('grouped-menu-items/', views.GroupedMenuItemsView.as_view(), name='grouped-menu-items'),
 
-    path('create-order/', views.create_order_example, name='create_order'),
-    path('orders-per-day/', views.OrdersPerDayView.as_view(), name='orders-per-day'),
+    path('create-order/', views.create_order, name='create_order'),
 
     path('manager-view/', include(manager_view)),
 
