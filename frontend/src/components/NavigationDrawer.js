@@ -1,7 +1,7 @@
 import React from 'react';
-import {Drawer, Button, Typography, Stack} from '@mui/joy';
-import {useAuth} from "../utils/AuthContext";
-import {useNavigate} from "react-router-dom";
+import { Drawer, Button, Typography, Divider, Stack, Box } from '@mui/joy';
+import { useAuth } from "../utils/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 import Accordion from '@mui/joy/Accordion';
 import AccordionDetails from '@mui/joy/AccordionDetails';
@@ -9,7 +9,7 @@ import AccordionGroup from '@mui/joy/AccordionGroup';
 import AccordionSummary from '@mui/joy/AccordionSummary';
 
 
-const NavigationDrawer = ({open, setOpen}) => {
+const NavigationDrawer = ({ open, setOpen }) => {
     const { isAuthenticated, logout } = useAuth();
     const navigate = useNavigate();
 
@@ -28,64 +28,103 @@ const NavigationDrawer = ({open, setOpen}) => {
     };
 
     return (
+
         <Drawer open={open}>
-            <Stack>
-                <AccordionGroup>
+            <Stack spacing={2}>
+                <Box
+                    justifyContent={'center'}
+                >
+                    <Divider sx={{ width: '80%', margin: 'auto' }} />
+                </Box>
+
+                <AccordionGroup transition="0.4s ease" sx={{ alignItems: 'center' }}>
                     <Accordion>
-                        <AccordionSummary>
-                            <Typography  sx={{ textAlign: 'center', fontSize: '20px' }}>Menu Dispay</Typography>
+                        <AccordionSummary sx={{ width: '100%', margin: 'auto', paddingLeft: '55px' }}>
+                            <Typography level='h4'>Menu Dispay</Typography>
                         </AccordionSummary>
-                        <AccordionDetails>
+                        <AccordionDetails sx={{ paddingTop: '8px' }}>
                             <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display')}>
-                                Rotating Menu Board
+                                <Typography level='title-md'>Rotating Menu Board</Typography>
                             </Button>
                         </AccordionDetails>
                         <AccordionDetails>
                             <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/sandwiches')}>
-                                Sandwich Menu
+                                <Typography level='title-md'>Sandwich Menu</Typography>
                             </Button>
                         </AccordionDetails>
                         <AccordionDetails>
                             <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/burgers')}>
-                                Burger Menu
+                                <Typography level='title-md'>Burger Menu</Typography>
                             </Button>
                         </AccordionDetails>
                         <AccordionDetails>
                             <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/drinks')}>
-                                Drink Menu
+                                <Typography level='title-md'>Drink Menu</Typography>
                             </Button>
                         </AccordionDetails>
                         <AccordionDetails>
                             <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/salads')}>
-                                Salad Menu
+                                <Typography level='title-md'>Salad Menu</Typography>
                             </Button>
                         </AccordionDetails>
                         <AccordionDetails>
                             <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/seasonal')}>
-                                Seasonal Menu
+                                <Typography level='title-md'>Seasonal Menu</Typography>
                             </Button>
                         </AccordionDetails>
                     </Accordion>
                 </AccordionGroup>
-                
-                
-                <Button variant={'primary'} color={'neutral'} sx={{fontSize: '20px' }} onClick={() => handleNavigate('./order-entry')}>
-                    Order Entry
+
+                <Box
+                    justifyContent={'center'}
+                >
+                    <Divider sx={{ width: '80%', margin: 'auto' }} />
+                </Box>
+
+
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./order-entry')}>
+                    <Typography level='h4'>Order Entry</Typography>
                 </Button>
-                <Button variant={'primary'} color={'neutral'} sx={{fontSize: '20px' }} onClick={() => handleNavigate('./cashier-display')}>
-                    Cashier Page
+                <Box
+                    justifyContent={'center'}
+                >
+                    <Divider sx={{ width: '80%', margin: 'auto' }} />
+                </Box>
+
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./cashier-display')}>
+                    <Typography level='h4'>Cashier Page</Typography>
                 </Button>
-                <Button variant={'primary'} color={'neutral'} sx={{fontSize: '20px' }} onClick={() => handleNavigate('./graph-example')}>
-                    Graph Exmaple
+                <Box
+                    justifyContent={'center'}
+                >
+                    <Divider sx={{ width: '80%', margin: 'auto' }} />
+                </Box>
+
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./graph-example')}>
+                    <Typography level='h4'>Graph Exmaple</Typography>
                 </Button>
-                <Button variant={'outlined'} sx={{fontSize: '20px' }} onClick={() => setOpen(false)}>
-                    Close
+
+                <Box
+                    justifyContent={'center'}
+                >
+                    <Divider sx={{ width: '80%', margin: 'auto' }} />
+                </Box>
+
+
+                <Button variant="plain"  onClick={() => setOpen(false)}>
+                    <Typography color="primary" level='h4'>Close</Typography>
+
                 </Button>
 
                 {isAuthenticated && (
-                    <Button variant={'soft'} sx={{fontSize: '20px' }} onClick={handleLogout}>
-                        Logout
-                    </Button>
+                    <Box position="relative">
+                        <Button
+                            sx={{ position: 'fixed', bottom: 50, left: 20, right: 20, borderRadius: '40px', margin: 'auto' }}
+                            onClick={handleLogout}
+                        >
+                            <Typography level='h4'>Logout</Typography>
+                        </Button>
+                    </Box>
                 )}
 
 
