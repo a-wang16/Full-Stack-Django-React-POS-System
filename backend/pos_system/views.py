@@ -264,3 +264,36 @@ def sales_trend(request):
 
     return Response(formatted_result, status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+def inventory_usage(request):
+    start, end, error_response = get_and_validate_dates(request)
+    if error_response:
+        return error_response
+
+    query = """
+        SELECT i.Name, SUM(r.qty * oi.quantity) AS inventory_used 
+            FROM Menu_Item mi 
+            JOIN Order_Items oi ON mi.ID = oi.Menu_Item_ID 
+            JOIN Customer_Order co ON co.ID = oi.Order_ID 
+            JOIN Recipe r ON mi.ID = r.Menu_item 
+            JOIN Inventory i ON r.Inventory_item = i.ID 
+            WHERE co.Created_At >= %s AND co.Created_At < %s 
+            GROUP BY i.Name 
+            ORDER BY inventory_used DESC;
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, [start, end])
+
+        res = cursor.fetchall()
+
+        formatted_result = []
+        for row in res:
+            formatted_result.append({
+                "inventory_name": row[0],
+                "inventory_used": row[1],
+            })
+
+    return Response(formatted_result, status=status.HTTP_200_OK)
+
