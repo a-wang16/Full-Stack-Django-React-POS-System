@@ -92,49 +92,56 @@ function ManagerGraphPage() {
                 
 
                 <Stack margin={6} spacing={2} sx={{ width: '100vw' } }>
-                    <Sheet variant={'plain'}
-                        color={'neutral'}
-                        sx={{
-                            width: '100%',
-                            height: '5vh',
-                            flexDirection: 'row',
-                            // backgroundColor: 'black'
-                        }}
-                    />
 
-                    <Input
-                        type="date"
-                        slotProps={{
-                            input: {
-                                min: '2023-01-01',
-                                max: currDate,
-                            },
-                        }}
-                        id='initial'
-                        defaultValue={'2023-01-01'}
-                        onChange={function () {
-                            initialDate = document.getElementById("initial").value;
-                            fetchMenuItems();
-                        }}
-                        sx={{ width: '200px' }}
-                    />
+                    <Typography level="h4" sx={{ margin: 1 }}>Select Date Range:</Typography>
 
-                    <Input
-                        type="date"
-                        slotProps={{
-                            input: {
-                                min: '2023-01-01',
-                                max: currDate,
-                            },
-                        }}
-                        id='final'
-                        defaultValue={currDate}
-                        onChange={function () {
-                            finalDate = document.getElementById("final").value;
-                            fetchMenuItems();
-                        }}
-                        sx={{ width: '200px' }}
-                    />
+                    <Stack
+                        direction={'row'}
+                        alignItems={'space-between'}
+                        justifyContent={'space-between'}
+                    >
+                        <Stack>
+                             <Typography level="h5" sx={{ margin: 1 }}>Start Date:</Typography>
+                             <Input
+                                type="date"
+                                slotProps={{
+                                    input: {
+                                        min: '2023-01-01',
+                                        max: currDate,
+                                    },
+                                }}
+                                id='initial'
+                                defaultValue={'2023-01-01'}
+                                onChange={function () {
+                                    initialDate = document.getElementById("initial").value;
+                                    fetchMenuItems();
+                                }}
+                                sx={{ width: '200px' }}
+                             />
+                        </Stack>
+
+                        <Stack>
+                            <Typography level="h5" sx={{ margin: 1 }}>End Date:</Typography>
+                            <Input
+                                type="date"
+                                slotProps={{
+                                    input: {
+                                        min: '2023-01-01',
+                                        max: currDate,
+                                    },
+                                }}
+                                id='final'
+                                defaultValue={currDate}
+                                onChange={function () {
+                                    finalDate = document.getElementById("final").value;
+                                    fetchMenuItems();
+                                }}
+                                sx={{ width: '200px' }}
+                            />
+                        </Stack>
+                    </Stack>
+
+
 
                     {data.length == 0 && (
                         <Typography variant="h4" style={{ color: 'red', marginTop: '10px' }}>
