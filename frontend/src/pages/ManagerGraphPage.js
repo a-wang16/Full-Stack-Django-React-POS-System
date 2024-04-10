@@ -8,7 +8,7 @@ import CircularProgress from "@mui/joy/CircularProgress";
 import { Line, LineChart, Tooltip, XAxis, YAxis, ResponsiveContainer, BarChart, Bar, Legend} from "recharts";
 import moment from "moment";
 
-function GraphExamplePage() {
+function ManagerGraphPage() {
     const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -210,4 +210,4 @@ function GraphExamplePage() {
     });
 }
 
-export default GraphExamplePage;
+export default ManagerGraphPage;

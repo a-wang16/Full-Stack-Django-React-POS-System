@@ -12,7 +12,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import RotatingMenuDisplayPage from "./pages/RotatingMenuDisplayPage";
 import MenuDisplayByCategoryPage from "./pages/MenuDisplayByCategoryPage";
 import FullScreenButton from "./components/FullScreenButton";
-import GraphExamplePage from "./pages/GraphExamplePage";
+import ManagerGraphPage from "./pages/ManagerGraphPage";
 
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
                       <Route path="/cashier-display" element={<CashierPage />} />
                       <Route path="/cashier-checkout" element={<CashierConfirmPage />} />
 
-                      <Route path="/graph-example" element={<GraphExamplePage />} />
+                      <Route path="/manager-graphs" element={<ManagerGraphPage />} />
 
                   </Route>
               </Routes>

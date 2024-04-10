@@ -100,8 +100,8 @@ const NavigationDrawer = ({ open, setOpen }) => {
                     <Divider sx={{ width: '80%', margin: 'auto' }} />
                 </Box>
 
-                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./graph-example')}>
-                    <Typography level='h4'>Graph Exmaple</Typography>
+                <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./manager-graphs')}>
+                    <Typography level='h4'>Manager Graph Page</Typography>
                 </Button>
 
                 <Box
