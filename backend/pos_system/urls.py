@@ -30,6 +30,8 @@ urlpatterns = [
 
     path('manager-view/', include(manager_view)),
 
+    path('get-weather/', views.get_weather, name='get_weather'),
+
 ]
 
 

@@ -22,6 +22,9 @@ from django.db.models import Count
 
 from .serializers import MenuItemSerializer
 
+from config.settings import OPEN_WEATHER_MAP_API_KEY
+import requests
+
 class InventoryViewSet(viewsets.ModelViewSet):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
@@ -297,3 +300,23 @@ def inventory_usage(request):
 
     return Response(formatted_result, status=status.HTTP_200_OK)
 
+
+
+def get_weather(request):
+    city = request.GET.get('city', 'College Station')
+    api_key = OPEN_WEATHER_MAP_API_KEY
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric'
+
+    response = requests.get(url)
+    data = response.json()
+
+    if response.status_code == 200:
+        weather_data = {
+            'city': city,
+            'temperature': data['main']['temp'],
+            'description': data['weather'][0]['description'],
+            'icon': data['weather'][0]['icon'],
+        }
+        return JsonResponse(weather_data)
+    else:
+        return JsonResponse({'error': 'Could not retrieve weather data'}, status=500)
