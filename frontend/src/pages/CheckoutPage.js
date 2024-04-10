@@ -9,6 +9,11 @@ function CheckoutPage() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
+    const [name, setName] = useState('');
+
+    const handleInputChange = (event) => {
+      setName(event.target.value);
+    };
 
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
     const taxRate = 0.0825; // 8.25% tax rate
@@ -18,6 +23,7 @@ function CheckoutPage() {
 
     console.log(order);
     const handlePlaceOrder = async () => {
+        console.log(name);
         setIsProcessing(true);
 
         const payload = order.map(({ id, quantity }) => ({ id, quantity }));
@@ -80,7 +86,6 @@ function CheckoutPage() {
                         {isProcessing ? "Processing..." : "Place Order"}
                     </Button>
 
-
                     <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
                         <ModalDialog
                             color="primary"
@@ -90,11 +95,13 @@ function CheckoutPage() {
                         >
                             <DialogTitle>Name on Order: </DialogTitle>
                             <ModalClose />
-                            <Input placeholder="Type name here" variant="outlined" />
+                            <Input
+                                onChange={handleInputChange}
+                                placeholder="Type name here" 
+                                variant="outlined" />
                             <Button onClick={handlePlaceOrder}>Place Order</Button>
                         </ModalDialog>
                     </Modal>
-
                 </Card>
             )}
         </Box>
