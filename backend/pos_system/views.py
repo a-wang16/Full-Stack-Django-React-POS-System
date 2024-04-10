@@ -222,8 +222,7 @@ def best_selling_combo(request):
         formatted_result = []
         for row in res:
             formatted_result.append({
-                "item1": row[0],
-                "item2": row[1],
+                "combo": row[0] + " and " + row[1],
                 "count": row[2]
             })
 
