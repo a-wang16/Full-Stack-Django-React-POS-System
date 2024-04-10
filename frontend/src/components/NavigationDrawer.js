@@ -56,7 +56,7 @@ const NavigationDrawer = ({open, setOpen}) => {
                             </Button>
                         </AccordionDetails>
                         <AccordionDetails>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/salad')}>
+                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/salads')}>
                                 Salad Menu
                             </Button>
                         </AccordionDetails>
