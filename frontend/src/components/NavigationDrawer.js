@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Accordion from '@mui/joy/Accordion';
 import AccordionDetails from '@mui/joy/AccordionDetails';
 import AccordionGroup from '@mui/joy/AccordionGroup';
-import AccordionSummary from '@mui/joy/AccordionSummary';
+import AccordionSummary, {accordionSummaryClasses,} from '@mui/joy/AccordionSummary';
 
 
 const NavigationDrawer = ({ open, setOpen }) => {
@@ -37,9 +37,16 @@ const NavigationDrawer = ({ open, setOpen }) => {
                     <Divider sx={{ width: '80%', margin: 'auto' }} />
                 </Box>
 
-                <AccordionGroup transition="0.4s ease" sx={{ alignItems: 'center' }}>
+                <AccordionGroup transition="0.4s ease" 
+                    sx={{
+                        [`& .${accordionSummaryClasses.button}:hover`]: {
+                          bgcolor: 'transparent',
+                        }, alignItems: 'center'
+                      }}>
                     <Accordion>
-                        <AccordionSummary sx={{ width: '100%', margin: 'auto', paddingLeft: '55px' }}>
+                        <AccordionSummary sx={{
+                            width: '100%', margin: 'auto', paddingLeft: '55px'
+                        }}>
                             <Typography level='h4'>Menu Dispay</Typography>
                         </AccordionSummary>
                         <AccordionDetails sx={{ paddingTop: '8px' }}>
@@ -111,7 +118,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                 </Box>
 
 
-                <Button variant="plain"  onClick={() => setOpen(false)}>
+                <Button variant="plain" onClick={() => setOpen(false)}>
                     <Typography color="primary" level='h4'>Close</Typography>
 
                 </Button>
