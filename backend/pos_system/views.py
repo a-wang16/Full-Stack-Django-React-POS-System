@@ -101,11 +101,25 @@ def login_employee(request):
 
 @api_view(['POST'])
 def create_order(request):
-    order_items = request.data
-    print(order_items)
+
+    order_items = request.data.get('order_items')
+    order_name = request.data.get('name')
+    employee_name = request.user
 
     with transaction.atomic():
+        # add new customer order
+        employee = Employee.objects.get(username=employee_name)
+        
+        newCustomerOrder = CustomerOrder(
+            employee = employee,
+            status = "completed",
+            name = order_name,
+            created_at = timezone.now()
+        )
+        newCustomerOrder.save()
+        
         for item in order_items:
+            # update inventory
             menu_id = item['id']
             menu_quantity = item['quantity']
 
@@ -125,7 +139,17 @@ def create_order(request):
                 inventory.quantity -= required_quantity
                 inventory.save()
 
-    return Response({"message": "Inventory updated successfully"}, status=status.HTTP_200_OK)
+            # add new order items
+            menu = MenuItem.objects.get(id = menu_id)
+
+            newOrder = OrderItems(
+                order = newCustomerOrder,
+                menu_item = menu,
+                quantity = menu_quantity
+            )
+            newOrder.save()
+
+    return Response({"message": "Order Success"}, status=status.HTTP_201_OK)
 
 
 class OrdersPerDayView(APIView):
