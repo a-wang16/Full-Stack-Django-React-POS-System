@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Accordion from '@mui/joy/Accordion';
 import AccordionDetails from '@mui/joy/AccordionDetails';
 import AccordionGroup from '@mui/joy/AccordionGroup';
-import AccordionSummary, {accordionSummaryClasses,} from '@mui/joy/AccordionSummary';
+import AccordionSummary, { accordionSummaryClasses, } from '@mui/joy/AccordionSummary';
 
 
 const NavigationDrawer = ({ open, setOpen }) => {
@@ -37,12 +37,16 @@ const NavigationDrawer = ({ open, setOpen }) => {
                     <Divider sx={{ width: '80%', margin: 'auto' }} />
                 </Box>
 
-                <AccordionGroup transition="0.4s ease" 
+                <AccordionGroup
+                    transition="0.4s ease"
                     sx={{
+                        alignItems: 'center',
                         [`& .${accordionSummaryClasses.button}:hover`]: {
-                          bgcolor: 'transparent',
-                        }, alignItems: 'center'
-                      }}>
+                            bgcolor: 'transparent',
+                        },
+                        
+                    }}
+                >
                     <Accordion>
                         <AccordionSummary sx={{
                             width: '100%', margin: 'auto', paddingLeft: '55px'
