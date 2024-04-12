@@ -12,7 +12,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import RotatingMenuDisplayPage from "./pages/RotatingMenuDisplayPage";
 import MenuDisplayByCategoryPage from "./pages/MenuDisplayByCategoryPage";
 import FullScreenButton from "./components/FullScreenButton";
-import GraphExamplePage from "./pages/GraphExamplePage";
+import ManagerGraphPage from "./pages/ManagerGraphPage";
 import OrderPlacedPage from "./pages/OrderPlacedPage";
 
 function App() {
