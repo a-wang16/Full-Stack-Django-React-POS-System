@@ -149,7 +149,7 @@ def create_order(request):
             )
             newOrder.save()
 
-    return Response({"message": "Order Success"}, status=status.HTTP_201_OK)
+    return Response({"message": "Order Success"}, status=status.HTTP_201_CREATED)
 
 
 class OrdersPerDayView(APIView):
