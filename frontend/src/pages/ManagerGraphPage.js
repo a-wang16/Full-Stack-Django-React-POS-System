@@ -154,7 +154,7 @@ function ManagerGraphPage() {
                             <LineChart width={900} height={900} data={data}>
                                 <XAxis dataKey="date" />
                                 <YAxis />
-                                <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                                <Line type="monotone" dataKey="count" stroke="#0a6bcc" />
                                 <Tooltip />
                             </LineChart>
                         </ResponsiveContainer>
@@ -163,12 +163,12 @@ function ManagerGraphPage() {
                     {data.length != 0 && selectedCategory == 'best-selling-combo' && (
                         <ResponsiveContainer width="90%"  height="80%">
                             <BarChart width={900} height={900} data={data}>
-                                <XAxis dataKey="item1" name="test"/>
+                                <XAxis dataKey="combo" />
                                 <YAxis  />
-                                <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                                <Line type="monotone" dataKey="count" stroke="#0a6bcc" />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="count" fill="#8884d8" />
+                                <Bar dataKey="count" fill="#0a6bcc" />
                             </BarChart>
                         </ResponsiveContainer>
                     )}
@@ -178,10 +178,10 @@ function ManagerGraphPage() {
                             <BarChart width={900} height={900} data={data}>
                                 <XAxis dataKey="item_name" />
                                 <YAxis />
-                                <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                                <Line type="monotone" dataKey="count" stroke="#0a6bcc" />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="total_quantity" fill="#8884d8" />
+                                <Bar dataKey="total_quantity" fill="#0a6bcc" />
                                 <Bar dataKey="total_revenue" fill="#82ca9d" />
                             </BarChart>
                         </ResponsiveContainer>
@@ -192,10 +192,10 @@ function ManagerGraphPage() {
                             <BarChart width={900} height={900} data={data}>
                                 <XAxis dataKey="inventory_name" />
                                 <YAxis />
-                                <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                                <Line type="monotone" dataKey="count" stroke="#0a6bcc" />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="inventory_used" fill="#8884d8" />
+                                <Bar dataKey="inventory_used" fill="#0a6bcc" />
                             </BarChart>
                         </ResponsiveContainer>
                     )}
