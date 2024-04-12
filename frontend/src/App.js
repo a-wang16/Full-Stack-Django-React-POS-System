@@ -27,8 +27,13 @@ function App() {
                           left: 0,
                           bottom: 0,
                           zIndex: 20,
-                          opacity: 0,
-                      }}>
+                          color: 'primary',
+                          backgroundColor: 'rgba(225, 225, 225, 0.1)',
+                          '&:hover': {
+                            backgroundColor: 'rgba(225, 225, 225, 0.1)',
+                        },
+                      }}> 
+                       <ion-icon name="menu-outline" style={{ fontSize: '32px', color: 'black' }}></ion-icon>
               </Button>
               <NavigationDrawer open={open} setOpen={setOpen}/>
               <FullScreenButton/>
