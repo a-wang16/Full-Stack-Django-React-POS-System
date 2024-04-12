@@ -7,6 +7,7 @@ import Accordion from '@mui/joy/Accordion';
 import AccordionDetails from '@mui/joy/AccordionDetails';
 import AccordionGroup from '@mui/joy/AccordionGroup';
 import AccordionSummary, { accordionSummaryClasses, } from '@mui/joy/AccordionSummary';
+import GoogleTranslate from './GoogleTranslate';
 
 
 const NavigationDrawer = ({ open, setOpen }) => {
@@ -126,6 +127,8 @@ const NavigationDrawer = ({ open, setOpen }) => {
                     <Typography color="primary" level='h4'>Close</Typography>
 
                 </Button>
+
+                <GoogleTranslate/>
 
                 {isAuthenticated && (
                     <Box position="relative">
