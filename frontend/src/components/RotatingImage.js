@@ -15,14 +15,13 @@ function RotatingImage({ imageList }) {
     }, [imageList]);
 
     return (
-        <AspectRatio variant="outlined" ratio="9/17" objectFit="cover">
-        <img
-            src={imageList[currentIndex]}
-            alt="Test image"
-            style={{width:'100%', height: '100%', borderRadius: '5px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}} 
-            
+        <AspectRatio objectFit="cover" flex= {true} sx ={{height: '90vh'}}>
+            <img
+                src={imageList[currentIndex]}
+                alt="Menu Item Image"
+                style={{ borderRadius: '5px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}} 
             />
-      </AspectRatio>
+        </AspectRatio>
     );
 }
 

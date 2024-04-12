@@ -75,16 +75,16 @@ function OrderEntryPage() {
                     height: '100vh',
                 }}>
 
-                    <Typography level = 'h2' sx={{ width: '100%', paddingTop: '20px', paddingBottom: '20px'}}>Welcome to Rev's</Typography>
+                    <Typography level='h2' sx={{ width: '100%', paddingTop: '20px', paddingBottom: '20px' }}>Welcome to Rev's</Typography>
                     {categories.map((category) => (
-                        <Box>   
+                        <Box>
                             <Divider sx={{ width: '80%', margin: 'auto' }} />
                             <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'primary'} sx={{ width: '100%', borderRadius: '0px', paddingTop: '15px', paddingBottom: '15px' }} onClick={() => handleCategoryClick(category)}>
-                            
-                            <Typography level='h4'>{category}</Typography>
-                        </Button>
+
+                                <Typography level='h4'>{category}</Typography>
+                            </Button>
                         </Box>
-                        
+
                     ))}
                 </Sheet>
 
@@ -105,7 +105,7 @@ function OrderEntryPage() {
                                 direction={'row'}
                                 justifyContent="flex-end"
                                 paddingRight={'20px'}
-                                alignContent= 'center'
+                                alignContent='center'
                             >
                                 <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} />
                                 <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>{weather.city}  -  {weather.temperature}°C  </Typography>
@@ -116,6 +116,9 @@ function OrderEntryPage() {
 
                         <Grid container spacing={3} sx={{
                             overflow: 'auto',
+                            alignItems: "flex-start",
+                            // justifyContent: "space-evenly",
+                            
                         }} margin={2}>
                             {menuItems[selectedCategory]?.map((item) => (
                                 <Grid item key={item.name}>

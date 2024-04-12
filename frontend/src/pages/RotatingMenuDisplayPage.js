@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInstance';
-import {Box, Grid, Sheet, Stack, Typography, stackClasses} from "@mui/joy";
+import { Box, Grid, Sheet, Stack, Typography, stackClasses } from "@mui/joy";
 import FullRotatingImage from "../components/FullRotatingImage";
 import FullRotatingMenu from "../components/FullRotatingMenu";
 import CircularProgress from "@mui/joy/CircularProgress";
@@ -24,18 +24,18 @@ function RotatingMenuDisplayPage() {
                     const categoryImages = category.map(item => item.photo);
                     groupedImages[category[0].category] = categoryImages;
                 });
-    
+
                 setMenuItem(response.data); // Set menu item data
                 setImageList(groupedImages); // Set list of lists of images
-                
+
                 setIsLoading(false);
 
             } catch (err) {
                 setError(err);
                 setIsLoading(false);
             }
-            };
-            fetchMenuItem();
+        };
+        fetchMenuItem();
     }, []);
 
     if (isLoading) {
@@ -48,14 +48,16 @@ function RotatingMenuDisplayPage() {
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <Grid container spacing={3} sx={{ padding: 5 }}>
-            <Grid item >
-                <FullRotatingMenu menuList={menuItem} />
+        <Sheet>
+            <Grid container spacing={3} sx={{ padding: 7}}>
+                <Grid item sx= {{width: '45%'}}>
+                    <FullRotatingMenu menuList={menuItem} />
+                </Grid>
+                <Grid item sx={{ height: '100%', width: '55%'}}>
+                    <FullRotatingImage imageList={imageList} />
+                </Grid>
             </Grid>
-            <Grid item sx={{ height: '100%', width: '600px' }}>
-                <FullRotatingImage imageList={imageList} />
-            </Grid> 
-        </Grid>
+        </Sheet>
     );
 
 }

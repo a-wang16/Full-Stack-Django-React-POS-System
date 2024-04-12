@@ -50,19 +50,20 @@ function MenuDisplayByCategoryPage() {
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <Grid container spacing={3} sx={{ padding: 5 }}>
-            <Grid item >
-                <Box sx={{ height: '100%', width: '600px'}}>
+        <Grid container spacing={3} sx={{ padding: 7 }}>
+            <Grid item  sx={{width: '45%'}}>
+                <Box sx={{backgroundColor: 'none'}}>
                     <Typography level="h1"> {categoryName.charAt(0).toUpperCase() + categoryName.slice(1)} Menu </Typography>
                     {menuItems.map((item) => (
                         <MenuDisplayCard key={item.id} item={item} />
                     ))}
                 </Box>
             </Grid>
-            <Grid item sx={{ height: '100%', width: '600px' }}>
+            <Grid item sx={{ height: '100%', width: '55%' }}>
                 <RotatingImage imageList={imageList} />
             </Grid> 
         </Grid>
+        
         );
 }
 

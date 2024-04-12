@@ -11,7 +11,7 @@ export default function FAQCard({item}) {
     return (
         <Sheet
         sx={{
-            maxWidth: '600px',
+            width: '100%',
             justifyContent: 'center'
         }}> 
             <Card
@@ -20,12 +20,12 @@ export default function FAQCard({item}) {
             orientation="horizontal"
             sx={{
                 textAlign: 'left',
-                maxWidth: '100%',
-                width: '100%',
+                // maxWidth: '100%',
+                // width: '100%',
                 overflow: 'auto',
             }}
             >
-            <CardContent sx={{ gap: 1.5, minWidth: 200, maxWidth: 600 }}>
+            <CardContent sx={{ gap: 1.5}}>
                 <Typography level="title-lg">
                     {name + "    |    " + price}
                 </Typography>

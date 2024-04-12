@@ -29,7 +29,7 @@ function FullRotatingMenu({menuList}) {
     const categoryList = menuList[currentKey];
     console.log(categoryList);
     return (
-        <Box sx={{ height: '100%', width: '600px'}}>
+        <Box sx={{ height: '100vh', width: '100%', backgroundColor: 'none'}}>
             <Typography level="h1"> {currentKey} </Typography>
             {categoryList.map((item) => (
                 <MenuDisplayCard key={item.id} item={item} />
