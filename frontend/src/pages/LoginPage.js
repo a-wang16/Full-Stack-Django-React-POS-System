@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useFormik } from 'formik';
 import { useAuth } from '../utils/AuthContext'; // Adjust path as necessary
 import axiosInstance from '../utils/axiosInstance'; // Adjust path as necessary
-import {Input, Button, Typography, Card, Box} from '@mui/joy'; // Importing Joy UI components
+import {Input, Button, Typography, Card, Box, Modal, ModalDialog} from '@mui/joy'; // Importing Joy UI components
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
 
@@ -10,7 +10,7 @@ const LoginPage = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState('');
-
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -33,10 +33,12 @@ const LoginPage = () => {
                     navigate('/order-entry');
                 } else {
                     setLoginError('Login failed: ' + response.data.error);
+                    setShowErrorModal(true);
                 }
             } catch (error) {
                 console.error('Login error:', error);
                 setLoginError('Login error: ' + error.message);
+                setShowErrorModal(true);
             }
         },
     });
@@ -82,7 +84,14 @@ const LoginPage = () => {
                 />
                 <Button type="submit">Login</Button>
             </Card>
-
+            <Modal open={showErrorModal} onClose={() => setShowErrorModal(true)}>
+                <ModalDialog color="primary" layout="center" size="sm" variant="plain">
+                    <Typography variant="h4">Incorrect Username or Password</Typography>
+                    <Box display="flex" justifyContent="center" mt={2}>
+                        <Button onClick={() => { setShowErrorModal(false); }}>Close</Button>
+                    </Box>
+                </ModalDialog>
+            </Modal>
             </Box>
         </form>
     );
