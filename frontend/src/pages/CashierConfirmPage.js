@@ -1,24 +1,31 @@
-import { Typography, Button, Box } from "@mui/joy";
+import { Typography, Button, Box, Modal, Card, Select, Option, ModalClose, ModalDialog, DialogTitle, Input } from "@mui/joy";
 import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "@mui/joy/Card"; // Import useNavigate
 import axiosInstance from "../utils/axiosInstance"; // Import useNavigate
 
 function CashierConfirmPage() {
     const { order, removeItem, getItemCount, addItem } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
-
+    const [name, setName] = useState('');
+    
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
     const taxRate = 0.0825; // 8.25% tax rate
     const tax = subtotalPrice * taxRate;
     const totalPrice = subtotalPrice + tax;
     const numItems = getItemCount();
-    
+    const [modalOpen, setModalOpen] = useState(false);
     console.log(order);
 
-    const payload = order.map(({id, quantity}) => ({id, quantity}));
+    const payload = {
+        name,
+        order_items: order.map(({ id, quantity }) => ({ id, quantity }))
+    };
+
+    const handleInputChange = (event) => {
+        setName(event.target.value);
+    };
 
     const handlePlaceOrder = async () => {
         setIsProcessing(true);
@@ -78,7 +85,26 @@ function CashierConfirmPage() {
                     <Button onClick={handlePlaceOrder} disabled={isProcessing}>
                         {isProcessing ? "Processing..." : "Confirm Order"}
                     </Button>
+
+                    <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                        <ModalDialog
+                            color="primary"
+                            layout="center"
+                            size="lg"
+                            variant="plain"
+                        >
+                            <DialogTitle>Name on Order: </DialogTitle>
+                            <ModalClose />
+                            <Input
+                                onChange={handleInputChange}
+                                placeholder="Type name here"
+                                variant="outlined" />
+                            <Button onClick={handlePlaceOrder}>Place Order</Button>
+                        </ModalDialog>
+                    </Modal>
                 </Card>
+
+                
             )}
         </Box>
     );
