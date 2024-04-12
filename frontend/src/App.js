@@ -47,7 +47,6 @@ function App() {
                       <Route path="/order-placed" element={<OrderPlacedPage />} />
                       <Route path="/manager-graphs" element={<ManagerGraphPage />} />
 
-                      
                   </Route>
               </Routes>
           </Router>
