@@ -26,8 +26,8 @@ function CheckoutPage() {
             const response = await axiosInstance.post('api/create-order/', payload);
             clearOrder();
             console.log('Order placed successfully', response.data);
-
-            navigate('/order-entry');
+            
+            navigate('/order-placed');
         } catch (error) {
             console.error('Error placing order:', error);
             alert('Failed to place order. Please try again.');
