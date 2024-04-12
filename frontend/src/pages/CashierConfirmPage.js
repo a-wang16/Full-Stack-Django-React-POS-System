@@ -26,7 +26,7 @@ function CashierConfirmPage() {
         try {
             const response = await axiosInstance.post('api/create-order/', payload);
             console.log('Order placed successfully', response.data);
-            navigate('/cashier-display');
+            navigate('/order-placed');
         } catch (error) {
             console.error('Error placing order:', error);
             alert('Failed to place order. Please try again.');
