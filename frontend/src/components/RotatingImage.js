@@ -18,7 +18,7 @@ function RotatingImage({ imageList }) {
         <AspectRatio objectFit="cover" flex= {true} sx ={{height: '90vh'}}>
             <img
                 src={imageList[currentIndex]}
-                alt="Menu Item Image"
+                alt="Menu Item"
                 style={{ borderRadius: '5px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}} 
             />
         </AspectRatio>

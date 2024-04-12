@@ -1,4 +1,4 @@
-import { Typography, Button, Box, Modal, Card, ModalClose, ModalDialog, DialogTitle, Input } from "@mui/joy";
+import { Typography, Button, Box, Modal, Card, Select, Option, ModalClose, ModalDialog, DialogTitle, Input } from "@mui/joy";
 import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ function CheckoutPage() {
     const [name, setName] = useState('');
 
     const handleInputChange = (event) => {
-      setName(event.target.value);
+        setName(event.target.value);
     };
 
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
@@ -38,7 +38,7 @@ function CheckoutPage() {
             const response = await axiosInstance.post('api/create-order/', payload);
             clearOrder();
             console.log('Order placed successfully', response.data);
-            
+
             navigate('/order-placed');
         } catch (error) {
             console.error('Error placing order:', error);
@@ -52,7 +52,7 @@ function CheckoutPage() {
         <Box display="flex" flexDirection="column" alignItems="center">
             <Box display="flex" justifyContent="flex-start" width="100%">
                 <IconButton size={'lg'}
-                            onClick={() => navigate('/order-entry')}
+                    onClick={() => navigate('/order-entry')}
                 >
                     <ion-icon size="large" name="arrow-back-outline"></ion-icon>
                 </IconButton>
@@ -82,6 +82,28 @@ function CheckoutPage() {
                         <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '25px', marginBottom: '10px', display: 'flex', }}>
                             <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '150px', height: '150px', borderRadius: '5px', objectFit: 'cover' }} />
                             <div>
+                                <Box sx= {{width: '80px'}}>
+                                    <Select placeholder={item.quantity} variant="outlined" size="lg" slotProps={{
+                                        listbox: {
+                                            sx: {
+                                                maxHeight: '160px',
+                                                overflow: 'auto', // required for scrolling
+                                            }
+                                        }
+                                    }}>
+                                        <Option value="1">1</Option>
+                                        <Option value="2">2</Option>
+                                        <Option value="3">3</Option>
+                                        <Option value="4">4</Option>
+                                        <Option value="5">5</Option>
+                                        <Option value="6">6</Option>
+                                        <Option value="7">7</Option>
+                                        <Option value="8">8</Option>
+                                        <Option value="9">9</Option>
+                                        <Option value="10">10</Option>
+                                    </Select>
+                                </Box>
+
                                 <Typography level="h3">{item.name} - Quantity: {item.quantity}</Typography>
                                 <Typography level="h4">Price: ${item.price}</Typography>
                                 <Typography level="h5">Item Subtotal: ${item.price * item.quantity}</Typography>
@@ -107,7 +129,7 @@ function CheckoutPage() {
                             <ModalClose />
                             <Input
                                 onChange={handleInputChange}
-                                placeholder="Type name here" 
+                                placeholder="Type name here"
                                 variant="outlined" />
                             <Button onClick={handlePlaceOrder}>Place Order</Button>
                         </ModalDialog>
