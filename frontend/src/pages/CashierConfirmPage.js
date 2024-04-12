@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance"; // Import useNavigate
 
 function CashierConfirmPage() {
-    const { order, removeItem, getItemCount, addItem } = useOrder();
+    const { order, removeItem, getItemCount, addItem, clearOrder } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
     const [name, setName] = useState('');
@@ -33,6 +33,7 @@ function CashierConfirmPage() {
         try {
             const response = await axiosInstance.post('api/create-order/', payload);
             console.log('Order placed successfully', response.data);
+            clearOrder();
             navigate('/order-placed');
         } catch (error) {
             console.error('Error placing order:', error);
@@ -82,8 +83,8 @@ function CashierConfirmPage() {
                     <Typography variant="h4">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
                     <Typography variant="h4">Tax: ${tax.toFixed(2)}</Typography>
                     <Typography variant="h4">Total: ${totalPrice.toFixed(2)}</Typography>
-                    <Button onClick={handlePlaceOrder} disabled={isProcessing}>
-                        {isProcessing ? "Processing..." : "Confirm Order"}
+                    <Button sx={{ }} onClick={() => setModalOpen(true)} disabled={isProcessing}>
+                        {isProcessing ? "Processing..." : "Place Order"}
                     </Button>
 
                     <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
