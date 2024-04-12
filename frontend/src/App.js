@@ -45,8 +45,9 @@ function App() {
                       <Route path="/cashier-display" element={<CashierPage />} />
                       <Route path="/cashier-checkout" element={<CashierConfirmPage />} />
                       <Route path="/order-placed" element={<OrderPlacedPage />} />
-                      <Route path="/graph-example" element={<GraphExamplePage />} />
+                      <Route path="/manager-graphs" element={<ManagerGraphPage />} />
 
+                      
                   </Route>
               </Routes>
           </Router>
