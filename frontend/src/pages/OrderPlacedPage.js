@@ -59,8 +59,7 @@ function OrderPlacedPage(){
                 <Button onClick={() => setShowCancelModal(true)}>Cancel Order</Button>
             </Box>
 
-          
-            <Modal open={showCancelModal} onClose={() => setShowCancelModal(false)}>
+            <Modal open={showCancelModal} onClose={() => setShowCancelModal(true)}>
                 <ModalDialog color="primary" layout="center" size="sm" variant="plain">
                     <Typography variant="h4">Are you sure you want to cancel your order?</Typography>
                     <Box display="flex" justifyContent="space-between" mt={2}>
@@ -70,7 +69,7 @@ function OrderPlacedPage(){
                 </ModalDialog>
             </Modal>
            
-            <Modal open={showCancelConfirmationModal} onClose={() => setShowCancelConfirmationModal(false)}>
+            <Modal open={showCancelConfirmationModal} onClose={() => setShowCancelConfirmationModal(true)}>
                 <ModalDialog color="primary" layout="center" size="sm" variant="plain">
                     <Typography variant="h4">Your Order Has Been Cancelled!</Typography>
                     <Box display="flex" justifyContent="center" mt={2}>
