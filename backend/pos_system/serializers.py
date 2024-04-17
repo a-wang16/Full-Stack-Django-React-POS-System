@@ -3,9 +3,14 @@ from .models import Inventory, MenuItem, Customer, Employee, Recipe, CustomerOrd
 
 
 class InventorySerializer(serializers.ModelSerializer):
+    is_low_quantity = serializers.SerializerMethodField()
+
     class Meta:
         model = Inventory
         fields = '__all__'
+
+    def get_is_low_quantity(self, obj):
+        return obj.quantity <= obj.minimum_quantity
 
 
 class MenuItemSerializer(serializers.ModelSerializer):

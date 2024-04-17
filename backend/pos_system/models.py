@@ -14,6 +14,7 @@ class Inventory(models.Model):
     name = models.CharField(max_length=255)
     quantity = models.IntegerField()
     unit = models.CharField(max_length=50)
+    minimum_quantity = models.IntegerField(default=10)
 
     def __str__(self):
         return self.name
