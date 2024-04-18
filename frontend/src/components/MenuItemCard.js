@@ -11,7 +11,7 @@ import {useOrder} from "../utils/OrderContext";
 import {Button, colors} from "@mui/joy";
 
 export default function MenuItemCard({ item }) {
-    const { id, name, price, calories, category, description, photo } = item;
+    const { id, name, price, calories, is_out_of_stock, category, description, photo } = item;
     const { addItem } = useOrder();
 
     // console.log(photo);
@@ -22,7 +22,7 @@ export default function MenuItemCard({ item }) {
     };
 
     return (
-        <Card variant="outlined" sx={{ minWidth: '350px', maxWidth: '350px', margin: '20px' }}>
+        <Card variant="outlined" sx={{ minWidth: '320px', maxWidth: '320px', margin: '20px' }}>
             <CardOverflow>
                 <AspectRatio ratio="2">
                     <img
