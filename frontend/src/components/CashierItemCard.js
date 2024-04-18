@@ -26,16 +26,14 @@ export default function CashierItemCard ({ item }) {
 
 
     return (
-        <Card variant="outlined" sx={{ width: 320 }}>
+        <Card variant="outlined" sx={{ width: 320 , height: 200}}>
             
             <CardContent>
                 
-                <Typography level="title-md">
+                <Typography level="title-md" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
                     {name}
                 </Typography>
-                <Typography level="body-sm">
-                    {description}
-                </Typography>
+                
                 <Typography level="body-sm">
                     $ {price}
                 </Typography>
