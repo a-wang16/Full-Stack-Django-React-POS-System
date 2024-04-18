@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Inventory, MenuItem, Customer, Employee, Recipe, CustomerOrder, OrderItems
+from django.db.models import F, Q
 
 
 class InventorySerializer(serializers.ModelSerializer):
@@ -15,15 +16,24 @@ class InventorySerializer(serializers.ModelSerializer):
 
 class MenuItemSerializer(serializers.ModelSerializer):
     photo_url = serializers.SerializerMethodField()
+    is_out_of_stock = serializers.SerializerMethodField()
 
     class Meta:
         model = MenuItem
         fields = '__all__'
+
     def get_photo_url(self, obj):
         request = self.context.get('request')
         if obj.photo and hasattr(obj.photo, 'url'):
             return request.build_absolute_uri(obj.photo.url)
         return None
+
+    def get_is_out_of_stock(self, obj):
+        out_of_stock = Recipe.objects.filter(
+            menu_item=obj,
+            inventory_item__quantity__lte=F('inventory_item__minimum_quantity')
+        ).exists()
+        return out_of_stock
 
 
 class CustomerSerializer(serializers.ModelSerializer):
