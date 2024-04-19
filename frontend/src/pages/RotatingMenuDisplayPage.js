@@ -47,6 +47,8 @@ function RotatingMenuDisplayPage() {
     }
     if (error) return <p>Error: {error.message}</p>;
 
+    console.log(menuItem);
+
     return (
         <Sheet>
             <Grid container spacing={3} sx={{ padding: 7}}>
@@ -54,7 +56,7 @@ function RotatingMenuDisplayPage() {
                     <FullRotatingMenu menuList={menuItem} />
                 </Grid>
                 <Grid item sx={{ height: '100%', width: '55%'}}>
-                    <FullRotatingImage imageList={imageList} />
+                    <FullRotatingImage menuList={menuItem}/>
                 </Grid>
             </Grid>
         </Sheet>

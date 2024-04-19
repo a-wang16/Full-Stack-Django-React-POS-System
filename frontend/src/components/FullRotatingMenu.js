@@ -27,7 +27,7 @@ function FullRotatingMenu({menuList}) {
     }
 
     const categoryList = menuList[currentKey];
-    console.log(categoryList);
+    // console.log(categoryList);
     return (
         <Box sx={{ height: '100vh', width: '100%', backgroundColor: 'none'}}>
             <Typography level="h1"> {currentKey} </Typography>
