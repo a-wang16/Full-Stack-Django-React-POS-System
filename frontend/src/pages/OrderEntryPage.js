@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInstance';
 import { Box, Divider, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
 import MenuItemCard from "../components/MenuItemCard";
+import OutOfStock from "../components/OutOfStock";
 import { useOrder } from "../utils/OrderContext";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/joy/CircularProgress";
@@ -118,11 +119,18 @@ function OrderEntryPage() {
                             overflow: 'auto',
                             alignItems: "flex-start",
                             // justifyContent: "space-evenly",
-                            
+
                         }} margin={2}>
-                            {menuItems[selectedCategory]?.map((item) => (
+                            {/* Render available items */}
+                            {menuItems[selectedCategory]?.filter(item => !item.is_out_of_stock).map((item) => (
                                 <Grid item key={item.name}>
                                     <MenuItemCard item={item} />
+                                </Grid>
+                            ))}
+                            {/* Render out of stock items */}
+                            {menuItems[selectedCategory]?.filter(item => item.is_out_of_stock).map((item) => (
+                                <Grid item key={item.name}>
+                                    <OutOfStock item={item} />
                                 </Grid>
                             ))}
                         </Grid>

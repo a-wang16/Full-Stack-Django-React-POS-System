@@ -13,7 +13,7 @@ export default function FAQCard({item}) {
         sx={{
             width: '100%',
             justifyContent: 'center',
-            backgroundColor:'transparent',
+            backgroundColor:'rgba(256,256,256,0.1)',
         }}> 
             <Card
             size="lg"
