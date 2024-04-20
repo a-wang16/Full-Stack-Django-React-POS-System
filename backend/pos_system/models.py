@@ -4,10 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Employee(AbstractUser):
     position = models.CharField(max_length=255)
-    username = models.CharField(max_length=150, unique=True, null=True)
 
-    def __str__(self):
-        return self.username
 
 
 class Inventory(models.Model):
