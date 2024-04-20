@@ -5,7 +5,6 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'inventory', views.InventoryViewSet)
 router.register(r'menu-items', views.MenuItemViewSet)
-router.register(r'customers', views.CustomerViewSet)
 router.register(r'employees', views.EmployeeViewSet)
 router.register(r'recipes', views.RecipeViewSet)
 router.register(r'customer-orders', views.CustomerOrderViewSet)

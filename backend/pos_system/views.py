@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Inventory, MenuItem, Customer, Employee, Recipe, CustomerOrder, OrderItems
-from .serializers import (InventorySerializer, MenuItemSerializer, CustomerSerializer,
+from .models import Inventory, MenuItem, Employee, Recipe, CustomerOrder, OrderItems
+from .serializers import (InventorySerializer, MenuItemSerializer,
                           EmployeeSerializer, RecipeSerializer, CustomerOrderSerializer, OrderItemsSerializer)
 
 from django.utils import timezone
@@ -32,11 +32,6 @@ class InventoryViewSet(viewsets.ModelViewSet):
 class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
-
-class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
-
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()

@@ -28,14 +28,6 @@ class MenuItem(models.Model):
     def __str__(self):
         return self.name
 
-class Customer(models.Model):
-    name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-
 
 
 class Recipe(models.Model):
@@ -46,7 +38,6 @@ class Recipe(models.Model):
 
 class CustomerOrder(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField()
     status = models.CharField(max_length=50)
     name = models.CharField(max_length=255)

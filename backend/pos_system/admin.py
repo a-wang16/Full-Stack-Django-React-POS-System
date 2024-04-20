@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Inventory, MenuItem, Customer, Employee, Recipe, CustomerOrder, OrderItems
+from .models import Inventory, MenuItem, Employee, Recipe, CustomerOrder, OrderItems
 
 
 class RecipeInline(admin.TabularInline):
@@ -27,9 +27,6 @@ class MenuItemAdmin(admin.ModelAdmin):
     inlines = [RecipeInline]
     # list_editable = ('name', 'price', 'calories', 'category')
 
-@admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'phone')
 
 
 
@@ -39,7 +36,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
 @admin.register(CustomerOrder)
 class CustomerOrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'employee', 'customer', 'created_at', 'status', 'name')
+    list_display = ('id', 'employee', 'created_at', 'status', 'name')
 
 @admin.register(OrderItems)
 class OrderItemsAdmin(admin.ModelAdmin):

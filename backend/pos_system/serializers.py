@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Inventory, MenuItem, Customer, Employee, Recipe, CustomerOrder, OrderItems
+from .models import Inventory, MenuItem, Employee, Recipe, CustomerOrder, OrderItems
 from django.db.models import F, Q
 
 
@@ -34,12 +34,6 @@ class MenuItemSerializer(serializers.ModelSerializer):
             inventory_item__quantity__lte=F('inventory_item__minimum_quantity')
         ).exists()
         return out_of_stock
-
-
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = '__all__'
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
