@@ -48,6 +48,10 @@ function CheckoutPage() {
         }
     };
 
+    const handleChange = (event, newValue) => {
+        console.log(newValue);
+    };
+
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
             <Box display="flex" justifyContent="flex-start" width="100%">
@@ -96,7 +100,14 @@ function CheckoutPage() {
                                     </Grid>
                                     <Grid xs={2}>
                                         <Box sx={{ width: '100%', maxWidth: '80px' }}>
-                                            <Select placeholder={item.quantity} variant="outlined" size="lg" slotProps={{
+                                            <Select
+                                                placeholder={item.quantity}
+                                                variant="outlined"
+                                                size="lg"
+                                                onChange={handleChange}
+
+
+                                                slotProps={{
                                                 listbox: {
                                                     sx: {
                                                         width: '100%',
