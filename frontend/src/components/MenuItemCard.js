@@ -76,7 +76,7 @@ export default function MenuItemCard({ item }) {
                         setOpen(false);
                     }}
                 >
-                    <ion-icon name="checkmark-outline" size="small"></ion-icon>
+                    <ion-icon aria-label="Confirm Account" name="checkmark-outline" size="small"></ion-icon>
                     <Typography level='title-medium'> {item.name} added to cart. </Typography>
                     
                 </Snackbar>

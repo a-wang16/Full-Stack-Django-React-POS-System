@@ -140,9 +140,6 @@ function OrderEntryPage() {
                                 </Grid>
                             ))}
                         </Grid>
-
-
-
                     </Stack>
                 </Box>
                 <Button onClick={() => navigate('/checkout')} sx={{ position: 'fixed', bottom: 50, right: 70, zIndex: 1100, borderRadius: '40px' }}>
