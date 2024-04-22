@@ -25,6 +25,8 @@ from .serializers import MenuItemSerializer
 from config.settings import OPEN_WEATHER_MAP_API_KEY
 import requests
 
+from .utils import send_sms, normalize_phone_number
+
 class InventoryViewSet(viewsets.ModelViewSet):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
@@ -96,9 +98,12 @@ def login_employee(request):
 
 @api_view(['POST'])
 def create_order(request):
-
     order_items = request.data.get('order_items')
     order_name = request.data.get('name')
+    phone_number = request.data.get('phone_number')
+    normalized_phone_number = normalize_phone_number(phone_number)
+
+
     employee_name = request.user
 
     with transaction.atomic():
@@ -109,6 +114,7 @@ def create_order(request):
             employee = employee,
             status = "completed",
             name = order_name,
+            phone_number = phone_number,
             created_at = timezone.now()
         )
         newCustomerOrder.save()
@@ -143,6 +149,8 @@ def create_order(request):
                 quantity = menu_quantity
             )
             newOrder.save()
+
+            send_sms(normalized_phone_number, f"Your order {newCustomerOrder.name} has been placed successfully. We will be ready with your food shortly!")
 
     return Response({"message": "Order Success"}, status=status.HTTP_201_CREATED)
 

@@ -3,7 +3,8 @@ import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
-import IconButton from "@mui/joy/IconButton"; // Import useNavigate
+import IconButton from "@mui/joy/IconButton";
+import PhoneNumberInput from "../components/PhoneNumberInput"; // Import useNavigate
 
 function CheckoutPage() {
     const { order, removeItem, addItem, getItemCount, clearOrder } = useOrder();
@@ -11,10 +12,14 @@ function CheckoutPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
     const [name, setName] = useState('');
-
+    const [phoneNumber, setPhoneNumber] = useState('');
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
+
+      const handlePhoneInputChange = (event) => {
+        setPhoneNumber(event.target.value);
+      };
 
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
     const taxRate = 0.0825; // 8.25% tax rate
@@ -29,6 +34,7 @@ function CheckoutPage() {
 
         const payload = {
             name,
+            phone_number: phoneNumber,
             order_items: order.map(({ id, quantity }) => ({ id, quantity }))
         };
 
@@ -158,6 +164,16 @@ function CheckoutPage() {
                                     onChange={handleInputChange}
                                     placeholder="Type name here"
                                     variant="outlined" />
+
+                                <PhoneNumberInput
+                                    onChange={handlePhoneInputChange}
+                                />
+
+                                {/*<Input*/}
+                                {/*    onChange={handleInputChange}*/}
+                                {/*    placeholder="Type name here"*/}
+                                {/*    variant="outlined" />*/}
+
                                 <Button onClick={handlePlaceOrder}>Place Order</Button>
                             </ModalDialog>
                         </Modal>
