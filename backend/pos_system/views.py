@@ -328,3 +328,14 @@ def get_weather(request):
         return JsonResponse(weather_data)
     else:
         return JsonResponse({'error': 'Could not retrieve weather data'}, status=500)
+
+@api_view(['GET'])
+def get_inventory(request):
+    inventory = Inventory.objects.all()
+   
+    serializer = InventorySerializer(inventory, many=True)
+
+    return Response(serializer.data)
+
+
+

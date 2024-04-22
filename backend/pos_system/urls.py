@@ -15,6 +15,8 @@ manager_view = [
     path('sales-trend/', views.sales_trend, name='sales-trend'),
     path('inventory-usage/', views.inventory_usage, name='inventory-usage'),
     path('orders-per-day/', views.OrdersPerDayView.as_view(), name='orders-per-day'),
+    path('inventory/', views.get_inventory, name='inventory'),
+
 ]
 
 urlpatterns = [
