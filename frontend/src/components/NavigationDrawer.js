@@ -2,7 +2,7 @@ import React from 'react';
 import { Drawer, Button, Typography, Divider, Stack, Box } from '@mui/joy';
 import { useAuth } from "../utils/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import Link from '@mui/joy/Link';
 import Accordion from '@mui/joy/Accordion';
 import AccordionDetails from '@mui/joy/AccordionDetails';
 import AccordionGroup from '@mui/joy/AccordionGroup';
@@ -45,7 +45,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                         [`& .${accordionSummaryClasses.button}:hover`]: {
                             bgcolor: 'transparent',
                         },
-                        
+
                     }}
                 >
                     <Accordion>
@@ -128,7 +128,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
 
                 </Button>
 
-                <GoogleTranslate/>
+                <GoogleTranslate />
 
                 {isAuthenticated && (
                     <Box position="relative">
@@ -141,7 +141,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                     </Box>
                 )}
 
-
+                <Link href="www.tamu.edu" color="primary" variant="solid"> LINK </Link>
             </Stack>
         </Drawer>
     );

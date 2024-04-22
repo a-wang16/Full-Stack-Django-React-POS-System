@@ -51,7 +51,7 @@ function CheckoutPage() {
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
             <Box display="flex" justifyContent="flex-start" width="100%">
-                <IconButton size={'lg'}
+                <IconButton aria-label="Back Button" size={'lg'}
                     onClick={() => navigate('/order-entry')}
                 >
                     <ion-icon size="large" name="arrow-back-outline"></ion-icon>
@@ -115,7 +115,7 @@ function CheckoutPage() {
                                         <Typography level="h3">{item.name}</Typography>
                                     </Grid>
                                     <Grid width='5%' marginRight={'5px'} sx={{ display: 'flex', justifyContent: 'flex-end' }} >
-                                        <IconButton padding='1px' margin='1px' width='100%' size='md' onClick={() => removeItem(item.name)}>
+                                        <IconButton aria-label="Remove Item Button" padding='1px' margin='1px' width='100%' size='md' onClick={() => removeItem(item.name)}>
                                             <ion-icon size="large" name="remove-outline" ></ion-icon>
                                         </IconButton>
                                     </Grid>
@@ -123,7 +123,7 @@ function CheckoutPage() {
                                         <Typography textAlign={'center'} level="h3"> {item.quantity}</Typography>
                                     </Grid>
                                     <Grid width='5%' marginLeft={'2px'}>
-                                        <IconButton padding='1px' margin='1px' width='100%' size='md' onClick={() => addItem(item)}>
+                                        <IconButton aria-label="Add Item Button" padding='1px' margin='1px' width='100%' size='md' onClick={() => addItem(item)}>
                                             <ion-icon size="large" name="add-outline" ></ion-icon>
                                         </IconButton>
                                     </Grid>
@@ -131,7 +131,7 @@ function CheckoutPage() {
                                         <Typography level="h3">${item.price * item.quantity}</Typography>
                                     </Grid>
                                     <Grid width='5%' >
-                                        <IconButton size='lg' onClick={() => addItem(item)}>
+                                        <IconButton aria-label="Delete Item Button" size='lg' onClick={() => addItem(item)}>
                                             <ion-icon size="large" name="close-outline"></ion-icon>
                                         </IconButton>
                                     </Grid>
@@ -141,7 +141,7 @@ function CheckoutPage() {
                         <Typography level="title-lg">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
                         <Typography level="h4">Tax: ${tax.toFixed(2)}</Typography>
                         <Typography level="h3" >Total: ${totalPrice.toFixed(2)}</Typography>
-                        <Button sx={{ width: '25%', margin: 'auto', paddingTop: '10px', paddingBottom: '10px' }} onClick={() => setModalOpen(true)} disabled={isProcessing}>
+                        <Button aria-label="Back Button" sx={{ width: '25%', margin: 'auto', paddingTop: '10px', paddingBottom: '10px' }} onClick={() => setModalOpen(true)} disabled={isProcessing}>
                             {isProcessing ? "Processing..." : "Place Order"}
                         </Button>
 
@@ -158,7 +158,7 @@ function CheckoutPage() {
                                     onChange={handleInputChange}
                                     placeholder="Type name here"
                                     variant="outlined" />
-                                <Button onClick={handlePlaceOrder}>Place Order</Button>
+                                <Button aria-label="Place Order Button" onClick={handlePlaceOrder}>Place Order</Button>
                             </ModalDialog>
                         </Modal>
                     </Card>
