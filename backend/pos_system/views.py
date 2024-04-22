@@ -53,8 +53,8 @@ class OrderItemsViewSet(viewsets.ModelViewSet):
     serializer_class = OrderItemsSerializer
 
 class OrderStatus(Enum):
-    INPROGRESS = "in progress"
-    COMPLETED = "completed"
+    INPROGRESS = "In Progress"
+    COMPLETED = "Completed"
 
 
 @api_view(['POST'])
