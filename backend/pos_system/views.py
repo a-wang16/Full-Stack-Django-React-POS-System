@@ -289,9 +289,29 @@ def inventory_usage(request):
     return Response(formatted_result, status=status.HTTP_200_OK)
 
 
+def get_city_by_zip(zip_code, country_code="us"):
+    if not zip_code:
+        zip_code = 77843
+    url = f"http://api.zippopotam.us/{country_code}/{zip_code}"
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            city = data['places'][0]['place name']
+            return city, None
+        else:
+            return None, "ZIP code not found or invalid"
+    except requests.RequestException as e:
+        return None, str(e)
 
+@api_view(['GET'])
 def get_weather(request):
-    city = request.GET.get('city', 'College Station')
+    # city = request.GET.get('city', 'College Station')
+    zip_code = request.query_params.get('zip')
+    city, error = get_city_by_zip(zip_code)
+    if error:
+        return JsonResponse({'error': error}, status=400)
+    
     api_key = OPEN_WEATHER_MAP_API_KEY
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric'
 
