@@ -216,7 +216,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                             </Button>
                         </AccordionDetails>
                         <AccordionDetails>
-                            <Button onClick={() => window.open('https://tamu.edu', '_blank')} variant={'primary'} color={'neutral'}>
+                            <Button onClick={() => window.open('https://project-3-full-stack-agile-web-project-3-095k.onrender.com/admin/pos_system/menuitem/', '_blank')} variant={'primary'} color={'neutral'}>
                                 <Typography 
                                 sx={{
                                     '&:hover': {
@@ -227,7 +227,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                             </Button>
                         </AccordionDetails>
                         <AccordionDetails>
-                            <Button onClick={() => window.open('https://tamu.edu', '_blank')} variant={'primary'} color={'neutral'}>
+                            <Button onClick={() => window.open('https://project-3-full-stack-agile-web-project-3-095k.onrender.com/admin/pos_system/inventory/', '_blank')} variant={'primary'} color={'neutral'}>
                                 <Typography 
                                 sx={{
                                     '&:hover': {
