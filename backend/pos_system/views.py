@@ -26,6 +26,7 @@ from config.settings import OPEN_WEATHER_MAP_API_KEY
 import requests
 
 from .utils import send_sms, normalize_phone_number
+from enum import Enum
 
 class InventoryViewSet(viewsets.ModelViewSet):
     queryset = Inventory.objects.all()
@@ -51,7 +52,9 @@ class OrderItemsViewSet(viewsets.ModelViewSet):
     queryset = OrderItems.objects.all()
     serializer_class = OrderItemsSerializer
 
-
+class OrderStatus(Enum):
+    INPROGRESS = "in progress"
+    COMPLETED = "completed"
 
 
 @api_view(['POST'])
@@ -112,7 +115,7 @@ def create_order(request):
         
         newCustomerOrder = CustomerOrder(
             employee = employee,
-            status = "completed",
+            status = OrderStatus.INPROGRESS,
             name = order_name,
             phone_number = phone_number,
             created_at = timezone.now()
