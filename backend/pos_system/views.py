@@ -25,7 +25,7 @@ from .serializers import MenuItemSerializer
 from config.settings import OPEN_WEATHER_MAP_API_KEY
 import requests
 
-from .utils import send_sms, normalize_phone_number
+from .utils import send_sms, normalize_phone_number, get_and_validate_dates
 from enum import Enum
 
 class InventoryViewSet(viewsets.ModelViewSet):
@@ -72,9 +72,6 @@ def register_user(request):
     return Response({"token": token.key}, status=status.HTTP_201_CREATED)
 
 
-
-
-
 class GroupedMenuItemsView(APIView):
     def get(self, request, *args, **kwargs):
         menu_items = MenuItem.objects.all()
@@ -85,6 +82,7 @@ class GroupedMenuItemsView(APIView):
             grouped_items[item.category].append(serializer.data)
 
         return Response(grouped_items)
+
 
 @api_view(['POST'])
 def login_employee(request):
@@ -180,22 +178,6 @@ class OrdersPerDayView(APIView):
                           .order_by('date')
 
         return Response(orders_per_day)
-
-
-def get_and_validate_dates(request):
-    start = request.query_params.get('start_date')
-    end = request.query_params.get('end_date')
-
-    if not start or not end:
-        return None, None, JsonResponse({"error": "Both 'start_date' and 'end_date' query parameters are required."}, status=400)
-
-    try:
-        start = timezone.datetime.strptime(start, "%Y-%m-%d").strftime("%m/%d/%Y")
-        end = timezone.datetime.strptime(end, "%Y-%m-%d").strftime("%m/%d/%Y")
-    except ValueError:
-        return None, None, JsonResponse({"error": "Invalid date format. Use YYYY-MM-DD."}, status=400)
-
-    return start, end, None
 
 
 @api_view(['GET'])
@@ -315,9 +297,9 @@ def get_city_by_zip(zip_code, country_code="us"):
     except requests.RequestException as e:
         return None, str(e)
 
+
 @api_view(['GET'])
 def get_weather(request):
-    # city = request.GET.get('city', 'College Station')
     zip_code = request.query_params.get('zip')
     city, error = get_city_by_zip(zip_code)
     if error:
@@ -339,6 +321,7 @@ def get_weather(request):
         return JsonResponse(weather_data)
     else:
         return JsonResponse({'error': 'Could not retrieve weather data'}, status=500)
+
 
 @api_view(['GET'])
 def get_inventory(request):
