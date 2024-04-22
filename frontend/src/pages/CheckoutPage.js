@@ -50,7 +50,7 @@ function CheckoutPage() {
 
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
-            <Box display="flex" justifyContent="flex-start" width="100%" sx={{ backgroundColor: 'white' }}>
+            <Box display="flex" justifyContent="flex-start" width="100%">
                 <IconButton size={'lg'}
                     onClick={() => navigate('/order-entry')}
                 >
@@ -79,48 +79,63 @@ function CheckoutPage() {
             {subtotalPrice !== 0 && (
                 <Stack sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Typography level="h1">Your Order</Typography>
-                    <Box sx={{ width: '65%', margin: 'auto', display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ width: '70%', margin: 'auto', display: 'flex', justifyContent: 'center', padding: '30px' }}>
                         <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
                     </Box>
-                    <Card variant="plain" display="flex" flexDirection="column" alignItems="center" sx={{ width: '65%', padding: '30px', paddingTop: '50px' }}>
+                    <Card variant="plain" display="flex" flexDirection="column" alignItems="center" sx={{ width: '65%', padding: '30px', paddingTop: '50px', borderRadius: '20px' }}>
+
+                        <Grid container width='100%' sx={{ flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', }}>
+                            <Grid width='15%' marginRight={'20px'}>
+                            </Grid>
+                            <Grid width='40%' marginRight={'20px'}>
+                                <Typography level="title-md" textAlign={'left'} > Item</Typography>
+                            </Grid>
+
+                            <Grid width='11%' textAlign={'center'}>
+                                <Typography level="title-md">Qty</Typography>
+                            </Grid>
+                            <Grid width='12%' textAlign={'center'} >
+                                <Typography level="title-md">Subtotal</Typography>
+                            </Grid>
+                            <Grid width='5%' >
+
+                            </Grid>
+
+                        </Grid>
+
                         {order.map((item) => (
                             <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '25px', marginBottom: '10px', display: 'flex', }}>
-                                <Grid container spacing={4} width='100%' sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', }}>
-                                    <Grid xs={2} >
-                                        <AspectRatio ratio='1' objectFit="contain" sx={{}}>
-                                            <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '100%', minHeight: '150px', borderRadius: '5px', objectFit: 'cover' }} />
+                                <Grid container width='100%' sx={{ flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', }}>
+                                    <Grid width='15%' marginRight={'20px'}>
+                                        <AspectRatio width='100%' padding='20px' ratio='1' objectFit="contain">
+                                            <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '100%', minHeight: '150px', borderRadius: '10px', objectFit: 'cover', padding: '5px' }} />
                                         </AspectRatio>
                                     </Grid>
-                                    <Grid xs={4}>
+                                    <Grid width='40%' marginRight={'20px'} sx={{ marginleft: 'auto', marginright: '0px' }}>
                                         <Typography level="h3">{item.name}</Typography>
                                     </Grid>
-                                    <Grid xs={'auto'} paddingRight={'1px'}>
-                                        <IconButton size='sm' onClick={() => removeItem(item.name)}>
-                                            <ion-icon size="large" name="remove-outline"></ion-icon>
+                                    <Grid width='5%' marginRight={'5px'} sx={{ display: 'flex', justifyContent: 'flex-end' }} >
+                                        <IconButton padding='1px' margin='1px' width='100%' size='md' onClick={() => removeItem(item.name)}>
+                                            <ion-icon size="large" name="remove-outline" ></ion-icon>
                                         </IconButton>
                                     </Grid>
-                                    <Grid xs={'auto'}>
-                                        <Typography level="h3"> {item.quantity}</Typography>
+                                    <Grid width='1%' >
+                                        <Typography textAlign={'center'} level="h3"> {item.quantity}</Typography>
                                     </Grid>
-                                    <Grid xs={'auto'} paddingLeft={'1px'}>
-                                        <IconButton size='sm' onClick={() => addItem(item)}>
-                                            <ion-icon size="large" name="add-outline"></ion-icon>
+                                    <Grid width='5%' marginLeft={'2px'}>
+                                        <IconButton padding='1px' margin='1px' width='100%' size='md' onClick={() => addItem(item)}>
+                                            <ion-icon size="large" name="add-outline" ></ion-icon>
                                         </IconButton>
                                     </Grid>
-                                    <Grid xs={2}>
+                                    <Grid width='12%'>
                                         <Typography level="h3">${item.price * item.quantity}</Typography>
                                     </Grid>
-                                    <Grid xs={1}>
-                                        <IconButton size='sm' onClick={() => addItem(item)}>
+                                    <Grid width='5%' >
+                                        <IconButton size='lg' onClick={() => addItem(item)}>
                                             <ion-icon size="large" name="close-outline"></ion-icon>
                                         </IconButton>
                                     </Grid>
                                 </Grid>
-                                <div>
-                                    {/* <Typography level="h3">{item.name} - Quantity: {item.quantity}</Typography> */}
-                                    {/* <Typography level="h5">Item Subtotal: ${item.price * item.quantity}</Typography> */}
-
-                                </div>
                             </div>
                         ))}
                         <Typography level="title-lg">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
