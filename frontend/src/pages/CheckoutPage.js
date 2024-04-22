@@ -3,7 +3,8 @@ import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
-import IconButton from "@mui/joy/IconButton"; // Import useNavigate
+import IconButton from "@mui/joy/IconButton";
+import PhoneNumberInput from "../components/PhoneNumberInput"; // Import useNavigate
 
 function CheckoutPage() {
     const { order, removeItem, addItem, getItemCount, clearOrder } = useOrder();
@@ -11,10 +12,14 @@ function CheckoutPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
     const [name, setName] = useState('');
-
+    const [phoneNumber, setPhoneNumber] = useState('');
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
+
+      const handlePhoneInputChange = (event) => {
+        setPhoneNumber(event.target.value);
+      };
 
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
     const taxRate = 0.0825; // 8.25% tax rate
@@ -29,6 +34,7 @@ function CheckoutPage() {
 
         const payload = {
             name,
+            phone_number: phoneNumber,
             order_items: order.map(({ id, quantity }) => ({ id, quantity }))
         };
 
@@ -51,7 +57,7 @@ function CheckoutPage() {
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
             <Box display="flex" justifyContent="flex-start" width="100%">
-                <IconButton aria-label="Back Button" size={'lg'}
+                <IconButton size={'lg'}
                     onClick={() => navigate('/order-entry')}
                 >
                     <ion-icon size="large" name="arrow-back-outline"></ion-icon>
@@ -115,7 +121,7 @@ function CheckoutPage() {
                                         <Typography level="h3">{item.name}</Typography>
                                     </Grid>
                                     <Grid width='5%' marginRight={'5px'} sx={{ display: 'flex', justifyContent: 'flex-end' }} >
-                                        <IconButton aria-label="Remove Item Button" padding='1px' margin='1px' width='100%' size='md' onClick={() => removeItem(item.name)}>
+                                        <IconButton padding='1px' margin='1px' width='100%' size='md' onClick={() => removeItem(item.name)}>
                                             <ion-icon size="large" name="remove-outline" ></ion-icon>
                                         </IconButton>
                                     </Grid>
@@ -123,7 +129,7 @@ function CheckoutPage() {
                                         <Typography textAlign={'center'} level="h3"> {item.quantity}</Typography>
                                     </Grid>
                                     <Grid width='5%' marginLeft={'2px'}>
-                                        <IconButton aria-label="Add Item Button" padding='1px' margin='1px' width='100%' size='md' onClick={() => addItem(item)}>
+                                        <IconButton padding='1px' margin='1px' width='100%' size='md' onClick={() => addItem(item)}>
                                             <ion-icon size="large" name="add-outline" ></ion-icon>
                                         </IconButton>
                                     </Grid>
@@ -131,7 +137,7 @@ function CheckoutPage() {
                                         <Typography level="h3">${item.price * item.quantity}</Typography>
                                     </Grid>
                                     <Grid width='5%' >
-                                        <IconButton aria-label="Delete Item Button" size='lg' onClick={() => addItem(item)}>
+                                        <IconButton size='lg' onClick={() => addItem(item)}>
                                             <ion-icon size="large" name="close-outline"></ion-icon>
                                         </IconButton>
                                     </Grid>
@@ -141,7 +147,7 @@ function CheckoutPage() {
                         <Typography level="title-lg">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
                         <Typography level="h4">Tax: ${tax.toFixed(2)}</Typography>
                         <Typography level="h3" >Total: ${totalPrice.toFixed(2)}</Typography>
-                        <Button aria-label="Back Button" sx={{ width: '25%', margin: 'auto', paddingTop: '10px', paddingBottom: '10px' }} onClick={() => setModalOpen(true)} disabled={isProcessing}>
+                        <Button sx={{ width: '25%', margin: 'auto', paddingTop: '10px', paddingBottom: '10px' }} onClick={() => setModalOpen(true)} disabled={isProcessing}>
                             {isProcessing ? "Processing..." : "Place Order"}
                         </Button>
 
@@ -158,7 +164,17 @@ function CheckoutPage() {
                                     onChange={handleInputChange}
                                     placeholder="Type name here"
                                     variant="outlined" />
-                                <Button aria-label="Place Order Button" onClick={handlePlaceOrder}>Place Order</Button>
+
+                                <PhoneNumberInput
+                                    onChange={handlePhoneInputChange}
+                                />
+
+                                {/*<Input*/}
+                                {/*    onChange={handleInputChange}*/}
+                                {/*    placeholder="Type name here"*/}
+                                {/*    variant="outlined" />*/}
+
+                                <Button onClick={handlePlaceOrder}>Place Order</Button>
                             </ModalDialog>
                         </Modal>
                     </Card>

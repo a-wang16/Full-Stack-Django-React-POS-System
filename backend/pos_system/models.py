@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Employee(AbstractUser):
@@ -41,6 +42,7 @@ class CustomerOrder(models.Model):
     created_at = models.DateTimeField()
     status = models.CharField(max_length=50)
     name = models.CharField(max_length=255)
+    phone_number = PhoneNumberField()
 
 
 class OrderItems(models.Model):
