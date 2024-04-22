@@ -102,15 +102,19 @@ function OrderEntryPage() {
                                 borderBottom: '0.5px solid grey'
                             }}
                         >
-                            <Stack
-                                direction={'row'}
-                                justifyContent="flex-end"
-                                paddingRight={'20px'}
-                                alignContent='center'
-                            >
-                                <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} />
-                                <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>{weather.city}  -  {weather.temperature}°C  </Typography>
-                            </Stack>
+                            {weather && weather.icon && weather.city && weather.temperature && (
+                                <Stack
+                                    direction={'row'}
+                                    justifyContent="flex-end"
+                                    paddingRight={'20px'}
+                                    alignContent='center'
+                                >
+                                    <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={`${weather.city} weather icon`} />
+                                    <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
+                                        {weather.city}  -  {weather.temperature}°C
+                                    </Typography>
+                                </Stack>
+                            )}
 
                         </Sheet>
 
