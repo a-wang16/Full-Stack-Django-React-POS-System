@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInstance";
 import IconButton from "@mui/joy/IconButton"; // Import useNavigate
 
 function CheckoutPage() {
-    const { order, removeItem, getItemCount, clearOrder } = useOrder();
+    const { order, removeItem, addItem, getItemCount, clearOrder } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate(); // Initialize navigate function
@@ -48,13 +48,9 @@ function CheckoutPage() {
         }
     };
 
-    const handleChange = (event, newValue) => {
-        console.log(newValue);
-    };
-
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
-            <Box display="flex" justifyContent="flex-start" width="100%">
+            <Box display="flex" justifyContent="flex-start" width="100%" sx={{ backgroundColor: 'white' }}>
                 <IconButton size={'lg'}
                     onClick={() => navigate('/order-entry')}
                 >
@@ -81,64 +77,46 @@ function CheckoutPage() {
             )}
 
             {subtotalPrice !== 0 && (
-                <Stack spacing={4} sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Stack sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Typography level="h1">Your Order</Typography>
                     <Box sx={{ width: '65%', margin: 'auto', display: 'flex', justifyContent: 'center' }}>
-                        <Divider color= "primary" sx={{ width: '100%', border: 'white solid 0.1px'}} />
+                        <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
                     </Box>
-                    <Card variant="plain" display="flex" flexDirection="column" alignItems="center" sx={{ width: '50%', padding: '30px', paddingTop: '50px' }}>
+                    <Card variant="plain" display="flex" flexDirection="column" alignItems="center" sx={{ width: '65%', padding: '30px', paddingTop: '50px' }}>
                         {order.map((item) => (
                             <div key={item.id} style={{ borderBottom: '1px solid black', width: '100%', paddingBottom: '25px', marginBottom: '10px', display: 'flex', }}>
-                                <Grid container spacing={4} sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                    <Grid xs={2}>
+                                <Grid container spacing={4} width='100%' sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', }}>
+                                    <Grid xs={2} >
                                         <AspectRatio ratio='1' objectFit="contain" sx={{}}>
                                             <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '100%', minHeight: '150px', borderRadius: '5px', objectFit: 'cover' }} />
                                         </AspectRatio>
                                     </Grid>
                                     <Grid xs={4}>
-                                        <Typography level="title-lg">{item.name} - ${item.price}</Typography>
+                                        <Typography level="h3">{item.name}</Typography>
+                                    </Grid>
+                                    <Grid xs={'auto'} paddingRight={'1px'}>
+                                        <IconButton size='sm' onClick={() => removeItem(item.name)}>
+                                            <ion-icon size="large" name="remove-outline"></ion-icon>
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid xs={'auto'}>
+                                        <Typography level="h3"> {item.quantity}</Typography>
+                                    </Grid>
+                                    <Grid xs={'auto'} paddingLeft={'1px'}>
+                                        <IconButton size='sm' onClick={() => addItem(item)}>
+                                            <ion-icon size="large" name="add-outline"></ion-icon>
+                                        </IconButton>
                                     </Grid>
                                     <Grid xs={2}>
-                                        <Box sx={{ width: '100%', maxWidth: '80px' }}>
-                                            <Select
-                                                placeholder={item.quantity}
-                                                variant="outlined"
-                                                size="lg"
-                                                onChange={handleChange}
-
-
-                                                slotProps={{
-                                                listbox: {
-                                                    sx: {
-                                                        width: '100%',
-                                                        maxHeight: '160px',
-                                                        overflow: 'auto'
-                                                    }
-                                                }
-                                            }}>
-                                                <Option value="1">1</Option>
-                                                <Option value="2">2</Option>
-                                                <Option value="3">3</Option>
-                                                <Option value="4">4</Option>
-                                                <Option value="5">5</Option>
-                                                <Option value="6">6</Option>
-                                                <Option value="7">7</Option>
-                                                <Option value="8">8</Option>
-                                                <Option value="9">9</Option>
-                                                <Option value="10">10</Option>
-                                            </Select>
-                                        </Box>
+                                        <Typography level="h3">${item.price * item.quantity}</Typography>
                                     </Grid>
-                                    <Grid xs={2}>
-                                        <Typography level="title-md">Subtotal: ${item.price}</Typography>
-                                    </Grid>
-                                    <Grid xs={2}>
-                                        <Button sx={{ width: "100%" }} onClick={() => removeItem(item.name)}>Remove</Button>
+                                    <Grid xs={1}>
+                                        <IconButton size='sm' onClick={() => addItem(item)}>
+                                            <ion-icon size="large" name="close-outline"></ion-icon>
+                                        </IconButton>
                                     </Grid>
                                 </Grid>
                                 <div>
-
-
                                     {/* <Typography level="h3">{item.name} - Quantity: {item.quantity}</Typography> */}
                                     {/* <Typography level="h5">Item Subtotal: ${item.price * item.quantity}</Typography> */}
 

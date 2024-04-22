@@ -3,18 +3,20 @@ import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
+import Snackbar from '@mui/joy/Snackbar';
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/joy/IconButton';
 import Link from '@mui/joy/Link';
-import {useOrder} from "../utils/OrderContext";
-import {Button, colors} from "@mui/joy";
+import { useOrder } from "../utils/OrderContext";
+import { Button, colors } from "@mui/joy";
 
 export default function MenuItemCard({ item }) {
     const { id, name, price, calories, is_out_of_stock, category, description, photo } = item;
     const { addItem } = useOrder();
 
     // console.log(photo);
+    const [open, setOpen] = React.useState(false);
 
     const handleAddToOrder = () => {
         // console.log('Adding item:', item);
@@ -44,9 +46,12 @@ export default function MenuItemCard({ item }) {
                         bottom: 0,
                         transform: 'translateY(50%)',
                     }}
-                    onClick={handleAddToOrder}
+                    onClick={(event) => {
+                        setOpen(true);
+                        handleAddToOrder(event); // Call handleAddToOrder function with event parameter
+                    }}
                 >
-                    <ion-icon name="add-outline" style={{ fontSize: '24px'}}></ion-icon>
+                    <ion-icon name="add-outline" style={{ fontSize: '24px' }}></ion-icon>
                 </IconButton>
             </CardOverflow>
             <CardContent>
@@ -57,6 +62,24 @@ export default function MenuItemCard({ item }) {
                     $ {price}
                 </Typography>
             </CardContent>
+            <Snackbar
+                    color="success"
+                    size="lg"
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    variant="solid"
+                    autoHideDuration={3000}
+                    open={open}
+                    onClose={(event, reason) => {
+                        if (reason === 'clickaway') {
+                            return;
+                        }
+                        setOpen(false);
+                    }}
+                >
+                    <ion-icon name="checkmark-outline" size="small"></ion-icon>
+                    <Typography level='title-medium'> {item.name} added to cart. </Typography>
+                    
+                </Snackbar>
         </Card>
     );
 }
