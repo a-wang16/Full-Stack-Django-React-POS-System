@@ -237,6 +237,17 @@ const NavigationDrawer = ({ open, setOpen }) => {
                                 level='title-md'>Manage Inventory</Typography>
                             </Button>
                         </AccordionDetails>
+                        <AccordionDetails>
+                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./store-settings')}>
+                                <Typography 
+                                sx={{
+                                    '&:hover': {
+                                        color: '#84bdf5', // Change text color on hover
+                                    }
+                                }} 
+                                level='title-md'>Store Settings</Typography>
+                            </Button>
+                        </AccordionDetails>
 
 
                     </Accordion>
