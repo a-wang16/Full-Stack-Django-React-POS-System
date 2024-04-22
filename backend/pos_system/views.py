@@ -332,4 +332,10 @@ def get_inventory(request):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+def get_in_progress_orders(request):
+    orders = CustomerOrder.objects.filter(status=OrderStatus.INPROGRESS.value)
 
+    serializer = CustomerOrderSerializer(orders, many=True)
+
+    return Response(serializer.data)
