@@ -330,6 +330,15 @@ def get_in_progress_orders(request):
 def update_order_status(request):
     orderStatus = request.query_params.get('status')
     orderId = request.query_params.get('id')
+    if orderStatus == "complete":
+        orderStatus = OrderStatus.COMPLETED.value
+    elif orderStatus == "cancel":
+        orderStatus = OrderStatus.CANCELED.value
+    elif orderStatus == "inprogress":
+        orderStatus = OrderStatus.INPROGRESS.value
+    else:
+        return Response({"error": "wrong order status"}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
         order = CustomerOrder.objects.get(id=orderId)
         order.status = orderStatus
