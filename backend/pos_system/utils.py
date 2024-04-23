@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.http import JsonResponse
 import phonenumbers
+import requests
 
 
 def send_sms(to, message):
@@ -40,3 +41,19 @@ def get_and_validate_dates(request):
         return None, None, JsonResponse({"error": "Invalid date format. Use YYYY-MM-DD."}, status=400)
 
     return start, end, None
+
+
+def get_city_by_zip(zip_code, country_code="us"):
+    if not zip_code:
+        zip_code = 77843
+    url = f"http://api.zippopotam.us/{country_code}/{zip_code}"
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            city = data['places'][0]['place name']
+            return city, None
+        else:
+            return None, "ZIP code not found or invalid"
+    except requests.RequestException as e:
+        return None, str(e)

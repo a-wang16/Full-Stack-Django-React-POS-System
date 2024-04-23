@@ -25,7 +25,7 @@ from .serializers import MenuItemSerializer
 from config.settings import OPEN_WEATHER_MAP_API_KEY
 import requests
 
-from .utils import send_sms, normalize_phone_number, get_and_validate_dates
+from .utils import send_sms, normalize_phone_number, get_and_validate_dates, get_city_by_zip
 from enum import Enum
 
 class InventoryViewSet(viewsets.ModelViewSet):
@@ -280,22 +280,6 @@ def inventory_usage(request):
             })
 
     return Response(formatted_result, status=status.HTTP_200_OK)
-
-
-def get_city_by_zip(zip_code, country_code="us"):
-    if not zip_code:
-        zip_code = 77843
-    url = f"http://api.zippopotam.us/{country_code}/{zip_code}"
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            city = data['places'][0]['place name']
-            return city, None
-        else:
-            return None, "ZIP code not found or invalid"
-    except requests.RequestException as e:
-        return None, str(e)
 
 
 @api_view(['GET'])
