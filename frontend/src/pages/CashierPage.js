@@ -2,22 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useOrder } from "../utils/OrderContext";
 import { useNavigate } from "react-router-dom";
 import Card from "@mui/joy/Card"; // Import useNavigate
-import { Box, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
+import { Box, AspectRatio, IconButton, Divider, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
 import axiosInstance from '../utils/axiosInstance';
 import CashierItemCard from "../components/CashierItemCard";
 
-function CashierPage(){
+function CashierPage() {
     const [menuItems, setMenuItems] = useState({});
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+    const { addItem, removeItem, order } = useOrder();
+
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
 
     const navigate = useNavigate();
-    
+
 
     useEffect(() => {
         const fetchMenuItems = async () => {
@@ -44,35 +45,113 @@ function CashierPage(){
 
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
-            <Stack direction={'row'} sx={{ height: '100%', width: '100%' }}>
+            <Stack spacing={0} direction={'row'} sx={{ height: '100%', width: '100%' }}>
+
+                <Stack direction={'column'} sx={{ height: '100%', width: '70%' }}>
+                    <Sheet variant={'soft'} sx={{
+                        width: '100%',
+                        flexDirection: 'column',
+                        textAlign: 'center',
+                        height: '30%',
+                        position: 'sticky',
+                        top: 0
+                    }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', }}>
+                            {categories.map((category) => (
+                                <Box width='100%' height="100px">
+                                    <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'primary'} sx={{ width: '100%', height: '100%', borderRadius: '0px', paddingTop: '30px', paddingBottom: '30px' }} onClick={() => handleCategoryClick(category)}>
+                                        <Typography level='h3'>{category}</Typography>
+                                    </Button>
+                                </Box>
+
+                            ))}
+                        </Box>
+                    </Sheet>
+                    <Grid container spacing={4} padding={3} sx={{ flex: 1, overflow: 'auto' }} margin={1}>
+                        {menuItems[selectedCategory]?.map((item) => (
+                            <Grid item key={item.name}>
+                                <CashierItemCard item={item} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Stack>
+
                 <Sheet variant={'soft'} sx={{
-                    width: '20vw',
+                    width: '40%',
                     flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center',
+                    textAlign: 'center',
                     height: '100vh',
-                    overflowY: 'auto',
+                    position: 'sticky',
+                    top: 0
                 }}>
-                    <Typography level="h3" sx={{ margin: 1 }}>Menu Category</Typography>
-                    {categories.map((category) => (
-                        <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'neutral'} sx={{ width: '100%', mb: 1 }} onClick={() => handleCategoryClick(category)}>
-                            <Typography>{category}</Typography>
-                        </Button>
+
+                    {/* <Box sx={{ alignItems: 'left', height: "100px", width: '100%' }}>
+                        <Typography level='h4' sx={{ textAlign: 'left', height: "100%", width: '100%' }}>Order Summary</Typography>
+                        <Divider sx={{ width: '100%', margin: 'auto' }} />
+                    </Box> */}
+
+
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="flex-end"
+                        spacing={2}
+                        paddingLeft={'30px'}
+                        paddingRight={'30px'}
+                        height= {"100px"}
+                    >
+                        <Box width='60%' paddingBottom="15px">
+                            <Typography  paddingLeft={'10px'} textAlign='left' level="title-lg">Item</Typography>
+                        </Box>
+
+                        <Box width='20%' paddingBottom="15px">
+                            <Typography level="title-lg">Qty</Typography>
+                        </Box>
+
+                        <Box width='20%' paddingBottom="15px">
+                            <Typography  level="title-lg">Subtotal</Typography>
+                        </Box>
+                    </Stack>
+                    <Divider paddingLeft={'30px'} paddingRight={'30px'} sx={{ width: '100%', margin: 'auto' }} />
+
+                    {order.map((item) => (
+                        <Stack
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="space-between"
+                            spacing={0}
+                           
+                            
+                        >
+                            <Button variant="plain" onClick={() => removeItem(item.name)}>    
+                                <Stack
+                                    direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="stretch"
+                                    spacing={2}
+                                    width={'100%'}
+                                    paddingLeft={'30px'}
+                                    paddingRight={'30px'}
+                                >
+                                    <Box paddingTop="15px" paddingBottom="15px" width='60%' height='100%'>
+                                        <Typography height='100%'textAlign='left' level="title-lg">{item.name}</Typography>
+                                    </Box>
+
+                                    <Box paddingTop="15px" paddingBottom="15px"  width='20%'>
+                                        <Typography level="title-lg">{item.quantity}</Typography>
+                                    </Box>
+
+                                    <Box paddingTop="15px" paddingBottom="15px"  width='20%'>
+                                        <Typography level="title-lg">${(item.price * item.quantity).toFixed(2)}</Typography>
+                                    </Box>
+                                </Stack>
+                            </Button>
+                            <Divider sx={{ width: '100%', margin: 'auto' }} />
+                        </Stack>
                     ))}
                 </Sheet>
-                
-                <Grid container spacing={2} sx={{ flex: 1, overflow: 'auto' }} margin={1}>
-                {menuItems[selectedCategory]?.map((item) => (
-                    <Grid item xs={12} sm={6} md={4} key={item.name}>
-                        <CashierItemCard item={item} />
-                    </Grid>
-                ))}
-                </Grid>
-                <Button onClick={() => navigate('/cashier-checkout')} sx={{ position: 'fixed', bottom: 50, right: 70, zIndex: 1100, borderRadius: '40px' }}>
-                    <Typography level={"h4"} sx={{ color: 'white', padding: 2}}>
-                        Add Order
-                    </Typography>
-                </Button>
+
+
             </Stack>
         </Box>
     );
@@ -80,3 +159,44 @@ function CashierPage(){
 }
 
 export default CashierPage;
+
+{/* <Button onClick={() => navigate('/cashier-checkout')} sx={{ position: 'fixed', bottom: 50, right: 70, zIndex: 1100, borderRadius: '40px' }}>
+                    <Typography level={"h4"} sx={{ color: 'white', padding: 2}}>
+                        Add Order
+                    </Typography>
+                </Button> */}
+
+
+// <div key={item.id} style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+//     <Grid container width='100%' sx={{ flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', }}>
+//         {/* <Grid width='15%' marginRight={'20px'}>
+//                 <AspectRatio width='100%' padding='20px' ratio='1' objectFit="contain">
+//                     <img src={item.photo} alt={item.name} style={{ marginRight: '10px', width: '100%', minHeight: '150px', borderRadius: '10px', objectFit: 'cover', padding: '5px' }} />
+//                 </AspectRatio>
+//             </Grid> */}
+//         <Grid width='60%' marginRight={'20px'} sx={{ marginleft: 'auto', marginright: '0px' }}>
+//             <Typography level="title-lg">{item.name} - {item.quantity}</Typography>
+//         </Grid>
+//         {/* <Grid width='5%' marginRight={'5px'} sx={{ display: 'flex', justifyContent: 'flex-end' }} >
+//                 <IconButton padding='1px' margin='1px' width='100%' size='md' onClick={() => removeItem(item.name)}>
+//                     <ion-icon size="large" name="remove-outline" ></ion-icon>
+//                 </IconButton>
+//             </Grid>
+//             <Grid width='1%' >
+//                 <Typography textAlign={'center'} level="h3"> {item.quantity}</Typography>
+//             </Grid>
+//             <Grid width='5%' marginLeft={'2px'}>
+//                 <IconButton padding='1px' margin='1px' width='100%' size='md' onClick={() => addItem(item)}>
+//                     <ion-icon size="large" name="add-outline" ></ion-icon>
+//                 </IconButton>
+//             </Grid>
+//             <Grid width='12%'>
+//                 <Typography level="h3">${item.price * item.quantity}</Typography>
+//             </Grid>
+//             <Grid width='5%' >
+//                 <IconButton size='lg' onClick={() => addItem(item)}>
+//                     <ion-icon size="large" name="close-outline"></ion-icon>
+//                 </IconButton>
+//             </Grid> */}
+//     </Grid>
+// </div>

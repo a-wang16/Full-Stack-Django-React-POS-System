@@ -125,8 +125,8 @@ function OrderEntryPage() {
                             overflow: 'auto',
                             alignItems: "flex-start",
                             // justifyContent: "space-evenly",
-
-                        }} margin={2}>
+                            }} 
+                            margin={2}>
                             {/* Render available items */}
                             {menuItems[selectedCategory]?.filter(item => !item.is_out_of_stock).map((item) => (
                                 <Grid item key={item.name}>
