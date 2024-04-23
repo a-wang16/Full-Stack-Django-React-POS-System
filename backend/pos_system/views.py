@@ -321,7 +321,7 @@ def get_inventory(request):
 def get_in_progress_orders(request):
     orders = CustomerOrder.objects.filter(status=OrderStatus.INPROGRESS.value)
 
-    serializer = CustomerOrderSerializer(orders, many=True)
+    serializer = CustomerOrderSerializer(orders, many=True, context={'request': request})
 
     return Response(serializer.data)
 
