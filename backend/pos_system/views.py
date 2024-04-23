@@ -55,6 +55,7 @@ class OrderItemsViewSet(viewsets.ModelViewSet):
 class OrderStatus(Enum):
     INPROGRESS = "In Progress"
     COMPLETED = "Completed"
+    CANCELED = "Canceled"
 
 
 @api_view(['POST'])
@@ -113,7 +114,7 @@ def create_order(request):
         
         newCustomerOrder = CustomerOrder(
             employee = employee,
-            status = OrderStatus.INPROGRESS,
+            status = OrderStatus.INPROGRESS.value,
             name = order_name,
             phone_number = phone_number,
             created_at = timezone.now()
@@ -323,3 +324,26 @@ def get_in_progress_orders(request):
     serializer = CustomerOrderSerializer(orders, many=True)
 
     return Response(serializer.data)
+
+
+@api_view(['PATCH'])
+def update_order_status(request):
+    orderStatus = request.query_params.get('status')
+    orderId = request.query_params.get('id')
+    if orderStatus == "complete":
+        orderStatus = OrderStatus.COMPLETED.value
+    elif orderStatus == "cancel":
+        orderStatus = OrderStatus.CANCELED.value
+    elif orderStatus == "inprogress":
+        orderStatus = OrderStatus.INPROGRESS.value
+    else:
+        return Response({"error": "wrong order status"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        order = CustomerOrder.objects.get(id=orderId)
+        order.status = orderStatus
+        order.save()
+        return Response({"status": "update success"}, status=status.HTTP_200_OK)
+    except CustomerOrder.DoesNotExist:
+        return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+
