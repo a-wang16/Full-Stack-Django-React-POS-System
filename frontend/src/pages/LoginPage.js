@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { useFormik } from 'formik';
-import { useAuth } from '../utils/AuthContext'; // Adjust path as necessary
-import axiosInstance from '../utils/axiosInstance'; // Adjust path as necessary
-import {Input, Button, Typography, Card, Box, Modal, ModalDialog} from '@mui/joy'; // Importing Joy UI components
+import { useAuth } from '../utils/AuthContext';
+import axiosInstance from '../utils/axiosInstance';
+import {Input, Button, Typography, Card, Box, Modal, ModalDialog} from '@mui/joy';
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
 import {GoogleLogin} from "@react-oauth/google";
@@ -45,11 +45,11 @@ const LoginPage = () => {
     });
 
 
-    // Function to handle Google login success
-    const handleGoogleSuccess = async (credentialResponse) => {
+        const handleGoogleSuccess = async (credentialResponse) => {
         try {
-            const response = await axiosInstance.post('/api/social-login/google/', {
+            const response = await axiosInstance.post('/auth/social/token/', {
                 access_token: credentialResponse.access_token,
+                provider: 'google-oauth2',
             });
 
             if (response.data.token) {
