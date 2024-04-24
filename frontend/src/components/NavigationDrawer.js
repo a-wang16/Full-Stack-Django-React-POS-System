@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Drawer, Button, Typography, Divider, Stack, Box } from '@mui/joy';
+import axiosInstance from '../utils/axiosInstance';
 import { useAuth } from "../utils/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Link from '@mui/joy/Link';
@@ -12,6 +13,7 @@ import GoogleTranslate from './GoogleTranslate';
 
 const NavigationDrawer = ({ open, setOpen }) => {
     const { isAuthenticated, logout } = useAuth();
+    const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -27,6 +29,20 @@ const NavigationDrawer = ({ open, setOpen }) => {
         navigate(route);
         setOpen(false);
     };
+
+    useEffect(() => {
+        const fetchMenuItems = async () => {
+            try {
+                // Assuming you have an API endpoint for fetching menu items
+                const response = await axiosInstance.get('api/grouped-menu-items/');
+                setCategories(Object.keys(response.data));
+            } catch (err) {
+                console.error("Accessing categories failed:", err);
+            }
+        };
+
+        fetchMenuItems();
+    }, []);
 
     return (
 
@@ -53,80 +69,39 @@ const NavigationDrawer = ({ open, setOpen }) => {
                         <AccordionSummary sx={{
                             width: '100%', margin: 'auto', paddingLeft: '55px'
                         }}>
-                            <Typography 
-                            sx={{
-                                '&:hover': {
-                                    color: '#84bdf5',
-                                }
-                            }} level='h4'>Menu Dispay</Typography>
+                            <Typography
+                                sx={{
+                                    '&:hover': {
+                                        color: '#84bdf5',
+                                    }
+                                }} level='h4'>Menu Dispay</Typography>
                         </AccordionSummary>
+
                         <AccordionDetails sx={{ paddingTop: '8px' }}>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display')}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Rotating Menu Board</Typography>
+                            <Button sx={{ paddingTop: '8px' }} variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display')}>
+                                <Typography
+                                    sx={{
+                                        '&:hover': {
+                                            color: '#84bdf5',
+                                        }
+                                    }}
+                                    level='title-md'>Rotating Menu Board</Typography>
                             </Button>
+                            {categories.map((category) => (
+
+                                <Button sx={{ paddingTop: '15px' }} variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/' + category)}>
+                                    <Typography
+                                        sx={{
+                                            '&:hover': {
+                                                color: '#84bdf5',
+                                            }
+                                        }}
+                                        level='title-md'>{category} Menu</Typography>
+                                </Button>
+                            ))}
                         </AccordionDetails>
-                        <AccordionDetails>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/sandwiches')}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Sandwich Menu</Typography>
-                            </Button>
-                        </AccordionDetails>
-                        <AccordionDetails>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/burgers')}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Burger Menu</Typography>
-                            </Button>
-                        </AccordionDetails>
-                        <AccordionDetails>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/drinks')}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Drink Menu</Typography>
-                    
-                            </Button>
-                        </AccordionDetails>
-                        <AccordionDetails>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/salads')}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Salad Menu</Typography>
-                            </Button>
-                        </AccordionDetails>
-                        <AccordionDetails>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./menu-display/seasonal')}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Seasonal Menu</Typography>
-                            </Button>
-                        </AccordionDetails>
+
+
                     </Accordion>
                 </AccordionGroup>
 
@@ -138,13 +113,13 @@ const NavigationDrawer = ({ open, setOpen }) => {
 
 
                 <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./order-entry')}>
-                    <Typography 
-                    sx={{
-                        '&:hover': {
-                            color: '#84bdf5', // Change text color on hover
-                        }
-                    }} 
-                    level='h4'>Order Entry</Typography>
+                    <Typography
+                        sx={{
+                            '&:hover': {
+                                color: '#84bdf5', // Change text color on hover
+                            }
+                        }}
+                        level='h4'>Order Entry</Typography>
                 </Button>
                 <Box
                     justifyContent={'center'}
@@ -153,13 +128,13 @@ const NavigationDrawer = ({ open, setOpen }) => {
                 </Box>
 
                 <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./cashier-display')}>
-                    <Typography 
-                    sx={{
-                        '&:hover': {
-                            color: '#84bdf5', // Change text color on hover
-                        }
-                    }} 
-                    level='h4'>Cashier Page</Typography>
+                    <Typography
+                        sx={{
+                            '&:hover': {
+                                color: '#84bdf5', // Change text color on hover
+                            }
+                        }}
+                        level='h4'>Cashier Page</Typography>
                 </Button>
                 <Box
                     justifyContent={'center'}
@@ -177,7 +152,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                             backgroundColor: 'transparent',
                         },
                         '&:hover': {
-                            backgroundColor: 'transparent', // Change text color on hover
+                            backgroundColor: 'transparent',
                         }
                     }}
                 >
@@ -186,70 +161,64 @@ const NavigationDrawer = ({ open, setOpen }) => {
                             width: '100%', margin: 'auto', paddingLeft: '55px'
                         }}>
                             <Typography
-                            sx={{
-                                '&:hover': {
-                                    color: '#84bdf5', // Change text color on hover
-                                }
-                            }} 
-                            level='h4'>Manager Operations</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails sx={{ paddingTop: '8px' }}>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./manager-graphs')}>
-                                <Typography 
                                 sx={{
                                     '&:hover': {
                                         color: '#84bdf5', // Change text color on hover
                                     }
                                 }}
-                                level='title-md'>Manager Graph Page</Typography>
+                                level='h4'>Manager Operations</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ paddingTop: '8px' }}>
+                            <Button sx={{ paddingTop: '8px' }} variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./manager-graphs')}>
+                                <Typography
+                                    sx={{
+                                        '&:hover': {
+                                            color: '#84bdf5', // Change text color on hover
+                                        }
+                                    }}
+                                    level='title-md'>Manager Graph Page</Typography>
+                            </Button>
+       
+                            <Button sx={{ paddingTop: '15px' }} variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./low-stock')}>
+                                <Typography
+                                    sx={{
+                                        '&:hover': {
+                                            color: '#84bdf5', // Change text color on hover
+                                        }
+                                    }}
+                                    level='title-md'>Low Stock Report</Typography>
+                            </Button>
+                
+                            <Button sx={{ paddingTop: '15px' }} onClick={() => window.open('https://project-3-full-stack-agile-web-project-3-095k.onrender.com/admin/pos_system/menuitem/', '_blank')} variant={'primary'} color={'neutral'}>
+                                <Typography
+                                    sx={{
+                                        '&:hover': {
+                                            color: '#84bdf5', // Change text color on hover
+                                        }
+                                    }}
+                                    level='title-md'>Manage Recipes</Typography>
+                            </Button>
+    
+                            <Button sx={{ paddingTop: '15px' }} onClick={() => window.open('https://project-3-full-stack-agile-web-project-3-095k.onrender.com/admin/pos_system/inventory/', '_blank')} variant={'primary'} color={'neutral'}>
+                                <Typography
+                                    sx={{
+                                        '&:hover': {
+                                            color: '#84bdf5', // Change text color on hover
+                                        }
+                                    }}
+                                    level='title-md'>Manage Inventory</Typography>
+                            </Button>
+                    
+                            <Button sx={{ paddingTop: '15px' }} variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./store-settings')}>
+                                <Typography
+                                    sx={{
+                                        '&:hover': {
+                                            color: '#84bdf5', // Change text color on hover
+                                        }
+                                    }}
+                                    level='title-md'>Store Settings</Typography>
                             </Button>
                         </AccordionDetails>
-                        <AccordionDetails>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./low-stock')}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Low Stock Report</Typography>
-                            </Button>
-                        </AccordionDetails>
-                        <AccordionDetails>
-                            <Button onClick={() => window.open('https://project-3-full-stack-agile-web-project-3-095k.onrender.com/admin/pos_system/menuitem/', '_blank')} variant={'primary'} color={'neutral'}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Manage Recipes</Typography>
-                            </Button>
-                        </AccordionDetails>
-                        <AccordionDetails>
-                            <Button onClick={() => window.open('https://project-3-full-stack-agile-web-project-3-095k.onrender.com/admin/pos_system/inventory/', '_blank')} variant={'primary'} color={'neutral'}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Manage Inventory</Typography>
-                            </Button>
-                        </AccordionDetails>
-                        <AccordionDetails>
-                            <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('./store-settings')}>
-                                <Typography 
-                                sx={{
-                                    '&:hover': {
-                                        color: '#84bdf5', // Change text color on hover
-                                    }
-                                }} 
-                                level='title-md'>Store Settings</Typography>
-                            </Button>
-                        </AccordionDetails>
-
-
                     </Accordion>
                 </AccordionGroup>
 
@@ -260,13 +229,13 @@ const NavigationDrawer = ({ open, setOpen }) => {
                 </Box>
 
                 <Button variant={'primary'} color={'neutral'} onClick={() => handleNavigate('/kitchen-view')}>
-                    <Typography 
-                    sx={{
-                        '&:hover': {
-                            color: '#84bdf5', // Change text color on hover
-                        }
-                    }} 
-                    level='h4'>Kitchen View</Typography>
+                    <Typography
+                        sx={{
+                            '&:hover': {
+                                color: '#84bdf5', // Change text color on hover
+                            }
+                        }}
+                        level='h4'>Kitchen View</Typography>
                 </Button>
                 <Box
                     justifyContent={'center'}

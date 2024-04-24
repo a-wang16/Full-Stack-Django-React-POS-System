@@ -60,7 +60,7 @@ function MenuDisplayByCategoryPage() {
                 </Box>
             </Grid>
             <Grid item sx={{ height: '100%', width: '55%' }}>
-                <RotatingImage imageList={imageList} />
+                <RotatingImage categoryList={menuItems} />
             </Grid> 
         </Grid>
         

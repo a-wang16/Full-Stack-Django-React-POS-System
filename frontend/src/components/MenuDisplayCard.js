@@ -29,7 +29,7 @@ export default function FAQCard({item}) {
             >
             <CardContent sx={{ gap: 1.5}}>
                 <Typography level="title-lg">
-                    {name + "    |    " + price}
+                    {name + "    |    $" + price}
                 </Typography>
                 <Typography level="title-md">
                     {description}
