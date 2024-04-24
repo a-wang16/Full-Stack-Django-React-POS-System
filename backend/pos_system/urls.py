@@ -16,7 +16,6 @@ manager_view = [
     path('inventory-usage/', views.inventory_usage, name='inventory-usage'),
     path('orders-per-day/', views.OrdersPerDayView.as_view(), name='orders-per-day'),
     path('inventory/', views.get_inventory, name='inventory'),
-
 ]
 
 urlpatterns = [
@@ -33,7 +32,8 @@ urlpatterns = [
 
     path('get-weather/', views.get_weather, name='get_weather'),
 
-    path('orders-in-progress/', views.get_in_progress_orders, name='in-progress-orders'),
+    path('update-order-status/', views.update_order_status, name='update-order-status'),
+    path('orders-in-progress/', views.get_in_progress_orders),
 ]
 
 

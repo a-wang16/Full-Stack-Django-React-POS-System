@@ -35,7 +35,6 @@ class MenuItemSerializer(serializers.ModelSerializer):
         ).exists()
         return out_of_stock
 
-
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
@@ -48,13 +47,18 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CustomerOrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomerOrder
-        fields = '__all__'
 
 
 class OrderItemsSerializer(serializers.ModelSerializer):
+    menu_item_details = MenuItemSerializer(read_only=True, source='menu_item')
+
     class Meta:
         model = OrderItems
+        fields = '__all__'
+
+
+class CustomerOrderSerializer(serializers.ModelSerializer):
+    order_items = OrderItemsSerializer(many=True, source='orderitems_set')
+    class Meta:
+        model = CustomerOrder
         fields = '__all__'
