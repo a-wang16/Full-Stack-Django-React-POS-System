@@ -50,7 +50,9 @@ function App() {
                     <Route path="/order-entry" element={<OrderEntryPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
                     <Route path="/menu-display" element={<RotatingMenuDisplayPage />} />
+
                     <Route path="/menu-display/:categoryName" element={<MenuDisplayByCategoryPage />} />
+
                     <Route path="/cashier-display" element={<CashierPage />} />
                     <Route path="/cashier-checkout" element={<CashierConfirmPage />} />
                     <Route path="/order-placed" element={<OrderPlacedPage />} />

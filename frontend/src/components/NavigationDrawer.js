@@ -61,7 +61,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                             backgroundColor: 'transparent',
                         },
                         '&:hover': {
-                            backgroundColor: 'transparent', // Change text color on hover
+                            backgroundColor: 'transparent',
                         }
                     }}
                 >

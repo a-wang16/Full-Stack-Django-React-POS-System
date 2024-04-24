@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import { useFormik } from 'formik';
-import { useAuth } from '../utils/AuthContext'; // Adjust path as necessary
-import axiosInstance from '../utils/axiosInstance'; // Adjust path as necessary
-import {Input, Button, Typography, Card, Box, Modal, ModalDialog} from '@mui/joy'; // Importing Joy UI components
+import { useAuth } from '../utils/AuthContext';
+import axiosInstance from '../utils/axiosInstance';
+import {Input, Button, Typography, Card, Box, Modal, ModalDialog} from '@mui/joy';
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
+import {GoogleLogin} from "@react-oauth/google";
 
 const LoginPage = () => {
     const { login } = useAuth();
@@ -42,6 +43,36 @@ const LoginPage = () => {
             }
         },
     });
+
+
+        const handleGoogleSuccess = async (credentialResponse) => {
+        try {
+            const response = await axiosInstance.post('/auth/social/token/', {
+                access_token: credentialResponse.access_token,
+                provider: 'google-oauth2',
+            });
+
+            if (response.data.token) {
+                login(response.data.token);
+                navigate('/order-entry');
+            } else {
+                setLoginError('Failed to log in with Google');
+                setShowErrorModal(true);
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            setLoginError('Login error: ' + error.message);
+            setShowErrorModal(true);
+        }
+    };
+
+    // Function to handle Google login error
+    const handleGoogleFailure = (error) => {
+        console.error('Google Login Failure:', error);
+        setLoginError('Google Login Failed: ' + error.error);
+        setShowErrorModal(true);
+    };
+
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -81,6 +112,10 @@ const LoginPage = () => {
                     onChange={formik.handleChange}
                     // error={formik.touched.password && Boolean(formik.errors.password)}
                     // helperText={formik.touched.password && formik.errors.password}
+                />
+                <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleFailure}
                 />
                 <Button type="submit">Login</Button>
             </Card>
