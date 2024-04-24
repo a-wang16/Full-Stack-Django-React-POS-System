@@ -174,6 +174,7 @@ REST_FRAMEWORK = {
 }
 
 
+
 from datetime import timedelta
 
 SIMPLE_JWT = {
@@ -184,14 +185,6 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = 'pos_system.Employee'
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-    'social_core.backends.google.GoogleOAuth2',
-    'rest_framework_social_oauth2.backends.DjangoOAuth2',
-)
-
 
 
 MEDIA_URL = '/media/'
