@@ -20,6 +20,9 @@ function OrderEntryPage() {
 
     const navigate = useNavigate();
 
+    if(localStorage.getItem("zipCode") === null)
+        localStorage.setItem("zipCode", 77843);
+
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
@@ -34,10 +37,9 @@ function OrderEntryPage() {
                 setIsLoading(false);
             }
         };
-
         const fetchWeather = async () => {
             try {
-                const weatherResponse = await axiosInstance.get('api/get-weather/');
+                const weatherResponse = await axiosInstance.get('api/get-weather/?zip=' + localStorage.getItem("zipCode"));
                 console.log(weatherResponse.data);
                 setWeather(weatherResponse.data);
             } catch (err) {
