@@ -45,7 +45,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                             backgroundColor: 'transparent',
                         },
                         '&:hover': {
-                            backgroundColor: 'transparent', // Change text color on hover
+                            backgroundColor: 'transparent',
                         }
                     }}
                 >
@@ -56,7 +56,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                             <Typography 
                             sx={{
                                 '&:hover': {
-                                    color: '#84bdf5', // Change text color on hover
+                                    color: '#84bdf5',
                                 }
                             }} level='h4'>Menu Dispay</Typography>
                         </AccordionSummary>
