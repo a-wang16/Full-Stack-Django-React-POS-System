@@ -59,6 +59,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 
     # dj-rest-auth apps for REST API authentication
     'dj_rest_auth',
@@ -182,7 +185,10 @@ AUTH_USER_MODEL = 'pos_system.Employee'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
 )
+
 
 
 MEDIA_URL = '/media/'
@@ -198,3 +204,5 @@ OPEN_WEATHER_MAP_API_KEY = os.getenv('OPEN_WEATHER_MAP_API_KEY')
 TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
+
+SOCIALACCOUNT_AUTO_LINK_EMAIL = True
