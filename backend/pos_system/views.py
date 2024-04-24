@@ -347,3 +347,8 @@ def update_order_status(request):
     except CustomerOrder.DoesNotExist:
         return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
 
+
+from rest_framework_social_oauth2.views import ConvertTokenView
+
+class GoogleLogin(ConvertTokenView):
+    pass

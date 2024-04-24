@@ -47,7 +47,7 @@ const LoginPage = () => {
 
         const handleGoogleSuccess = async (credentialResponse) => {
         try {
-            const response = await axiosInstance.post('/auth/social/token/', {
+            const response = await axiosInstance.post('/api/convert-token/', {
                 access_token: credentialResponse.access_token,
                 provider: 'google-oauth2',
             });

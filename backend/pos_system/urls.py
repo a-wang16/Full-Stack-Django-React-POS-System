@@ -22,6 +22,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register/', views.register_user, name='register'),
     path('login/', views.login_employee, name='login'),
+    path('convert-token/', views.ConvertTokenView.as_view(), name='convert_token'),
 
     # custom views
     path('grouped-menu-items/', views.GroupedMenuItemsView.as_view(), name='grouped-menu-items'),
