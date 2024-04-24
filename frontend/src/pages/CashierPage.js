@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useOrder } from "../utils/OrderContext";
 import { useNavigate } from "react-router-dom";
 import Card from "@mui/joy/Card"; // Import useNavigate
-import { Box, AspectRatio, IconButton, Divider, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
+import { Box, AspectRatio, IconButton, CircularProgress, Divider, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
 import axiosInstance from '../utils/axiosInstance';
 import CashierItemCard from "../components/CashierItemCard";
 
@@ -42,6 +42,16 @@ function CashierPage() {
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
     };
+
+    if (isLoading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (error) return <p>Error: {error.message}</p>;
 
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
