@@ -4,22 +4,29 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import IconButton from "@mui/joy/IconButton";
-import PhoneNumberInput from "../components/PhoneNumberInput"; // Import useNavigate
+import PhoneNumberInput from "../components/PhoneNumberInput";
+import Checkbox from '@mui/joy/Checkbox';
+import Done from '@mui/icons-material/Done';
 
 function CheckoutPage() {
     const { order, removeItem, addItem, getItemCount, clearOrder } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
-    const navigate = useNavigate(); // Initialize navigate function
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [receiveTextUpdates, setReceiveTextUpdates] = useState(false);
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
 
-      const handlePhoneInputChange = (event) => {
+    const handlePhoneInputChange = (event) => {
         setPhoneNumber(event.target.value);
-      };
+    };
+
+    const handleCheckboxChange = (event) => {
+        setReceiveTextUpdates(event.target.checked);
+    };
 
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
     const taxRate = 0.0825; // 8.25% tax rate
@@ -138,30 +145,54 @@ function CheckoutPage() {
                             {isProcessing ? "Processing..." : "Place Order"}
                         </Button>
 
-                        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                        <Modal width="20%" open={modalOpen} onClose={() => setModalOpen(false)}>
                             <ModalDialog
                                 color="primary"
                                 layout="center"
                                 size="lg"
                                 variant="plain"
                             >
-                                <DialogTitle>Name on Order: </DialogTitle>
                                 <ModalClose />
+                                <DialogTitle>Name on Order: </DialogTitle>
+
+
                                 <Input
                                     onChange={handleInputChange}
                                     placeholder="Type name here"
-                                    variant="outlined" />
-
-                                <PhoneNumberInput
-                                    onChange={handlePhoneInputChange}
+                                    variant="outlined" 
+                                    // sx={{marginBottom:'2%'}}
                                 />
+                                    
 
-                                {/*<Input*/}
-                                {/*    onChange={handleInputChange}*/}
-                                {/*    placeholder="Type name here"*/}
-                                {/*    variant="outlined" />*/}
+                                
+                                {receiveTextUpdates && (
+                                    <PhoneNumberInput 
+                                        onChange={handlePhoneInputChange}
+                                    />
+                                )}
 
                                 <Button onClick={handlePlaceOrder}>Place Order</Button>
+                                <Checkbox
+                                    onChange={handleCheckboxChange}
+                                    checked={receiveTextUpdates}
+                                    size="sm"
+                                    uncheckedIcon={<Done />}
+                                    maxWidth={'100px'}
+                                    label="I would like to recieve text message updates for my order"
+                                    slotProps={{
+                                        root: ({ checked, focusVisible }) => ({
+                                            sx: !checked
+                                                ? {
+                                                    '& svg': { opacity: focusVisible ? 1 : 0 },
+                                                    '&:hover svg': {
+                                                        opacity: 1,
+                                                    },
+                                                }
+                                                : undefined,
+                                        }),
+                                    }}
+
+                                />
                             </ModalDialog>
                         </Modal>
                     </Card>
