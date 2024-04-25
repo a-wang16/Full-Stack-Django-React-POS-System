@@ -15,11 +15,10 @@ function KitchenViewPage() {
     const [orderChanged, setOrderChanged] = useState(false);
 
     useEffect(() => {
-        const getInprogress = async () => {
+        const fetchData = async () => {
             try {
                 const response = await axiosInstance.get('/api/orders-in-progress/');
                 console.log(response.data);
-                setOrderChanged(false);
                 setInProgress(response.data);
                 setIsLoading(false);
             } catch (err) {
@@ -27,9 +26,22 @@ function KitchenViewPage() {
                 setIsLoading(false);
             }
         };
-        getInprogress();
 
-    }, orderChanged);
+        const interval = setInterval(() => {
+            fetchData();
+        }, 2000);
+
+        return () => clearInterval(interval);
+
+    }, [orderChanged]);
+
+    if (isLoading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        );
+    }
 
     const handleUpdateOrderStatus = async (orderId, status) => {
         const params = new URLSearchParams({
@@ -41,52 +53,107 @@ function KitchenViewPage() {
             const response = await axiosInstance.patch('api/update-order-status/', null, { params });
             setOrderChanged(true);
             console.log('Order status updated successfully', response.data);
-            
+
         } catch (error) {
             console.error('Error updating order status:', error);
             alert('Failed to update order status. Please try again.');
-        } 
+        }
     };
 
-
     return (
-        <Box>
-            <Stack
-                direction="column"
-                justifyContent="space-evenly"
-                alignItems="center"
-                spacing={3}
-            >
-                {ordersInProgress.map((order) => (
-                    <Stack
-                        direction="row"
-                        justifyContent="space-around"
-                        alignItems="center"
-                        spacing={3}
-                        width="70%"
-                    >
 
-                        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-                            <Grid width="25%">
-                                <Typography level='title-lg'>{order.name}</Typography>
+        <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            width={'70%'}
+            margin='auto'
+        >
+            <Grid item width="100%" pt={'8%'}>
+                <Box >
+                    <Typography textAlign={'center'} variant="h1" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'white' }}>Orders In Progress</Typography>
+                </Box>
+            </Grid>
+
+            <Grid item width="100%" pt={'3%'}>
+                <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
+            </Grid>
+
+            <Box mt='5%' width="100%" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
+                <Grid item width='100%' pt={'4%'} pr={'4%'} pl={'4%'} pb={'2%'} >
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="stretch"
+                        width={'100%'}
+                    >
+                        <Grid item width={'15%'}>
+                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
+                                Name
+                            </Typography>
+                        </Grid>
+                        <Grid item width={'30%'}>
+                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
+                                #
+                            </Typography>
+                        </Grid >
+                        <Grid item width={'20%'}>
+                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
+                                Time Placed
+                            </Typography>
+                        </Grid>
+                        <Grid item width={'15%'}>
+                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'transparent', fontWeight: 'bold' }}>
+                                Cancel
+                            </Typography>
+                        </Grid>
+                        <Grid item width={'15%'}>
+                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'transparent', fontWeight: 'bold' }}>
+                                Submit
+                            </Typography>
+                        </Grid>
+                        <Divider  color="primary" sx={{ width: '100%', border: 'white solid 0.1px', marginTop: '3%', marginBottom: '3%', opacity:'0.3'}} />
+                    </Grid>
+                </Grid>
+
+                {ordersInProgress.length !== 0 && ordersInProgress.map((order) => (
+                    <Grid item width='100%' pb={'5%'} pr={'4%'} pl={'4%'} key={order.id}>
+                        <Grid
+                            container
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="stretch"
+                            width={'100%'}
+                        >
+                            <Grid item width={'15%'}>
+                                <Typography textAlign={'center'} variant="h2" sx={{ color: 'white', lineHeight: '2' }}>
+                                    {order.name}
+                                </Typography>
                             </Grid>
-                            <Grid xs={6} md={4}>
-                                <Typography level='title-md'>{order.phone_number}</Typography>
+                            <Grid item width={'30%'} >
+                                <Typography textAlign={'center'} variant="h2" sx={{ color: 'white', lineHeight: '2' }}>
+                                    {order.phone_number}
+                                </Typography>
+                            </Grid >
+                            <Grid item width={'20%'}>
+                                <Typography textAlign={'center'} variant="h2" sx={{ color: 'white', lineHeight: '2' }}>
+                                    {moment(order.created_at).format('LTS')}
+                                </Typography>
                             </Grid>
-                            <Grid xs={6} md={4}>
-                                <Typography level='title-md'>{moment(order.created_at).format('LTS')}</Typography>
+                            <Grid textAlign={'center'} justifyContent={'center'} item width={'15%'}>
+                                <Button color="danger" onClick={() => handleUpdateOrderStatus(order.id, "cancel")} >Cancel</Button>
                             </Grid>
-                            <Grid xs={6} md={8}>
-                                <Button color="danger">Cancel</Button>
-                            </Grid>
-                            <Grid xs={6} md={8}>
+                            <Grid item textAlign={'center'} justifyContent={'center'} width={'15%'}>
                                 <Button color="success" onClick={() => handleUpdateOrderStatus(order.id, "complete")}>Complete</Button>
                             </Grid>
                         </Grid>
-                    </Stack>
+                    </Grid>
                 ))}
-            </Stack>
-        </Box>
+
+            </Box >
+        </Grid >
     );
 }
 

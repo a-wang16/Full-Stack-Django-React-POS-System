@@ -56,24 +56,12 @@ function CheckoutPage() {
 
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
-            <Box display="flex" justifyContent="flex-start" width="100%">
+            <Box display="flex" justifyContent="flex-start" width="100%" pl={'70px'} pt={'50px'}>
                 <IconButton size={'lg'}
                     onClick={() => navigate('/order-entry')}
                 >
                     <ion-icon size="large" name="arrow-back-outline"></ion-icon>
                 </IconButton>
-            </Box>
-
-            <Box display="flex" justifyContent="flex-start" width="100%">
-                <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="flex-start"
-                    width="75%"
-                    ml="auto"
-                >
-                    <Typography variant="h2" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black' }}>Your Order: {numItems} Items</Typography>
-                </Box>
             </Box>
 
             {subtotalPrice === 0 && (
@@ -89,7 +77,6 @@ function CheckoutPage() {
                         <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
                     </Box>
                     <Card variant="plain" display="flex" flexDirection="column" alignItems="center" sx={{ width: '65%', padding: '30px', paddingTop: '50px', borderRadius: '20px' }}>
-
                         <Grid container width='100%' sx={{ flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', }}>
                             <Grid width='15%' marginRight={'20px'}>
                             </Grid>
