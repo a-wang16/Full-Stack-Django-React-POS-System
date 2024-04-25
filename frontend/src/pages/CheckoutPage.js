@@ -158,7 +158,7 @@ function CheckoutPage() {
 
                                 <Input
                                     onChange={handleInputChange}
-                                    placeholder="Type name here"
+                                    placeholder="Enter Name"
                                     variant="outlined" 
                                     // sx={{marginBottom:'2%'}}
                                 />

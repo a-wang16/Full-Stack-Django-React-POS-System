@@ -37,7 +37,7 @@ function PhoneNumberInput({ onChange }) {
 
   return (
     <FormControl sx={{marginBottom:'1%'}}>
-      <FormLabel>Enter Phone Number:</FormLabel>
+      <FormLabel>Phone Number:</FormLabel>
       <Input
         value={value}
         onChange={handleChange}
