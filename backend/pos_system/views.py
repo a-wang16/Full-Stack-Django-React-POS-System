@@ -152,7 +152,7 @@ def create_order(request):
             )
             newOrder.save()
 
-            send_sms(normalized_phone_number, f"{newCustomerOrder.name}, your order has been successfully placed. We will be ready with your food shortly!")
+        send_sms(normalized_phone_number, f"{newCustomerOrder.name}, your order has been successfully placed. We will be ready with your food shortly!")
 
     return Response({"message": "Order Success"}, status=status.HTTP_201_CREATED)
 
@@ -378,6 +378,7 @@ def google_token_exchange(request):
         return Response({"error": "Invalid token"}, status=400)
 
     token_info = response.json()
+    print(token_info)
     email = token_info.get('email')
 
     if not email:
