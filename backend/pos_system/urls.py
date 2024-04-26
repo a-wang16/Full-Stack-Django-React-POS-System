@@ -22,7 +22,9 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register/', views.register_user, name='register'),
     path('login/', views.login_employee, name='login'),
-    path('convert-token/', views.ConvertTokenView.as_view(), name='convert_token'),
+    # path('exchange-token/', views.ExchangeTokenView.as_view(), name='exchange_token'),
+
+    # path('auth/google/callback/', views.google_callback, name='google_callback'),
 
     # custom views
     path('grouped-menu-items/', views.GroupedMenuItemsView.as_view(), name='grouped-menu-items'),

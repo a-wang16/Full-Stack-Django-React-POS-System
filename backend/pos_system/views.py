@@ -106,12 +106,13 @@ def create_order(request):
     normalized_phone_number = normalize_phone_number(phone_number)
 
 
-    employee_name = request.user
+    if not request.user.is_authenticated:
+        return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    employee = request.user
 
     with transaction.atomic():
-        # add new customer order
-        employee = Employee.objects.get(username=employee_name)
-        
+
         newCustomerOrder = CustomerOrder(
             employee = employee,
             status = OrderStatus.INPROGRESS.value,
@@ -346,9 +347,58 @@ def update_order_status(request):
         return Response({"status": "update success"}, status=status.HTTP_200_OK)
     except CustomerOrder.DoesNotExist:
         return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
-
-
-from rest_framework_social_oauth2.views import ConvertTokenView
-
-class GoogleLogin(ConvertTokenView):
-    pass
+#
+#
+# from social_django.utils import load_strategy, load_backend
+# from social_core.exceptions import AuthTokenError
+# from django.http import JsonResponse
+# from rest_framework.authtoken.models import Token
+# from django.views.decorators.csrf import csrf_exempt
+# import logging
+# logger = logging.getLogger(__name__)
+# from django.utils.decorators import method_decorator
+# from django.views import View
+# import json
+#
+# from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# from django.utils.decorators import method_decorator
+# from django.views import View
+# from django.utils.decorators import method_decorator
+# from django.views.decorators.csrf import csrf_exempt
+# from django.views import View
+# import json
+#
+#
+# logger = logging.getLogger(__name__)
+#
+# @method_decorator(csrf_exempt, name='dispatch')
+# class ExchangeTokenView(View):
+#     def post(self, request, *args, **kwargs):
+#         try:
+#             data = json.loads(request.body.decode('utf-8'))  # ensure correct decoding
+#
+#             token = data.get('token')
+#             if not token:
+#                 logger.error("No token provided in the request")
+#                 return JsonResponse({'error': 'No token provided.'}, status=400)
+#
+#             backend = load_backend(strategy=load_strategy(request), name='google-oauth2', redirect_uri="localhost:3000")
+#             user = backend.do_auth(token)
+#             if user:
+#                 if not user.is_active:
+#                     logger.error(f"Authentication failed - User is inactive: {user.username}")
+#                     return JsonResponse({'error': 'Authentication failed. User is inactive.'}, status=401)
+#
+#                 auth_token, created = Token.objects.get_or_create(user=user)
+#                 logger.info(f"User authenticated successfully: {user.username}, token created: {created}")
+#                 return JsonResponse({'token': auth_token.key})
+#             else:
+#                 logger.error("Authentication failed - backend returned no user")
+#                 return JsonResponse({'error': 'Authentication failed.'}, status=401)
+#         except json.JSONDecodeError as e:
+#             logger.error("Invalid JSON input: %s", str(e))
+#             return JsonResponse({'error': 'Invalid JSON.'}, status=400)
+#         except Exception as e:
+#             logger.error("Unexpected error during authentication: %s", str(e))
+#             return JsonResponse({'error': 'Internal server error.'}, status=500)
