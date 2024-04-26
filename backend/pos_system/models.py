@@ -30,7 +30,6 @@ class MenuItem(models.Model):
         return self.name
 
 
-
 class Recipe(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     inventory_item = models.ForeignKey(Inventory, on_delete=models.CASCADE)

@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from .models import Inventory, MenuItem, Employee, Recipe, CustomerOrder, OrderItems
 from .serializers import (InventorySerializer, MenuItemSerializer,
                           EmployeeSerializer, RecipeSerializer, CustomerOrderSerializer, OrderItemsSerializer)
+from phonenumber_field.phonenumber import to_python
 
 from django.utils import timezone
 from django.http import JsonResponse
@@ -96,7 +97,7 @@ def login_employee(request):
         return Response({"token": token.key, "success": "Logged in successfully"})
     else:
         return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
-    
+
 
 @api_view(['POST'])
 def create_order(request):
@@ -105,14 +106,12 @@ def create_order(request):
     phone_number = request.data.get('phone_number')
     normalized_phone_number = normalize_phone_number(phone_number)
 
-
     if not request.user.is_authenticated:
         return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
 
     employee = request.user
 
     with transaction.atomic():
-
         newCustomerOrder = CustomerOrder(
             employee = employee,
             status = OrderStatus.INPROGRESS.value,
@@ -121,7 +120,7 @@ def create_order(request):
             created_at = timezone.now()
         )
         newCustomerOrder.save()
-        
+
         for item in order_items:
             # update inventory
             menu_id = item['id']
@@ -153,7 +152,7 @@ def create_order(request):
             )
             newOrder.save()
 
-            send_sms(normalized_phone_number, f"Your order {newCustomerOrder.name} has been placed successfully. We will be ready with your food shortly!")
+            send_sms(normalized_phone_number, f"{newCustomerOrder.name}, your order has been successfully placed. We will be ready with your food shortly!")
 
     return Response({"message": "Order Success"}, status=status.HTTP_201_CREATED)
 
@@ -329,25 +328,38 @@ def get_in_progress_orders(request):
 
 @api_view(['PATCH'])
 def update_order_status(request):
-    orderStatus = request.query_params.get('status')
-    orderId = request.query_params.get('id')
-    if orderStatus == "complete":
-        orderStatus = OrderStatus.COMPLETED.value
-    elif orderStatus == "cancel":
-        orderStatus = OrderStatus.CANCELED.value
-    elif orderStatus == "inprogress":
-        orderStatus = OrderStatus.INPROGRESS.value
+    order_status = request.query_params.get('status')
+    order_id = request.query_params.get('id')
+    if order_status == "complete":
+        order_status = OrderStatus.COMPLETED.value
+        message = "Your order has been completed."
+    elif order_status == "cancel":
+        order_status = OrderStatus.CANCELED.value
+        message = "Your order has been canceled."
+    elif order_status == "inprogress":
+        order_status = OrderStatus.INPROGRESS.value
+        message = "Your order is in progress."
     else:
-        return Response({"error": "wrong order status"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Invalid order status"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        order = CustomerOrder.objects.get(id=orderId)
-        order.status = orderStatus
-        order.save()
-        return Response({"status": "update success"}, status=status.HTTP_200_OK)
+        with transaction.atomic():
+            order = CustomerOrder.objects.select_for_update().get(id=order_id)
+            order.status = order_status
+            order.save()
+
+            phone_number = to_python(order.phone_number)
+            if phone_number and phone_number.is_valid():
+                normalized_phone_number = phone_number.as_e164
+                send_sms(normalized_phone_number, f"{order.name}, {message}")
+            else:
+                print("Invalid phone number for order", order.id)
+
+        return Response({"status": "Update successful"}, status=status.HTTP_200_OK)
     except CustomerOrder.DoesNotExist:
         return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
-#
+
+
 #
 # from social_django.utils import load_strategy, load_backend
 # from social_core.exceptions import AuthTokenError
