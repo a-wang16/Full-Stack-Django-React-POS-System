@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Drawer, Button, Typography, Divider, Stack, Box } from '@mui/joy';
+import {Drawer, Button, Typography, Divider, Stack, Box, ModalClose} from '@mui/joy';
 import axiosInstance from '../utils/axiosInstance';
 import { useAuth } from "../utils/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +46,9 @@ const NavigationDrawer = ({ open, setOpen }) => {
 
     return (
 
-        <Drawer open={open}>
+        <Drawer open={open} onClose={() => setOpen(false)}>
+            <ModalClose />
+
             <Stack spacing={2}>
                 <Box
                     justifyContent={'center'}
