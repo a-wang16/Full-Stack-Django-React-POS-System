@@ -1,4 +1,4 @@
-import { Typography, Button, Box, Modal, Card, Select, Option, ModalClose, ModalDialog, DialogTitle, Input } from "@mui/joy";
+import { Typography, Button, IconButton, Box, Modal, Card, Select, Option, ModalClose, ModalDialog, DialogTitle, Input } from "@mui/joy";
 import { useOrder } from "../utils/OrderContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +46,24 @@ function CashierConfirmPage() {
     return (
         <Box display="flex" flexDirection="column" alignItems="center"> 
             <Box display="flex" justifyContent="flex-start" width="100%">  
-                <Button onClick={() => navigate('/cashier-display')}>Back to Menu Categories</Button>
+                <IconButton size={'lg'}
+                    onClick={() => navigate('/cashier-display')}
+                >
+                    <ion-icon size="large" name="arrow-back-outline"></ion-icon>
+                </IconButton>
+                
+                
+                {/* <Button
+                            onClick={() => navigate('/cashier-display')}
+                            sx={{
+                                backgroundColor: '#8f8f8f', 
+                                '&:hover': {
+                                    backgroundColor: '#398fe6', 
+                                },
+                            }}
+                        >
+                            <Typography level='h3'>Back to Menu Categories</Typography>
+                        </Button> */}
             </Box>
             
             <Box display="flex" justifyContent="flex-start" width="100%"> 
@@ -74,9 +91,30 @@ function CashierConfirmPage() {
                             <div>
                                 <Typography>{item.name} - Quantity: {item.quantity}</Typography>
                                 <Typography>Price: ${item.price}</Typography>
-                                <Typography>Item Subtotal: ${item.price * item.quantity}</Typography>
-                                <Button onClick={() => removeItem(item.name)}>Remove</Button>
-                                <Button onClick={() => addItem(item)}>Add</Button>
+                                
+                                <Button
+                                    onClick={() => removeItem(item.name)}
+                                    sx={{
+                                        backgroundColor: '#8f8f8f', 
+                                        '&:hover': {
+                                            backgroundColor: '#398fe6', 
+                                        },
+                                    }}
+                                >
+                                    <Typography level='h3'>Remove</Typography>
+                                </Button>
+                                
+                                <Button
+                                    onClick={() => addItem(item)}
+                                    sx={{
+                                        backgroundColor: '#8f8f8f', 
+                                        '&:hover': {
+                                            backgroundColor: '#398fe6', 
+                                        },
+                                    }}
+                                >
+                                    <Typography level='h3'>Add</Typography>
+                                </Button>
                             </div>
                         </div>
                     ))}
@@ -86,6 +124,11 @@ function CashierConfirmPage() {
                     <Button sx={{ }} onClick={() => setModalOpen(true)} disabled={isProcessing}>
                         {isProcessing ? "Processing..." : "Place Order"}
                     </Button>
+
+
+                    
+
+
 
                     <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
                         <ModalDialog
