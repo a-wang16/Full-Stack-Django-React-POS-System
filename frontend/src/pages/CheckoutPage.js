@@ -4,23 +4,53 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import IconButton from "@mui/joy/IconButton";
-import PhoneNumberInput from "../components/PhoneNumberInput"; // Import useNavigate
+import PhoneNumberInput from "../components/PhoneNumberInput";
+import Checkbox from '@mui/joy/Checkbox';
+import Done from '@mui/icons-material/Done';
 
 function CheckoutPage() {
     const { order, removeItem, addItem, getItemCount, clearOrder } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
-    const navigate = useNavigate(); // Initialize navigate function
+    const [modalOpenConfirm, setModalOpenConfirm] = useState(false);
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [receiveTextUpdates, setReceiveTextUpdates] = useState(false);
+    const [itemToRemove, setItemToRemove] = useState(null);
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
 
-      const handlePhoneInputChange = (event) => {
+    const handlePhoneInputChange = (event) => {
         setPhoneNumber(event.target.value);
-      };
+    };
 
+    const handleCheckboxChange = (event) => {
+        setReceiveTextUpdates(event.target.checked);
+    };
+
+    const removeAllItems = (itemName) => {
+        const updatedOrder = order.filter(item => item.name !== itemName);
+        clearOrder();
+        updatedOrder.forEach(item => addItem(item));
+    };
+
+    const handleRemoveAllItems = (itemName) => {
+        setItemToRemove(itemName); 
+        setModalOpenConfirm(true); 
+    };
+
+    const handleCloseModal = () => {
+        setModalOpenConfirm(false);
+        setItemToRemove(null); 
+    };
+
+    const handleConfirmRemoveAllItems = () => {
+        removeAllItems(itemToRemove);
+        setModalOpenConfirm(false);
+    };
+    
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
     const taxRate = 0.0825; // 8.25% tax rate
     const tax = subtotalPrice * taxRate;
@@ -56,24 +86,12 @@ function CheckoutPage() {
 
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
-            <Box display="flex" justifyContent="flex-start" width="100%">
+            <Box display="flex" justifyContent="flex-start" width="100%" pl={'70px'} pt={'50px'}>
                 <IconButton size={'lg'}
                     onClick={() => navigate('/order-entry')}
                 >
                     <ion-icon size="large" name="arrow-back-outline"></ion-icon>
                 </IconButton>
-            </Box>
-
-            <Box display="flex" justifyContent="flex-start" width="100%">
-                <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="flex-start"
-                    width="75%"
-                    ml="auto"
-                >
-                    <Typography variant="h2" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black' }}>Your Order: {numItems} Items</Typography>
-                </Box>
             </Box>
 
             {subtotalPrice === 0 && (
@@ -89,7 +107,6 @@ function CheckoutPage() {
                         <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
                     </Box>
                     <Card variant="plain" display="flex" flexDirection="column" alignItems="center" sx={{ width: '65%', padding: '30px', paddingTop: '50px', borderRadius: '20px' }}>
-
                         <Grid container width='100%' sx={{ flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', }}>
                             <Grid width='15%' marginRight={'20px'}>
                             </Grid>
@@ -134,12 +151,13 @@ function CheckoutPage() {
                                         </IconButton>
                                     </Grid>
                                     <Grid width='12%'>
-                                        <Typography level="h3">${item.price * item.quantity}</Typography>
+                                        <Typography level="h3">${(item.price * item.quantity).toFixed(2)}</Typography>
                                     </Grid>
                                     <Grid width='5%' >
-                                        <IconButton size='lg' onClick={() => addItem(item)}>
+                                        <IconButton size='lg' onClick={() => handleRemoveAllItems(item.name)}>
                                             <ion-icon size="large" name="close-outline"></ion-icon>
                                         </IconButton>
+
                                     </Grid>
                                 </Grid>
                             </div>
@@ -151,35 +169,76 @@ function CheckoutPage() {
                             {isProcessing ? "Processing..." : "Place Order"}
                         </Button>
 
-                        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                        <Modal width="20%" open={modalOpen} onClose={() => setModalOpen(false)}>
                             <ModalDialog
                                 color="primary"
                                 layout="center"
                                 size="lg"
                                 variant="plain"
                             >
-                                <DialogTitle>Name on Order: </DialogTitle>
                                 <ModalClose />
+                                <DialogTitle>Name on Order: </DialogTitle>
+
+
                                 <Input
                                     onChange={handleInputChange}
-                                    placeholder="Type name here"
-                                    variant="outlined" />
-
-                                <PhoneNumberInput
-                                    onChange={handlePhoneInputChange}
+                                    placeholder="Enter Name"
+                                    variant="outlined" 
+                                    // sx={{marginBottom:'2%'}}
                                 />
+                                    
 
-                                {/*<Input*/}
-                                {/*    onChange={handleInputChange}*/}
-                                {/*    placeholder="Type name here"*/}
-                                {/*    variant="outlined" />*/}
+                                
+                                {receiveTextUpdates && (
+                                    <PhoneNumberInput 
+                                        onChange={handlePhoneInputChange}
+                                    />
+                                )}
 
                                 <Button onClick={handlePlaceOrder}>Place Order</Button>
+                                <Checkbox
+                                    onChange={handleCheckboxChange}
+                                    checked={receiveTextUpdates}
+                                    size="sm"
+                                    uncheckedIcon={<Done />}
+                                    maxWidth={'100px'}
+                                    label="I would you like to receive updates about your order's status and delivery. Opt-in to receive notifications directly to your phone or email. We'll send you occasional updates depending on your order's progress, and you can opt out at any time."
+                                    slotProps={{
+                                        root: ({ checked, focusVisible }) => ({
+                                            sx: !checked
+                                                ? {
+                                                    '& svg': { opacity: focusVisible ? 1 : 0 },
+                                                    '&:hover svg': {
+                                                        opacity: 1,
+                                                    },
+                                                }
+                                                : undefined,
+                                        }),
+                                    }}
+
+                                />
                             </ModalDialog>
                         </Modal>
+                        
+                     
+                        <Modal open={modalOpenConfirm} onClose={handleCloseModal}>
+                            <ModalDialog color="primary" layout="center" size="lg" variant="plain">
+                                <ModalClose />
+                                <DialogTitle>Remove All Items</DialogTitle>
+                                <Typography>Are you sure you want to remove all quantities of this menu item?</Typography>
+                                <Stack direction="row" spacing={2} justifyContent="center" marginTop={2}>
+                                    <Button variant="outlined" onClick={handleCloseModal}>Cancel</Button>
+                                    <Button variant="contained" color="primary" onClick={handleConfirmRemoveAllItems}>Remove All</Button>
+                                </Stack>
+                            </ModalDialog>
+                        </Modal>
+
+
                     </Card>
                 </Stack>
             )}
+
+            
         </Box>
     );
 }

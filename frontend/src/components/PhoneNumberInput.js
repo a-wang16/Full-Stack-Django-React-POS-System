@@ -28,7 +28,7 @@ TextMaskAdapter.propTypes = {
 
 // Updated to accept and propagate the onChange handler
 function PhoneNumberInput({ onChange }) {
-  const [value, setValue] = React.useState('(100) 000-0000');
+  const [value, setValue] = React.useState('');
 
   const handleChange = (event) => {
     setValue(event.target.value); // update local state
@@ -36,12 +36,12 @@ function PhoneNumberInput({ onChange }) {
   }
 
   return (
-    <FormControl>
-      <FormLabel>Enter Phone Number:</FormLabel>
+    <FormControl sx={{marginBottom:'1%'}}>
+      <FormLabel>Phone Number:</FormLabel>
       <Input
         value={value}
         onChange={handleChange}
-        placeholder="Enter Phone Number"
+        placeholder= "(123) 456-7890"
         slotProps={{ input: { component: TextMaskAdapter } }}
       />
     </FormControl>
