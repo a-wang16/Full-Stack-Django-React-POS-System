@@ -128,7 +128,7 @@ function CheckoutPage() {
                                         </IconButton>
                                     </Grid>
                                     <Grid width='12%'>
-                                        <Typography level="h3">${item.price * item.quantity}</Typography>
+                                        <Typography level="h3">${(item.price * item.quantity).toFixed(2)}</Typography>
                                     </Grid>
                                     <Grid width='5%' >
                                         <IconButton size='lg' onClick={() => addItem(item)}>
