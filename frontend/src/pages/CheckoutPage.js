@@ -178,7 +178,7 @@ function CheckoutPage() {
                                     size="sm"
                                     uncheckedIcon={<Done />}
                                     maxWidth={'100px'}
-                                    label="I would like to recieve text message updates for my order"
+                                    label="I would you like to receive updates about your order's status and delivery. Opt-in to receive notifications directly to your phone or email. We'll send you occasional updates depending on your order's progress, and you can opt out at any time."
                                     slotProps={{
                                         root: ({ checked, focusVisible }) => ({
                                             sx: !checked

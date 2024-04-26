@@ -35,6 +35,8 @@ function KitchenViewPage() {
 
     }, [orderChanged]);
 
+    console.log(ordersInProgress);
+
     if (isLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -80,8 +82,8 @@ function KitchenViewPage() {
                 <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
             </Grid>
 
-            <Box mt='5%' width="100%" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
-                <Grid item width='100%' pt={'4%'} pr={'4%'} pl={'4%'} pb={'2%'} >
+            <Box mt='5%' width="100%" minHeight="70vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
+                <Grid item width='100%' pt={'4%'} pr={'4%'} pl={'4%'} >
                     <Grid
                         container
                         direction="row"
@@ -89,55 +91,58 @@ function KitchenViewPage() {
                         alignItems="stretch"
                         width={'100%'}
                     >
-                        <Grid item width={'15%'}>
-                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
+                        <Grid item width={'20%'}>
+                            <Typography textAlign={'center'} level="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
                                 Name
                             </Typography>
                         </Grid>
-                        <Grid item width={'30%'}>
-                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
-                                #
+                        <Grid item width={'35%'}>
+                            <Typography textAlign={'center'} level="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
+                                Order Items
                             </Typography>
                         </Grid >
-                        <Grid item width={'20%'}>
-                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
+                        <Grid item width={'15%'}>
+                            <Typography textAlign={'center'} level="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
                                 Time Placed
                             </Typography>
                         </Grid>
                         <Grid item width={'15%'}>
-                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'transparent', fontWeight: 'bold' }}>
+                            <Typography textAlign={'center'} level="h4" sx={{ color: 'transparent', fontWeight: 'bold' }}>
                                 Cancel
                             </Typography>
                         </Grid>
                         <Grid item width={'15%'}>
-                            <Typography textAlign={'center'} variant="h4" sx={{ color: 'transparent', fontWeight: 'bold' }}>
+                            <Typography textAlign={'center'} level="h4" sx={{ color: 'transparent', fontWeight: 'bold' }}>
                                 Submit
                             </Typography>
                         </Grid>
-                        <Divider  color="primary" sx={{ width: '100%', border: 'white solid 0.1px', marginTop: '3%', marginBottom: '3%', opacity:'0.3'}} />
+                        <Divider  color="primary" sx={{ width: '100%', border: 'white solid 0.1px', marginTop: '3%', marginBottom: '1%', opacity:'0.3'}} />
                     </Grid>
                 </Grid>
 
                 {ordersInProgress.length !== 0 && ordersInProgress.map((order) => (
-                    <Grid item width='100%' pb={'5%'} pr={'4%'} pl={'4%'} key={order.id}>
+                    <Grid item width='100%' pr={'4%'} pl={'4%'} key={order.id}>
                         <Grid
                             container
                             direction="row"
                             justifyContent="space-between"
                             alignItems="stretch"
                             width={'100%'}
+                            pb={'3%'}
+                            pt={'3%'}
                         >
-                            <Grid item width={'15%'}>
-                                <Typography textAlign={'center'} variant="h2" sx={{ color: 'white', lineHeight: '2' }}>
+                            <Grid item width={'20%'}>
+                                <Typography level="h4" textAlign={'center'}  sx={{ color: 'white', lineHeight: '2' }}>
                                     {order.name}
                                 </Typography>
                             </Grid>
-                            <Grid item width={'30%'} >
-                                <Typography textAlign={'center'} variant="h2" sx={{ color: 'white', lineHeight: '2' }}>
-                                    {order.phone_number}
-                                </Typography>
+                            <Grid item width={'35%'} >
+                                    {order.order_items.map((orderItem) => (
+                                        <Typography textAlign={'left'}>- {orderItem.menu_item_details.name} x {orderItem.quantity} </Typography>
+                                    ))}
+                    
                             </Grid >
-                            <Grid item width={'20%'}>
+                            <Grid item width={'15%'}>
                                 <Typography textAlign={'center'} variant="h2" sx={{ color: 'white', lineHeight: '2' }}>
                                     {moment(order.created_at).format('LTS')}
                                 </Typography>
@@ -148,7 +153,10 @@ function KitchenViewPage() {
                             <Grid item textAlign={'center'} justifyContent={'center'} width={'15%'}>
                                 <Button color="success" onClick={() => handleUpdateOrderStatus(order.id, "complete")}>Complete</Button>
                             </Grid>
+
                         </Grid>
+                        <Divider  color="primary" sx={{ width: '95%', border: 'white solid 0.1px', margin:'auto', opacity:'0.1'}} />
+
                     </Grid>
                 ))}
 
