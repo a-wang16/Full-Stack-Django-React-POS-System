@@ -12,10 +12,12 @@ function CheckoutPage() {
     const { order, removeItem, addItem, getItemCount, clearOrder } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpenConfirm, setModalOpenConfirm] = useState(false);
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [receiveTextUpdates, setReceiveTextUpdates] = useState(false);
+    const [itemToRemove, setItemToRemove] = useState(null);
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
@@ -28,6 +30,27 @@ function CheckoutPage() {
         setReceiveTextUpdates(event.target.checked);
     };
 
+    const removeAllItems = (itemName) => {
+        const updatedOrder = order.filter(item => item.name !== itemName);
+        clearOrder();
+        updatedOrder.forEach(item => addItem(item));
+    };
+
+    const handleRemoveAllItems = (itemName) => {
+        setItemToRemove(itemName); 
+        setModalOpenConfirm(true); 
+    };
+
+    const handleCloseModal = () => {
+        setModalOpenConfirm(false);
+        setItemToRemove(null); 
+    };
+
+    const handleConfirmRemoveAllItems = () => {
+        removeAllItems(itemToRemove);
+        setModalOpenConfirm(false);
+    };
+    
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
     const taxRate = 0.0825; // 8.25% tax rate
     const tax = subtotalPrice * taxRate;
@@ -131,9 +154,10 @@ function CheckoutPage() {
                                         <Typography level="h3">${(item.price * item.quantity).toFixed(2)}</Typography>
                                     </Grid>
                                     <Grid width='5%' >
-                                        <IconButton size='lg' onClick={() => addItem(item)}>
+                                        <IconButton size='lg' onClick={() => handleRemoveAllItems(item.name)}>
                                             <ion-icon size="large" name="close-outline"></ion-icon>
                                         </IconButton>
+
                                     </Grid>
                                 </Grid>
                             </div>
@@ -195,9 +219,26 @@ function CheckoutPage() {
                                 />
                             </ModalDialog>
                         </Modal>
+                        
+                     
+                        <Modal open={modalOpenConfirm} onClose={handleCloseModal}>
+                            <ModalDialog color="primary" layout="center" size="lg" variant="plain">
+                                <ModalClose />
+                                <DialogTitle>Remove All Items</DialogTitle>
+                                <Typography>Are you sure you want to remove all quantities of this menu item?</Typography>
+                                <Stack direction="row" spacing={2} justifyContent="center" marginTop={2}>
+                                    <Button variant="outlined" onClick={handleCloseModal}>Cancel</Button>
+                                    <Button variant="contained" color="primary" onClick={handleConfirmRemoveAllItems}>Remove All</Button>
+                                </Stack>
+                            </ModalDialog>
+                        </Modal>
+
+
                     </Card>
                 </Stack>
             )}
+
+            
         </Box>
     );
 }
