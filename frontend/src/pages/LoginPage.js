@@ -45,26 +45,33 @@ const LoginPage = () => {
     });
 
 
-        const handleGoogleSuccess = async (credentialResponse) => {
-        try {
-            const response = await axiosInstance.post('/api/convert-token/', {
-                access_token: credentialResponse.access_token,
-                provider: 'google-oauth2',
-            });
+const handleGoogleSuccess = async (credentialResponse) => {
+    console.log("Received Google credential:", credentialResponse);
 
-            if (response.data.token) {
-                login(response.data.token);
-                navigate('/order-entry');
-            } else {
-                setLoginError('Failed to log in with Google');
-                setShowErrorModal(true);
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            setLoginError('Login error: ' + error.message);
+    try {
+        const response = await axiosInstance.post('/api/exchange-token/', {
+            credential: credentialResponse.credential,
+            clientId: "395703218060-lu5j3t587ct43defhjm30o7a9dvvtv2t.apps.googleusercontent.com",
+        });
+
+        console.log("Response data from server:", response.data);
+
+        if (response.data.token) {
+            console.log("Login successful, received token:", response.data.token);
+            login(response.data.token);
+            navigate('/order-entry');
+        } else {
+            console.error("No token received in the response from the server.");
+            setLoginError('Failed to log in with Google');
             setShowErrorModal(true);
         }
-    };
+    } catch (error) {
+        console.error('Login error:', error);
+        setLoginError('Login error: ' + (error.response ? error.response.data.detail : error.message));
+        setShowErrorModal(true);
+    }
+};
+
 
     // Function to handle Google login error
     const handleGoogleFailure = (error) => {
