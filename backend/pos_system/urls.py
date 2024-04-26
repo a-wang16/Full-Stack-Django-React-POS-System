@@ -22,7 +22,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register/', views.register_user, name='register'),
     path('login/', views.login_employee, name='login'),
-    # path('exchange-token/', views.ExchangeTokenView.as_view(), name='exchange_token'),
+    path('exchange-token/', views.google_token_exchange, name='exchange_token'),
 
     # path('auth/google/callback/', views.google_callback, name='google_callback'),
 

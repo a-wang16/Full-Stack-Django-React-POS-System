@@ -50,8 +50,8 @@ const handleGoogleSuccess = async (credentialResponse) => {
 
     try {
         const response = await axiosInstance.post('/api/exchange-token/', {
-            token: credentialResponse.credential,
-            provider: 'google-oauth2',
+            credential: credentialResponse.credential,
+            clientId: "395703218060-lu5j3t587ct43defhjm30o7a9dvvtv2t.apps.googleusercontent.com",
         });
 
         console.log("Response data from server:", response.data);
@@ -71,6 +71,7 @@ const handleGoogleSuccess = async (credentialResponse) => {
         setShowErrorModal(true);
     }
 };
+
 
     // Function to handle Google login error
     const handleGoogleFailure = (error) => {
