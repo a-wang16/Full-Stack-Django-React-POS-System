@@ -43,6 +43,11 @@ function CashierPage() {
         setSelectedCategory(category);
     };
 
+    const handleConfirmOrder = () => {
+        // Navigate to the cashier-checkout page when the button is clicked
+        navigate('/cashier-checkout');
+    };
+
     if (isLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -157,12 +162,37 @@ function CashierPage() {
                                 </Stack>
                             </Button>
                             <Divider sx={{ width: '100%', margin: 'auto' }} />
-                        </Stack>
-                    ))}
-                </Sheet>
 
+                           
+                        </Stack>
+                         
+                    ))}
+
+                    <Box sx={{ textAlign: 'center', marginTop: '20px' }}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleConfirmOrder}
+                            sx={{
+                                borderRadius: '0px',
+                                paddingTop: '30px',
+                                paddingBottom: '30px',
+                                width: '100%',
+                                backgroundColor: '#8f8f8f', 
+                                '&:hover': {
+                                    backgroundColor: '#398fe6', 
+                                },
+                            }}
+                        >
+                            <Typography level='h3'>Confirm Order</Typography>
+                        </Button>
+                    </Box>
+                
+                </Sheet>
+                
 
             </Stack>
+           
         </Box>
     );
 
