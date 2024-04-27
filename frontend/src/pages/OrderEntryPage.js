@@ -14,8 +14,6 @@ function OrderEntryPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [weather, setWeather] = useState(null);
-    const [isFarenheight, setTemp] = useState(false);
-    
 
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
@@ -48,10 +46,32 @@ function OrderEntryPage() {
                 const weatherResponse = await axiosInstance.get('api/get-weather/?zip=' + localStorage.getItem("zipCode"));
                 console.log(weatherResponse.data);
                 setWeather(weatherResponse.data);
+
+                // Determine recommended items based on weather
+                const recommended = determineRecommendedItems(weatherResponse.data);
+                setRecommendedItems(recommended);
             } catch (err) {
                 setError(err);
             }
         };
+
+
+        const determineRecommendedItems = (weatherData) => {
+            const temperature = weatherData.temperature;
+
+            if (temperature >= 24) {
+                return [{ name: "Fountain Drink" }, { name: "Aggie Shake" }, { name: "Cookie Dough Shake" }];
+            } else if (temperature >= 16 && temperature <= 23) {
+                return [{ name: "Caesar Chicken Salad" }, { name: "Onion Rings" }, { name: "Classic Burger" }];
+            } else if (temperature <= 15) {
+                return [{ name: "Howdy Spicy Chicken Sandwich" }, {name: "Grilled Hot Dog"}, {name: "Grilled Cheese Dog"}];
+            } else {
+                return [];
+            }
+        };
+
+
+
 
         fetchWeather();
         fetchMenuItems();
@@ -88,7 +108,8 @@ function OrderEntryPage() {
                     height: '100vh',
                     position: 'sticky',
                     top: 0
-                }}>
+                }}
+                >
 
                     <Typography level='h2' sx={{ width: '100%', paddingTop: '20px', paddingBottom: '20px' }}>Welcome to Rev's</Typography>
                     {categories.map((category) => (
@@ -100,11 +121,25 @@ function OrderEntryPage() {
                         </Box>
 
                     ))}
+                    
+                    {recommendedItems.length > 0 && (
+                        <>
+                            <Divider sx={{ width: '80%', margin: 'auto' }} />
+                            <Typography level='h4' sx={{ paddingTop: '20px', paddingBottom: '10px' }}>Recommended Items To Try Today:</Typography>
+                            {/* Display recommended items */}
+                            {recommendedItems.map((item, index) => (
+                                <Box key={index}>
+                                    <Typography>{item.name}</Typography>
+                                </Box>
+                            ))}
+                        </>
+                    )}
                 </Sheet>
-
+                
 
                 <Box sx={{ width: '100%' }}>
                     <Stack>
+                        
                         <Sheet variant={'plain'}
                             color={'neutral'}
                             sx={{
@@ -114,7 +149,8 @@ function OrderEntryPage() {
                                 alignContent: 'center',
                                 borderBottom: '0.5px solid grey'
                             }}
-                        >
+                        >   
+                        
                             {weather && weather.icon && weather.city && weather.temperature && (
                                 <Stack
                                     direction={'row'}
@@ -123,17 +159,16 @@ function OrderEntryPage() {
                                     alignContent='center'
                                 >
                                     <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={`${weather.city} weather icon`} />
-                                    {isFarenheight && (<Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
-                                        {weather.city}  -  {far.toFixed(2)}°F
-                                    </Typography>)
-                                    }
-
-                                    {!isFarenheight && (<Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
-                                        {weather.city}  -  {weather.temperature.toFixed(2)}°C
-                                    </Typography>)
-                                    }
+                                    <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
+                                        {weather.city}  -  {weather.temperature}°C
+                                    </Typography>
                                 </Stack>
+
+                                
+
                             )}
+
+                            
 
                         </Sheet>
 

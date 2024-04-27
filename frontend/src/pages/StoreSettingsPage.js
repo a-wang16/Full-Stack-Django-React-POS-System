@@ -66,77 +66,16 @@ function StoreSettingsPage() {
     }
 
     return (
-        <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            width={'70%'}
-            margin='auto'
-            spacing={4}
-        >
-            <Grid item width="100%" pt={'8%'}>
-                <Box >
-                    <Typography textAlign={'center'} level="h1" style={{ fontWeight: 'bold', color: 'white' }}>Store Settings</Typography>
-                </Box>
-            </Grid>
-
-            <Grid item width="100%" pb={'7%'}>
-                <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.5px' }} />
-            </Grid>
-
-            <Grid
-                container
-                direction="column"
-                justifyContent="space-evenly"
-                alignItems="center"
-                width='40%'
-                sx={{ backgroundColor: '#0b0d0e', borderRadius: '10px' }}
-            >
-
-                <Grid item width='100%' >
-                    <Stack
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2}
-                    >
-                        <Typography level="h3" textAlign={'left'} width={'100%'}>
-                            Location Update
-                        </Typography>
-                        <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.3px', opacity: "50%" }} />
-
-                        <form onSubmit={handleSubmit}>
-                            <Stack
-                                spacing={3}
-                            >
-                                <Typography level="title-lg">
-                                    Current Zip Code: {zipCode}
-                                </Typography>
-                                <Input id={zipCode} name="Zip Code" placeholder="Change Zip Code" />
-                                <Button sx={{ paddingLeft: '5%', paddingRight: '5%' }} color="success" type="submit">
-                                    Update Zip Code
-                                </Button>
-                            </Stack>
-                        </form>
-                    </Stack>
-                </Grid>
-
-                <Grid item width='100%'>
-                    <Stack
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2}
-                    >
-
-                        <Typography level="h3" textAlign={'left'} width={'100%'}>
-                            System Language
-                        </Typography>
-                        <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.3px', opacity: "50%" }} />
-                        <GoogleTranslate />
-                    </Stack>
-                </Grid>
-
-                <Grid item width='100%' >
+        <div>
+            <form onSubmit={handleSubmit}>
+                <Typography>
+                    Current Zip: {zipCode}
+                </Typography> 
+                <input id={zipCode} name="Zip Code" defaultValue="77843"/>
+                <button type="reset">Reset to Default</button>
+                <button type="submit">Update Values</button>
+            </form>
+            
 
                     {weather && weather.icon && weather.city && weather.temperature && (
 
