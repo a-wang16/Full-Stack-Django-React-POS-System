@@ -7,9 +7,9 @@ import GoogleTranslate from "../components/GoogleTranslate";
 
 function StoreSettingsPage() {
 
-    if(localStorage.getItem("celsius") === null)
-        localStorage.setItem("celsius", false);  
-    
+    if (localStorage.getItem("celsius") === null)
+        localStorage.setItem("celsius", false);
+
     let zipCode = localStorage.getItem("zipCode");
     let cel = localStorage.getItem("celsius");
 
@@ -51,7 +51,7 @@ function StoreSettingsPage() {
     };
 
     let far = (9 / 5) * weather.temperature + 32
-    
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -66,16 +66,49 @@ function StoreSettingsPage() {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <Typography>
-                    Current Zip: {zipCode}
-                </Typography> 
-                <input id={zipCode} name="Zip Code" defaultValue="77843"/>
-                <button type="reset">Reset to Default</button>
-                <button type="submit">Update Values</button>
-            </form>
-            
+        <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            margin="auto"
+            width="70%"
+            spacing={4}
+        >
+
+            <Box >
+                <Typography textAlign={'center'} variant="h1" pt={'30%'} style={{ fontWeight: 'bold', fontSize: '2rem', color: 'white' }}>Store Settings</Typography>
+            </Box>
+
+            <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
+
+            <Box p={'40px'} sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
+                <Stack
+                    direction="column"
+                    justifyContent="flex-start"
+                    alignItems="center"
+                    margin="auto"
+                    width="100%"
+                    spacing={5}
+                >
+                    <Box>
+                        <form onSubmit={handleSubmit}  >
+                            <Stack
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="center"
+                                margin="auto"
+                                spacing={2}
+                            >
+                                <Typography level="h3" textAlign={'left'} width={'100%'}>
+                                    Current Zip: {zipCode}
+                                </Typography>
+                                <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.3px', opacity: "50%" }} />
+                                <Input id={zipCode} name="Zip Code" placeholder="Enter new zip code" />
+                                <Button color='success' type="submit">Update Zip Code</Button>
+                            </Stack>
+                        </form>
+                    </Box>
+
 
                     {weather && weather.icon && weather.city && weather.temperature && (
 
@@ -126,30 +159,29 @@ function StoreSettingsPage() {
                                     {weather.city}  -  {weather.temperature.toFixed(2)}°C
                                 </Typography>)
                                 }
-
-
-
-
                             </Stack>
                         </Stack>
                     )}
-                </Grid>
-            </Grid>
 
+                    <Box>
+                        <Stack
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                            margin="auto"
+                            spacing={2}
+                        >
+                            <Typography level="h3" textAlign={'left'} width={'100%'}>
+                                System Language
+                            </Typography>
+                            <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.3px', opacity: "50%" }} />
+                            <GoogleTranslate/>
+                        </Stack>
+                    </Box>
+                </Stack>
+            </Box>
+        </Stack>
 
-
-        </Grid>
-        // <div>
-        //     <form onSubmit={handleSubmit}>
-        //         <Typography>
-        //             Current Zip: {zipCode}
-        //         </Typography> 
-        //         <input id={zipCode} name="Zip Code" defaultValue="77843"/>
-        //         <button type="reset">Reset to Default</button>
-        //         <button type="submit">Update Values</button>
-        //     </form>
-
-        // </div>
     );
 }
 

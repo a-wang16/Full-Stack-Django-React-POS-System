@@ -14,7 +14,8 @@ function OrderEntryPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [weather, setWeather] = useState(null);
-
+    const [recommendedItems, setRecommendedItems] = useState([]);
+ 
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
 
@@ -35,7 +36,7 @@ function OrderEntryPage() {
                 setCategories(Object.keys(response.data));
                 setSelectedCategory(Object.keys(response.data)[0]);
                 setIsLoading(false);
-                setTemp(localStorage.getItem("celsius"));
+                // setTemp(localStorage.getItem("celsius"));
             } catch (err) {
                 setError(err);
                 setIsLoading(false);
@@ -55,7 +56,6 @@ function OrderEntryPage() {
             }
         };
 
-
         const determineRecommendedItems = (weatherData) => {
             const temperature = weatherData.temperature;
 
@@ -71,8 +71,6 @@ function OrderEntryPage() {
         };
 
 
-
-
         fetchWeather();
         fetchMenuItems();
     }, []);
@@ -81,7 +79,7 @@ function OrderEntryPage() {
         setSelectedCategory(category);
     };
 
-    console.log(isFarenheight);
+    // console.log(isFarenheight);
     if (isLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -167,9 +165,6 @@ function OrderEntryPage() {
                                 
 
                             )}
-
-                            
-
                         </Sheet>
 
 
