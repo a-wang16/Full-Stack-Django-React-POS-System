@@ -46,7 +46,7 @@ function StoreSettingsPage() {
                 </Typography> 
                 <input id={zipCode} name="Zip Code" defaultValue="77843"/>
                 <button type="reset">Reset to Default</button>
-                <button type="submit">Update Values</button>
+                <button type="submit">Update Zip Code</button>
             </form>
             
 
