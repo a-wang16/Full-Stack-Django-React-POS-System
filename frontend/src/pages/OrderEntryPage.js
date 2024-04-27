@@ -14,14 +14,19 @@ function OrderEntryPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [weather, setWeather] = useState(null);
+    const [isFarenheight, setTemp] = useState(false);
+    
 
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
 
     const navigate = useNavigate();
 
-    if(localStorage.getItem("zipCode") === null)
+    if (localStorage.getItem("zipCode") === null)
         localStorage.setItem("zipCode", 77843);
+
+    if (localStorage.getItem("celsius") === null)
+        localStorage.setItem("celsius", false);
 
     useEffect(() => {
         const fetchMenuItems = async () => {
@@ -32,6 +37,7 @@ function OrderEntryPage() {
                 setCategories(Object.keys(response.data));
                 setSelectedCategory(Object.keys(response.data)[0]);
                 setIsLoading(false);
+                setTemp(localStorage.getItem("celsius"));
             } catch (err) {
                 setError(err);
                 setIsLoading(false);
@@ -55,6 +61,7 @@ function OrderEntryPage() {
         setSelectedCategory(category);
     };
 
+    console.log(isFarenheight);
     if (isLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -62,6 +69,9 @@ function OrderEntryPage() {
             </Box>
         );
     }
+
+    let far = (9 / 5) * weather.temperature + 32;
+
 
     if (error) return <p>Error: {error.message}</p>;
 
@@ -113,9 +123,15 @@ function OrderEntryPage() {
                                     alignContent='center'
                                 >
                                     <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={`${weather.city} weather icon`} />
-                                    <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
-                                        {weather.city}  -  {weather.temperature}°C
-                                    </Typography>
+                                    {isFarenheight && (<Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
+                                        {weather.city}  -  {far.toFixed(2)}°F
+                                    </Typography>)
+                                    }
+
+                                    {!isFarenheight && (<Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
+                                        {weather.city}  -  {weather.temperature.toFixed(2)}°C
+                                    </Typography>)
+                                    }
                                 </Stack>
                             )}
 
@@ -125,16 +141,13 @@ function OrderEntryPage() {
                         <Grid container spacing={3} sx={{
                             overflow: 'auto',
                             alignItems: "flex-start",
-                            // justifyContent: "space-evenly",
-                            }} 
+                        }}
                             margin={2}>
-                            {/* Render available items */}
                             {menuItems[selectedCategory]?.filter(item => !item.is_out_of_stock).map((item) => (
                                 <Grid item key={item.name}>
                                     <MenuItemCard item={item} />
                                 </Grid>
                             ))}
-                            {/* Render out of stock items */}
                             {menuItems[selectedCategory]?.filter(item => item.is_out_of_stock).map((item) => (
                                 <Grid item key={item.name}>
                                     <OutOfStock item={item} />

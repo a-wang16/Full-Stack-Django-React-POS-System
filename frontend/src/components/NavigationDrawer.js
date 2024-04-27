@@ -53,7 +53,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
                 <Box
                     justifyContent={'center'}
                 >
-                    <Divider sx={{ width: '80%', margin: 'auto' }} />
+                <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
                 </Box>
                 <AccordionGroup
                     transition="0.4s ease"
