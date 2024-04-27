@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useOrder } from "../utils/OrderContext";
 import { useNavigate } from "react-router-dom";
+import OutOfStockCashier from "../components/OutOfStockCashier";
 import Card from "@mui/joy/Card"; // Import useNavigate
 import { Box, AspectRatio, IconButton, CircularProgress, Divider, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
 import axiosInstance from '../utils/axiosInstance';
@@ -84,8 +85,12 @@ function CashierPage() {
                     </Sheet>
                     <Grid container spacing={4} padding={3} sx={{ flex: 1, overflow: 'auto' }} margin={1}>
                         {menuItems[selectedCategory]?.map((item) => (
-                            <Grid item key={item.name}>
-                                <CashierItemCard item={item} />
+                           <Grid item key={item.name}>
+                           {item.is_out_of_stock ? (
+                               <OutOfStockCashier item={item} />
+                           ) : (
+                               <CashierItemCard item={item} />
+                           )}
                             </Grid>
                         ))}
                     </Grid>
