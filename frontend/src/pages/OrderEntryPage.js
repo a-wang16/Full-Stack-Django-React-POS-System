@@ -85,7 +85,6 @@ function OrderEntryPage() {
                         <Box >
                             <Divider sx={{ width: '80%', margin: 'auto' }} />
                             <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'primary'} sx={{ width: '100%', borderRadius: '0px', paddingTop: '15px', paddingBottom: '15px' }} onClick={() => handleCategoryClick(category)}>
-
                                 <Typography level='h4'>{category}</Typography>
                             </Button>
                         </Box>
