@@ -81,11 +81,11 @@ function StoreSettingsPage() {
 
             <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
 
-            <Box p={'40px'} sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
+            <Box width="40%" p={'40px'} sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
                 <Stack
                     direction="column"
                     justifyContent="flex-start"
-                    alignItems="center"
+                    alignItems="stretch"
                     margin="auto"
                     width="100%"
                     spacing={5}
