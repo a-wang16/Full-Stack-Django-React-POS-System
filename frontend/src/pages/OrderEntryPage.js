@@ -15,7 +15,7 @@ function OrderEntryPage() {
     const [error, setError] = useState(null);
     const [weather, setWeather] = useState(null);
     const [recommendedItems, setRecommendedItems] = useState([]);
- 
+
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
 
@@ -64,7 +64,7 @@ function OrderEntryPage() {
             } else if (temperature >= 16 && temperature <= 23) {
                 return [{ name: "Caesar Chicken Salad" }, { name: "Onion Rings" }, { name: "Classic Burger" }];
             } else if (temperature <= 15) {
-                return [{ name: "Howdy Spicy Chicken Sandwich" }, {name: "Grilled Hot Dog"}, {name: "Grilled Cheese Dog"}];
+                return [{ name: "Howdy Spicy Chicken Sandwich" }, { name: "Grilled Hot Dog" }, { name: "Grilled Cheese Dog" }];
             } else {
                 return [];
             }
@@ -119,7 +119,7 @@ function OrderEntryPage() {
                         </Box>
 
                     ))}
-                    
+
                     {recommendedItems.length > 0 && (
                         <>
                             <Divider sx={{ width: '80%', margin: 'auto' }} />
@@ -133,11 +133,11 @@ function OrderEntryPage() {
                         </>
                     )}
                 </Sheet>
-                
+
 
                 <Box sx={{ width: '100%' }}>
                     <Stack>
-                        
+
                         <Sheet variant={'plain'}
                             color={'neutral'}
                             sx={{
@@ -147,8 +147,8 @@ function OrderEntryPage() {
                                 alignContent: 'center',
                                 borderBottom: '0.5px solid grey'
                             }}
-                        >   
-                        
+                        >
+
                             {weather && weather.icon && weather.city && weather.temperature && (
                                 <Stack
                                     direction={'row'}
@@ -162,7 +162,7 @@ function OrderEntryPage() {
                                     </Typography>
                                 </Stack>
 
-                                
+
 
                             )}
                         </Sheet>
