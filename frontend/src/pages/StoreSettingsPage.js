@@ -11,12 +11,12 @@ function StoreSettingsPage() {
         localStorage.setItem("celsius", false);
 
     let zipCode = localStorage.getItem("zipCode");
-    let cel = localStorage.getItem("celsius");
+    let isCelsius = localStorage.getItem("celsius");
 
     const [error, setError] = useState(null);
     const [weather, setWeather] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [checked, setChecked] = useState(cel);
+    const [checked, setChecked] = useState(isCelsius);
 
     const fetchWeather = async () => {
         try {
@@ -44,14 +44,10 @@ function StoreSettingsPage() {
     }
 
     const handleChange = (event) => {
-        setChecked(event.target.checked);
-        localStorage.setItem("celsius", event.target.checked);
-        let test = localStorage.getItem("celsius");
-        console.log(test);
+        setChecked(!event.target.checked);
+        localStorage.setItem("celsius", !event.target.checked);
+        console.log(localStorage.getItem("celsius"));
     };
-
-    let far = (9 / 5) * weather.temperature + 32
-
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -128,19 +124,14 @@ function StoreSettingsPage() {
                                     Current Weather
                                 </Typography>
                                 <Switch
-                                    checked={checked}
+                                    checked={!checked}
                                     onChange={handleChange}
                                     color={checked ? 'primary' : 'primary'}
                                     variant={checked ? 'solid' : 'solid'}
-                                    endDecorator={checked ? '°F' : '°C'}
-                                    slotProps={{
-                                        endDecorator: {
-                                            sx: {
-                                                minWidth: 24,
-                                            },
-                                        },
-                                    }}
-                                /></Stack>
+                                    startDecorator={'°C'}
+                                    endDecorator={'°F'}
+                                />
+                            </Stack>
                             <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.3px', opacity: "50%" }} />
 
                             <Stack
@@ -150,12 +141,12 @@ function StoreSettingsPage() {
                             >
                                 <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={`${weather.city} weather icon`} />
 
-                                {checked && (<Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
-                                    {weather.city}  -  {far.toFixed(2)}°F
+                                {!checked && (<Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
+                                    {weather.city}  -  {((9 / 5) * weather.temperature + 32).toFixed(2)}°F
                                 </Typography>)
                                 }
 
-                                {!checked && (<Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
+                                {checked && (<Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
                                     {weather.city}  -  {weather.temperature.toFixed(2)}°C
                                 </Typography>)
                                 }

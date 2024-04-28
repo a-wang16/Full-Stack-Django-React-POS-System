@@ -27,6 +27,10 @@ function OrderEntryPage() {
     if (localStorage.getItem("celsius") === null)
         localStorage.setItem("celsius", false);
 
+    let isCelsius = false;
+    if(localStorage.getItem("celsius") === "true")
+        isCelsius = true;
+    
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
@@ -157,13 +161,21 @@ function OrderEntryPage() {
                                     alignContent='center'
                                 >
                                     <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={`${weather.city} weather icon`} />
-                                    <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
-                                        {weather.city}  -  {weather.temperature}°C
-                                    </Typography>
+
+                                    {console.log(isCelsius)}
+                                    {!isCelsius && (
+                                        <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
+                                            {weather.city}  -  {((9 / 5) * weather.temperature + 32).toFixed(2)}°F
+                                        </Typography>
+                                    )}
+
+
+                                    {isCelsius && (
+                                        <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
+                                            {weather.city}  -  {weather.temperature.toFixed(2)}°C
+                                        </Typography>
+                                    )}
                                 </Stack>
-
-                                
-
                             )}
                         </Sheet>
 
