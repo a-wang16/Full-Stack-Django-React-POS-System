@@ -34,7 +34,7 @@ export default function MenuItemCard({ item }) {
         <Typography level="body-md">
             $ {price}
         </Typography>
-        <Sheet color="danger" variant="solid" style={{ zIndex: 100, position: 'absolute', top: 162, left: 105, opacity: '1.0', borderBottomRightRadius:'5px', borderTopLeftRadius:'10px', height: '38px', width: '125px', borderBottom: '#4a4a4a',  borderRight: '#4a4a4a'}}>
+        <Sheet color="danger" variant="solid" style={{ zIndex: 100, position: 'absolute', bottom: 0, right: 0, opacity: '1.0', borderBottomRightRadius:'5px', borderTopLeftRadius:'10px', height: '38px', width: '125px', borderBottom: '#4a4a4a',  borderRight: '#4a4a4a'}}>
                 <Typography level='title-md' style={{ textAlign: 'center', lineHeight: '38px' }}> Out Of Stock</Typography>
             </Sheet>
         </Button>
