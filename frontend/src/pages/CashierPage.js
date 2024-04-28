@@ -13,7 +13,7 @@ function CashierPage() {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { addItem, removeItem, order } = useOrder();
+    const { addItem, removeItem, order, clearOrder } = useOrder();
 
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
@@ -219,10 +219,10 @@ function CashierPage() {
                                 spacing={1}
                                 pb={'40px'}
                             >
-                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='danger'>
+                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='danger' onClick={() => clearOrder()}>
                                     <Typography level="h4">Cancel</Typography>
                                 </Button>
-                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='success'>
+                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='success' onClick={handleConfirmOrder}>
                                     <Typography level="h4">Place Order</Typography>
                                 </Button>
                             </Stack>
