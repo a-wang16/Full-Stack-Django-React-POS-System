@@ -11,7 +11,10 @@ function StoreSettingsPage() {
         localStorage.setItem("celsius", false);
 
     let zipCode = localStorage.getItem("zipCode");
-    let isCelsius = localStorage.getItem("celsius");
+    
+    let isCelsius = false;
+    if(localStorage.getItem("celsius") === "true")
+        isCelsius = true;
 
     const [error, setError] = useState(null);
     const [weather, setWeather] = useState(null);
