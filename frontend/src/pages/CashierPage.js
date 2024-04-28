@@ -3,9 +3,12 @@ import { useOrder } from "../utils/OrderContext";
 import { useNavigate } from "react-router-dom";
 import OutOfStockCashier from "../components/OutOfStockCashier";
 import Card from "@mui/joy/Card"; // Import useNavigate
-import { Box, AspectRatio, IconButton, CircularProgress, Divider, Button, Grid, Sheet, Stack, Typography } from "@mui/joy";
+import { Box, AspectRatio, IconButton, CircularProgress, Divider, Button, Grid, Sheet, Stack, Typography, Modal, ModalClose, ModalDialog, DialogTitle, Input } from "@mui/joy";
 import axiosInstance from '../utils/axiosInstance';
 import CashierItemCard from "../components/CashierItemCard";
+import PhoneNumberInput from "../components/PhoneNumberInput";
+import Checkbox from '@mui/joy/Checkbox';
+import Done from '@mui/icons-material/Done';
 
 function CashierPage() {
     const [menuItems, setMenuItems] = useState({});
@@ -14,12 +17,56 @@ function CashierPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const { addItem, removeItem, order, clearOrder } = useOrder();
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpenConfirm, setModalOpenConfirm] = useState(false);
+    const [name, setName] = useState('');
+    const [receiveTextUpdates, setReceiveTextUpdates] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
 
     const navigate = useNavigate();
 
+    const handleInputChange = (event) => {
+        setName(event.target.value);
+    };
+
+    const handlePhoneInputChange = (event) => {
+        setPhoneNumber(event.target.value);
+    };
+
+    const handleCheckboxChange = (event) => {
+        setReceiveTextUpdates(event.target.checked);
+    };
+
+    const handlePlaceOrder = async () => {
+        // console.log(name);
+        setIsProcessing(true);
+
+        const payload = {
+            name,
+            phone_number: phoneNumber,
+            order_items: order.map(({ id, quantity }) => ({ id, quantity }))
+        };
+
+        // console.log(payload);
+
+        try {
+            const response = await axiosInstance.post('api/create-order/', payload);
+            clearOrder();
+            console.log('Order placed successfully', response.data);
+
+            navigate('/cashier-display');
+            setModalOpen(false);
+        } catch (error) {
+            console.error('Error placing order:', error);
+            alert('Failed to place order. Please try again.');
+        } finally {
+            setIsProcessing(false);
+        }
+    };
 
     useEffect(() => {
         const fetchMenuItems = async () => {
@@ -224,7 +271,7 @@ function CashierPage() {
                                 <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='danger' onClick={() => clearOrder()}>
                                     <Typography level="h4">Cancel</Typography>
                                 </Button>
-                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='success' onClick={handleConfirmOrder}>
+                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='success' onClick={() => setModalOpen(true)}>
                                     <Typography level="h4">Place Order</Typography>
                                 </Button>
                             </Stack>
@@ -236,7 +283,63 @@ function CashierPage() {
 
             </Stack>
 
+
+            <Modal width="20%" open={modalOpen} onClose={() => setModalOpen(false)}>
+                            <ModalDialog
+                                color="primary"
+                                layout="center"
+                                size="lg"
+                                variant="plain"
+                            >
+                                <ModalClose />
+                                <DialogTitle>Name on Order: </DialogTitle>
+
+
+                                <Input
+                                    onChange={handleInputChange}
+                                    placeholder="Enter Name"
+                                    variant="outlined" 
+                                    // sx={{marginBottom:'2%'}}
+                                />
+                                    
+
+                                
+                                {receiveTextUpdates && (
+                                    <PhoneNumberInput 
+                                        onChange={handlePhoneInputChange}
+                                    />
+                                )}
+
+                                <Button onClick={handlePlaceOrder}>Place Order</Button>
+                                <Checkbox
+                                    onChange={handleCheckboxChange}
+                                    checked={receiveTextUpdates}
+                                    size="sm"
+                                    uncheckedIcon={<Done />}
+                                    maxWidth={'100px'}
+                                    label="I would you like to receive updates about your order's status and delivery. Opt-in to receive notifications directly to your phone or email. We'll send you occasional updates depending on your order's progress, and you can opt out at any time."
+                                    slotProps={{
+                                        root: ({ checked, focusVisible }) => ({
+                                            sx: !checked
+                                                ? {
+                                                    '& svg': { opacity: focusVisible ? 1 : 0 },
+                                                    '&:hover svg': {
+                                                        opacity: 1,
+                                                    },
+                                                }
+                                                : undefined,
+                                        }),
+                                    }}
+
+                                />
+                            </ModalDialog>
+                        </Modal>
+
+
+
         </Box>
+
+        
     );
 
 }

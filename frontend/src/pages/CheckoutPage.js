@@ -75,7 +75,7 @@ function CheckoutPage() {
             clearOrder();
             console.log('Order placed successfully', response.data);
 
-            navigate('/order-placed');
+            navigate('/order-entry');
         } catch (error) {
             console.error('Error placing order:', error);
             alert('Failed to place order. Please try again.');
