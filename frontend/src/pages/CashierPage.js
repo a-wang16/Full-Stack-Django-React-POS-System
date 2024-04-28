@@ -142,44 +142,46 @@ function CashierPage() {
                     </Stack>
                     <Divider paddingLeft={'30px'} paddingRight={'30px'} sx={{ width: '100%', margin: 'auto' }} />
 
-                    {order.map((item) => (
-                        <Stack
-                            direction="column"
-                            justifyContent="center"
-                            alignItems="space-between"
-                            spacing={0}
+                    <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                        {order.map((item) => (
+                            <Stack
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="space-between"
+                                spacing={0}
 
 
-                        >
-                            <Button variant="plain" onClick={() => removeItem(item.name)}>
-                                <Stack
-                                    direction="row"
-                                    justifyContent="space-between"
-                                    alignItems="stretch"
-                                    spacing={2}
-                                    width={'100%'}
-                                    paddingLeft={'30px'}
-                                    paddingRight={'30px'}
-                                >
-                                    <Box paddingTop="15px" paddingBottom="15px" width='60%' height='100%'>
-                                        <Typography height='100%' textAlign='left' level="title-lg">{item.name}</Typography>
-                                    </Box>
+                            >
+                                <Button variant="plain" onClick={() => removeItem(item.name)}>
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="space-between"
+                                        alignItems="stretch"
+                                        spacing={2}
+                                        width={'100%'}
+                                        paddingLeft={'30px'}
+                                        paddingRight={'30px'}
+                                    >
+                                        <Box paddingTop="15px" paddingBottom="15px" width='60%' height='100%'>
+                                            <Typography height='100%' textAlign='left' level="title-lg">{item.name}</Typography>
+                                        </Box>
 
-                                    <Box paddingTop="15px" paddingBottom="15px" width='20%'>
-                                        <Typography level="title-lg">{item.quantity}</Typography>
-                                    </Box>
+                                        <Box paddingTop="15px" paddingBottom="15px" width='20%'>
+                                            <Typography level="title-lg">{item.quantity}</Typography>
+                                        </Box>
 
-                                    <Box paddingTop="15px" paddingBottom="15px" width='20%'>
-                                        <Typography level="title-lg">${(item.price * item.quantity).toFixed(2)}</Typography>
-                                    </Box>
-                                </Stack>
-                            </Button>
-                            <Divider sx={{ width: '100%', margin: 'auto' }} />
+                                        <Box paddingTop="15px" paddingBottom="15px" width='20%'>
+                                            <Typography level="title-lg">${(item.price * item.quantity).toFixed(2)}</Typography>
+                                        </Box>
+                                    </Stack>
+                                </Button>
+                                <Divider sx={{ width: '100%', margin: 'auto' }} />
 
 
-                        </Stack>
+                            </Stack>
 
-                    ))}
+                        ))}
+                    </div>
 
                     <Box sx={{ textAlign: 'center', marginTop: '20px' }}>
                         {/* <Button
