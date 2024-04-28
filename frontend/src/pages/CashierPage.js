@@ -67,7 +67,7 @@ function CashierPage() {
 
             setTimeout(() => {
                 setSuccessModalOpen(false); 
-            }, 3000);
+            }, 4000);
 
 
         } catch (error) {

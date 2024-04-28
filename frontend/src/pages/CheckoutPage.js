@@ -7,6 +7,10 @@ import IconButton from "@mui/joy/IconButton";
 import PhoneNumberInput from "../components/PhoneNumberInput";
 import Checkbox from '@mui/joy/Checkbox';
 import Done from '@mui/icons-material/Done';
+import Snackbar from '@mui/joy/Snackbar';
+import MuiAlert from '@mui/joy/Alert';
+
+
 
 function CheckoutPage() {
     const { order, removeItem, addItem, getItemCount, clearOrder } = useOrder();
@@ -18,6 +22,7 @@ function CheckoutPage() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [receiveTextUpdates, setReceiveTextUpdates] = useState(false);
     const [itemToRemove, setItemToRemove] = useState(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
@@ -36,6 +41,7 @@ function CheckoutPage() {
         updatedOrder.forEach(item => addItem(item));
     };
 
+
     const handleRemoveAllItems = (itemName) => {
         setItemToRemove(itemName); 
         setModalOpenConfirm(true); 
@@ -51,6 +57,18 @@ function CheckoutPage() {
         setModalOpenConfirm(false);
     };
     
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
+    
+    const handleSnackbarOpen = () => {
+        setSnackbarOpen(true);
+    };
+
+
     const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
     const taxRate = 0.0825; // 8.25% tax rate
     const tax = subtotalPrice * taxRate;
@@ -72,10 +90,13 @@ function CheckoutPage() {
 
         try {
             const response = await axiosInstance.post('api/create-order/', payload);
-            clearOrder();
             console.log('Order placed successfully', response.data);
+            handleSnackbarOpen();
+            setTimeout(() => {
+                navigate('/order-entry');
+                clearOrder();
+            }, 4000);
 
-            navigate('/order-entry');
         } catch (error) {
             console.error('Error placing order:', error);
             alert('Failed to place order. Please try again.');
@@ -237,7 +258,18 @@ function CheckoutPage() {
                     </Card>
                 </Stack>
             )}
-
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={snackbarOpen}
+                autoHideDuration={3000} 
+                onClose={handleSnackbarClose}
+                color="success"
+                variant="solid"
+                sx={{ textAlign: 'center' }}
+            >
+                Your Order Has Been Placed!
+               
+            </Snackbar>
             
         </Box>
     );
