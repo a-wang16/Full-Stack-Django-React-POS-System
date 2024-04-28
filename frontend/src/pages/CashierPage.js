@@ -23,6 +23,8 @@ function CashierPage() {
     const [receiveTextUpdates, setReceiveTextUpdates] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
+    const [successModalOpen, setSuccessModalOpen] = useState(false);
+
 
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
@@ -60,6 +62,14 @@ function CashierPage() {
 
             navigate('/cashier-display');
             setModalOpen(false);
+
+            setSuccessModalOpen(true); 
+
+            setTimeout(() => {
+                setSuccessModalOpen(false); 
+            }, 3000);
+
+
         } catch (error) {
             console.error('Error placing order:', error);
             alert('Failed to place order. Please try again.');
@@ -95,6 +105,14 @@ function CashierPage() {
         // Navigate to the cashier-checkout page when the button is clicked
         navigate('/cashier-checkout');
     };
+
+    const SuccessModal = () => (
+        <Modal width="20%" open={successModalOpen}>
+            <ModalDialog layout="center" size="lg" variant="plain">
+                <DialogTitle>Order Has Been Placed</DialogTitle>
+            </ModalDialog>
+        </Modal>
+    );
 
     if (isLoading) {
         return (
@@ -283,7 +301,7 @@ function CashierPage() {
 
             </Stack>
 
-
+            <SuccessModal />
             <Modal width="20%" open={modalOpen} onClose={() => setModalOpen(false)}>
                             <ModalDialog
                                 color="primary"

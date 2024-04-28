@@ -3,7 +3,6 @@ import LoginPage from './pages/LoginPage';
 // import LandingPage from "./pages/LandingPage";
 import OrderEntryPage from "./pages/OrderEntryPage";
 import CashierPage from "./pages/CashierPage";
-import CashierConfirmPage from './pages/CashierConfirmPage';
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Button } from "@mui/joy";
 import React, { useState } from "react";
@@ -13,7 +12,6 @@ import RotatingMenuDisplayPage from "./pages/RotatingMenuDisplayPage";
 import MenuDisplayByCategoryPage from "./pages/MenuDisplayByCategoryPage";
 import FullScreenButton from "./components/FullScreenButton";
 import ManagerGraphPage from "./pages/ManagerGraphPage";
-import OrderPlacedPage from "./pages/OrderPlacedPage";
 import KitchenViewPage from "./pages/KitchenViewPage";
 import StoreSettingsPage from "./pages/StoreSettingsPage";
 import LowStockPage from "./pages/LowStockPage";
@@ -52,8 +50,6 @@ function App() {
                     <Route path="/menu-display" element={<RotatingMenuDisplayPage />} />
                     <Route path="/menu-display/:categoryName" element={<MenuDisplayByCategoryPage />} />
                     <Route path="/cashier-display" element={<CashierPage />} />
-                    <Route path="/cashier-checkout" element={<CashierConfirmPage />} />
-                    <Route path="/order-placed" element={<OrderPlacedPage />} />
                     <Route path="/manager-graphs" element={<ManagerGraphPage />} />
                     <Route path="/kitchen-view" element={<KitchenViewPage />} />
                     <Route path="/store-settings" element={<StoreSettingsPage />} />
