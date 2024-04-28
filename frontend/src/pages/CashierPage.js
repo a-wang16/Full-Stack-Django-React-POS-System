@@ -57,6 +57,12 @@ function CashierPage() {
         );
     }
 
+    const subtotalPrice = order.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const taxRate = 0.0825; // 8.25% tax rate
+    const tax = subtotalPrice * taxRate;
+    const totalPrice = subtotalPrice + tax;
+    const numItems = getItemCount();
+
     if (error) return <p>Error: {error.message}</p>;
 
     return (
@@ -84,15 +90,17 @@ function CashierPage() {
                         </Box>
                     </Sheet>
                     <Grid container spacing={4} padding={3} sx={{ flex: 1, overflow: 'auto' }} margin={1}>
-                        {menuItems[selectedCategory]?.map((item) => (
-                           <Grid item key={item.name}>
-                           {item.is_out_of_stock ? (
-                               <OutOfStockCashier item={item} />
-                           ) : (
-                               <CashierItemCard item={item} />
-                           )}
+                        {menuItems[selectedCategory]?.filter(item => !item.is_out_of_stock).map((item) => (
+                            <Grid item key={item.name}>
+                                <CashierItemCard item={item} />
                             </Grid>
                         ))}
+                        {menuItems[selectedCategory]?.filter(item => item.is_out_of_stock).map((item) => (
+                            <Grid item key={item.name}>
+                                <OutOfStockCashier item={item} />
+                            </Grid>
+                        ))}
+
                     </Grid>
                 </Stack>
 
@@ -118,10 +126,10 @@ function CashierPage() {
                         spacing={2}
                         paddingLeft={'30px'}
                         paddingRight={'30px'}
-                        height= {"100px"}
+                        height={"100px"}
                     >
                         <Box width='60%' paddingBottom="15px">
-                            <Typography  paddingLeft={'10px'} textAlign='left' level="title-lg">Item</Typography>
+                            <Typography paddingLeft={'10px'} textAlign='left' level="title-lg">Item</Typography>
                         </Box>
 
                         <Box width='20%' paddingBottom="15px">
@@ -129,7 +137,7 @@ function CashierPage() {
                         </Box>
 
                         <Box width='20%' paddingBottom="15px">
-                            <Typography  level="title-lg">Subtotal</Typography>
+                            <Typography level="title-lg">Subtotal</Typography>
                         </Box>
                     </Stack>
                     <Divider paddingLeft={'30px'} paddingRight={'30px'} sx={{ width: '100%', margin: 'auto' }} />
@@ -140,10 +148,10 @@ function CashierPage() {
                             justifyContent="center"
                             alignItems="space-between"
                             spacing={0}
-                           
-                            
+
+
                         >
-                            <Button variant="plain" onClick={() => removeItem(item.name)}>    
+                            <Button variant="plain" onClick={() => removeItem(item.name)}>
                                 <Stack
                                     direction="row"
                                     justifyContent="space-between"
@@ -154,27 +162,27 @@ function CashierPage() {
                                     paddingRight={'30px'}
                                 >
                                     <Box paddingTop="15px" paddingBottom="15px" width='60%' height='100%'>
-                                        <Typography height='100%'textAlign='left' level="title-lg">{item.name}</Typography>
+                                        <Typography height='100%' textAlign='left' level="title-lg">{item.name}</Typography>
                                     </Box>
 
-                                    <Box paddingTop="15px" paddingBottom="15px"  width='20%'>
+                                    <Box paddingTop="15px" paddingBottom="15px" width='20%'>
                                         <Typography level="title-lg">{item.quantity}</Typography>
                                     </Box>
 
-                                    <Box paddingTop="15px" paddingBottom="15px"  width='20%'>
+                                    <Box paddingTop="15px" paddingBottom="15px" width='20%'>
                                         <Typography level="title-lg">${(item.price * item.quantity).toFixed(2)}</Typography>
                                     </Box>
                                 </Stack>
                             </Button>
                             <Divider sx={{ width: '100%', margin: 'auto' }} />
 
-                           
+
                         </Stack>
-                         
+
                     ))}
 
                     <Box sx={{ textAlign: 'center', marginTop: '20px' }}>
-                        <Button
+                        {/* <Button
                             variant="contained"
                             color="primary"
                             onClick={handleConfirmOrder}
@@ -183,21 +191,49 @@ function CashierPage() {
                                 paddingTop: '30px',
                                 paddingBottom: '30px',
                                 width: '100%',
-                                backgroundColor: '#8f8f8f', 
+                                backgroundColor: '#8f8f8f',
                                 '&:hover': {
-                                    backgroundColor: '#398fe6', 
+                                    backgroundColor: '#398fe6',
                                 },
                             }}
                         >
                             <Typography level='h3'>Confirm Order</Typography>
-                        </Button>
+                        </Button> */}
+                        <Sheet color="primary" variant="plain" style={{ zIndex: 100, position: 'absolute', bottom: 0, right: 0, left: 0, opacity: '1.0' }}>
+                            <Stack
+                                direction="column"
+                                justifyContent="space-around"
+                                alignItems="stretch"
+                                spacing={1}
+                                p={'35px'}
+                            >
+                                <Typography textAlign={'left'} level="title-lg">Subtotal: ${subtotalPrice.toFixed(2)}</Typography>
+                                <Typography textAlign={'left'} level="h4">Tax: ${tax.toFixed(2)}</Typography>
+                                <Typography textAlign={'left'} level="h3" >Total: ${totalPrice.toFixed(2)}</Typography>
+                            </Stack>
+
+                            <Stack
+                                direction="row"
+                                justifyContent="space-evenly"
+                                alignItems="center"
+                                spacing={1}
+                                pb={'40px'}
+                            >
+                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='danger'>
+                                    <Typography level="h4">Cancel</Typography>
+                                </Button>
+                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='success'>
+                                    <Typography level="h4">Place Order</Typography>
+                                </Button>
+                            </Stack>
+                        </Sheet>
                     </Box>
-                
+
                 </Sheet>
-                
+
 
             </Stack>
-           
+
         </Box>
     );
 

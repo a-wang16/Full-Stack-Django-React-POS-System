@@ -24,17 +24,19 @@ export default function MenuItemCard({ item }) {
     };
 
     return (
-        <Button variant='solid' sx={{ width: '15vw', minWidth:'180px', height: "200px", backgroundColor:'#4a4a4a', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', '&:hover': {
-            backgroundColor: '#4a4a4a', 
-        }, }}>
-             
-        <Typography width='100%' level="h4">
-            {name}
-        </Typography>
-        <Typography level="body-md">
-            $ {price}
-        </Typography>
-        <Sheet color="danger" variant="solid" style={{ zIndex: 100, position: 'absolute', top: 162, left: 105, opacity: '1.0', borderBottomRightRadius:'5px', borderTopLeftRadius:'10px', height: '38px', width: '125px', borderBottom: '#4a4a4a',  borderRight: '#4a4a4a'}}>
+        <Button variant='solid' sx={{
+            width: '15vw', minWidth: '180px', height: "200px", backgroundColor: '#4a4a4a', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', '&:hover': {
+                backgroundColor: '#4a4a4a',
+            },
+        }}>
+
+            <Typography width='100%' level="h4">
+                {name}
+            </Typography>
+            <Typography level="body-md">
+                $ {price}
+            </Typography>
+            <Sheet color="danger" variant="solid" style={{ zIndex: 100, position: 'absolute', bottom: 0, right: 0, opacity: '1.0', borderBottomRightRadius: '5px', borderTopLeftRadius: '10px', height: '38px', width: '125px', borderBottom: '#4a4a4a', borderRight: '#4a4a4a' }}>
                 <Typography level='title-md' style={{ textAlign: 'center', lineHeight: '38px' }}> Out Of Stock</Typography>
             </Sheet>
         </Button>
