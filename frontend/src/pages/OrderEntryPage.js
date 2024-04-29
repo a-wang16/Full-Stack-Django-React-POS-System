@@ -40,7 +40,6 @@ function OrderEntryPage() {
                 setCategories(Object.keys(response.data));
                 setSelectedCategory(Object.keys(response.data)[0]);
                 setIsLoading(false);
-                // setTemp(localStorage.getItem("celsius"));
             } catch (err) {
                 setError(err);
                 setIsLoading(false);
@@ -128,7 +127,6 @@ function OrderEntryPage() {
                         <>
                             <Divider sx={{ width: '80%', margin: 'auto' }} />
                             <Typography level='h4' sx={{ paddingTop: '20px', paddingBottom: '10px' }}>Recommended Items To Try Today:</Typography>
-                            {/* Display recommended items */}
                             {recommendedItems.map((item, index) => (
                                 <Box key={index}>
                                     <Typography>{item.name}</Typography>
