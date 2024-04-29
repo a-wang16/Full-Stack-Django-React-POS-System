@@ -9,12 +9,13 @@ import AccordionDetails from '@mui/joy/AccordionDetails';
 import AccordionGroup from '@mui/joy/AccordionGroup';
 import AccordionSummary, { accordionSummaryClasses, } from '@mui/joy/AccordionSummary';
 import GoogleTranslate from './GoogleTranslate';
-
+import { useOrder } from "../utils/OrderContext";
 
 const NavigationDrawer = ({ open, setOpen }) => {
     const { isAuthenticated, logout } = useAuth();
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
+    const { clearOrder } = useOrder();
 
     const handleLogout = async () => {
         try {
@@ -26,6 +27,7 @@ const NavigationDrawer = ({ open, setOpen }) => {
     }
 
     const handleNavigate = (route) => {
+        clearOrder();
         navigate(route);
         setOpen(false);
     };
