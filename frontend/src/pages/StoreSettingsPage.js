@@ -11,9 +11,9 @@ function StoreSettingsPage() {
         localStorage.setItem("celsius", false);
 
     let zipCode = localStorage.getItem("zipCode");
-    
+
     let isCelsius = false;
-    if(localStorage.getItem("celsius") === "true")
+    if (localStorage.getItem("celsius") === "true")
         isCelsius = true;
 
     const [error, setError] = useState(null);
@@ -169,7 +169,9 @@ function StoreSettingsPage() {
                                 System Language
                             </Typography>
                             <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.3px', opacity: "50%" }} />
-                            <GoogleTranslate/>
+                            <Box>
+                                <GoogleTranslate />
+                            </Box>
                         </Stack>
                     </Box> */}
                 </Stack>

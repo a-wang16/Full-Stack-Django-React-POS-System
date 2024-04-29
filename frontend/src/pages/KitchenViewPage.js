@@ -82,7 +82,7 @@ function KitchenViewPage() {
                 <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
             </Grid>
 
-            <Box mt='5%' width="100%" minHeight="70vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
+            <Box mt='5%' pb="4%" width="100%" minHeight="70vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
                 <Grid item width='100%' pt={'4%'} pr={'4%'} pl={'4%'} >
                     <Grid
                         container

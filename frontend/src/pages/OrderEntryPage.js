@@ -28,9 +28,9 @@ function OrderEntryPage() {
         localStorage.setItem("celsius", false);
 
     let isCelsius = false;
-    if(localStorage.getItem("celsius") === "true")
+    if (localStorage.getItem("celsius") === "true")
         isCelsius = true;
-    
+
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
@@ -40,7 +40,6 @@ function OrderEntryPage() {
                 setCategories(Object.keys(response.data));
                 setSelectedCategory(Object.keys(response.data)[0]);
                 setIsLoading(false);
-                // setTemp(localStorage.getItem("celsius"));
             } catch (err) {
                 setError(err);
                 setIsLoading(false);
@@ -109,9 +108,16 @@ function OrderEntryPage() {
                     textAlign: 'center',
                     height: '100vh',
                     position: 'sticky',
+                    // backgroundColor:'white',
                     top: 0
                 }}
                 >
+                    <Stack
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="stretch"
+                        spacing={0}
+                    >
 
                     <Typography level='h2' sx={{ width: '100%', paddingTop: '20px', paddingBottom: '20px' }}>Welcome to Rev's</Typography>
                     {categories.map((category) => (
@@ -124,18 +130,21 @@ function OrderEntryPage() {
 
                     ))}
 
-                    {recommendedItems.length > 0 && (
-                        <>
-                            <Divider sx={{ width: '80%', margin: 'auto' }} />
-                            <Typography level='h4' sx={{ paddingTop: '20px', paddingBottom: '10px' }}>Recommended Items To Try Today:</Typography>
-                            {/* Display recommended items */}
-                            {recommendedItems.map((item, index) => (
-                                <Box key={index}>
-                                    <Typography>{item.name}</Typography>
-                                </Box>
-                            ))}
-                        </>
-                    )}
+
+                    <Sheet variant="soft" color='primary' sx={{borderRadius:'10px', padding:'10px', marginTop:'10%', marginRight:'8%', marginLeft:'8%'}}>
+                        {recommendedItems.length > 0 && (
+                            <Box>
+                                <Typography level='title-lg' sx={{ paddingBottom: '10px' }}>Recommended Items To Try Today:</Typography>
+                                {recommendedItems.map((item, index) => (
+                                    <Box key={index}>
+                                        <Typography textAlign={'center'} level='title-md'>{item.name}</Typography>
+                                    </Box>
+                                ))}
+                            </Box>
+                        )}
+                    </Sheet>
+                    </Stack>
+
                 </Sheet>
 
 
