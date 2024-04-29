@@ -216,7 +216,7 @@ function CashierPage() {
                     <Divider paddingLeft={'30px'} paddingRight={'30px'} sx={{ width: '100%', margin: 'auto' }} />
 
 
-                    <div style={{maxHeight: '300px', overflowY: 'auto' }}>
+                    <div style={{maxHeight: '58%', overflowY: 'auto' }}>
                         {order.map((item) => (
                             <Stack
                                 direction="column"
