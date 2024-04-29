@@ -157,7 +157,7 @@ function StoreSettingsPage() {
                         </Stack>
                     )}
 
-                    <Box>
+                    {/* <Box>
                         <Stack
                             direction="column"
                             justifyContent="center"
@@ -173,7 +173,7 @@ function StoreSettingsPage() {
                                 <GoogleTranslate />
                             </Box>
                         </Stack>
-                    </Box>
+                    </Box> */}
                 </Stack>
             </Box>
         </Stack>
