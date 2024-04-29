@@ -249,7 +249,7 @@ function CheckoutPage() {
                                 <Typography>Are you sure you want to remove all quantities of this menu item?</Typography>
                                 <Stack direction="row" spacing={2} justifyContent="center" marginTop={2}>
                                     <Button variant="outlined" onClick={handleCloseModal}>Cancel</Button>
-                                    <Button variant="contained" color="primary" onClick={handleConfirmRemoveAllItems}>Remove All</Button>
+                                    <Button variant="solid" color="primary" onClick={handleConfirmRemoveAllItems}>Remove All</Button>
                                 </Stack>
                             </ModalDialog>
                         </Modal>
