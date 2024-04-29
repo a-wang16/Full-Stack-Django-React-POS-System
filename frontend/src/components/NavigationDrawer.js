@@ -248,8 +248,6 @@ const NavigationDrawer = ({ open, setOpen }) => {
                 </Box>
 
 
-                <GoogleTranslate />
-
                 {isAuthenticated && (
                     <Box position="relative">
                         <Button
