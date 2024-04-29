@@ -157,7 +157,7 @@ function StoreSettingsPage() {
                         </Stack>
                     )}
 
-                    <Box>
+                    {/* <Box>
                         <Stack
                             direction="column"
                             justifyContent="center"
@@ -171,7 +171,7 @@ function StoreSettingsPage() {
                             <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.3px', opacity: "50%" }} />
                             <GoogleTranslate/>
                         </Stack>
-                    </Box>
+                    </Box> */}
                 </Stack>
             </Box>
         </Stack>

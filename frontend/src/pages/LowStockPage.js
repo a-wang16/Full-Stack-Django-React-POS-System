@@ -71,14 +71,16 @@ function LowStockPage() {
                     <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
                 </Grid>
                
-                <Box mt='5%' width="100%" minHeight="15vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
-                    <Grid item width='100%' pt={'2.5%'} pr={'4%'} pl={'4%'} >
+                <Box mt='5%' width="100%" minHeight="10vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
+                    <Grid item width='100%' padding={'2%'} >
                         <Grid
                             container
+                            justifyContent="center"
                             direction="row"
+                            alignItems="stretch"
                             width={'100%'}
                         >
-                            <Grid item width={'20%'}>
+                            <Grid item width={'33%'}>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -94,7 +96,7 @@ function LowStockPage() {
                                     Sort Inventory
                                 </Button>
                             </Grid>
-                            <Grid item width={'20%'}>
+                            <Grid item width={'35%'}>
                                 <Button 
                                     variant="contained" 
                                     color="primary" 
@@ -110,7 +112,7 @@ function LowStockPage() {
                                     {showOnlyLowQuantities ? "Show All Quantities" : "Show Low Quantities"}
                                 </Button>
                             </Grid>
-                            <Grid item width={'20%'}>
+                            <Grid item width={'10%'}>
                                 <Button  
                                     variant="contained" 
                                     color="primary" 
@@ -130,8 +132,8 @@ function LowStockPage() {
                     </Grid>
                 </Box>
 
-                <Box mt='5%' width="100%" minHeight="70vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
-                    <Grid item width='100%' pt={'4%'} pr={'4%'} pl={'4%'} >
+                <Box mt='5%' width="100%" height="100%" minHeight="70vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }} marginBottom={"15px"}>
+                    <Grid item width='100%' pt={'4%'} pr={'4%'} pl={'4%'}>
                         <Grid
                             container
                             direction="row"
@@ -142,7 +144,7 @@ function LowStockPage() {
                                     Name
                                 </Typography>
                             </Grid>
-                            <Grid item width={'20%'}>
+                            <Grid item width={'50%'}>
                                 <Typography textAlign={'center'} level="h4" sx={{paddingLeft: '90px', color: 'white', fontWeight: 'bold' }}>
                                     Quantity
                                 </Typography>
@@ -164,12 +166,12 @@ function LowStockPage() {
                                         {item.name}
                                     </Typography>
                                 </Grid>
-                                <Grid item width={'10%'}>
+                                <Grid item width={'37%'}>
                                     <Typography textAlign={'center'} sx={{paddingLeft: '10px', color: 'white' }}>
                                         <span style={{ color: getQuantityColor(item.quantity) }}>{item.quantity}</span>
                                     </Typography>
                                 </Grid>
-                                <Grid item width={'20%'}>
+                                <Grid item width={'22%'}>
                                     <Typography textAlign={'center'} sx={{paddingLeft: '90px', color: 'white' }}>
                                         <span>{item.unit}</span>
                                     </Typography>
