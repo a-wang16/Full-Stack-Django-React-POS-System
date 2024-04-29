@@ -1,18 +1,18 @@
-import { Box, Divider, Button, Grid, Typography } from "@mui/joy";
+import { Box, Divider, Button, Grid, Stack, Typography } from "@mui/joy";
 import { useState, useEffect } from 'react';
 import axiosInstance from "../utils/axiosInstance";
 
 function LowStockPage() {
-    
+
     const [inventory, setInventory] = useState([]);
     const [sortOrder, setSortOrder] = useState('ascending');
-    const [showOnlyLowQuantities, setShowOnlyLowQuantities] = useState(false);
+    const [showOnlyLowQuantities, setShowOnlyLowQuantities] = useState(true);
 
     useEffect(() => {
         const fetchInventory = async () => {
             try {
                 const response = await axiosInstance.get('/api/manager-view/inventory/');
-                setInventory(response.data); 
+                setInventory(response.data);
             } catch (error) {
                 console.error('Error fetching inventory:', error);
             }
@@ -20,7 +20,7 @@ function LowStockPage() {
 
         fetchInventory();
     }, []);
-    
+
     const getQuantityColor = (quantity) => {
         if (quantity >= 0 && quantity <= 50) {
             return 'red';
@@ -31,10 +31,10 @@ function LowStockPage() {
         } else if (quantity > 1000) {
             return 'blue';
         } else {
-            return 'inherit'; 
+            return 'inherit';
         }
     };
-    
+
     const handleSortByQuantity = () => {
         const sortedInventory = [...inventory];
         sortedInventory.sort((a, b) => {
@@ -67,116 +67,120 @@ function LowStockPage() {
                         <Typography textAlign={'center'} variant="h1" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'white' }}>Low Stock Report</Typography>
                     </Box>
                 </Grid>
-                <Grid item width="100%" pt={'3%'}>
+                <Grid item width="80%" pt={'3%'}>
                     <Divider color="primary" sx={{ width: '100%', border: 'white solid 0.1px' }} />
                 </Grid>
-               
-                <Box mt='5%' width="100%" minHeight="15vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
-                    <Grid item width='100%' pt={'2.5%'} pr={'4%'} pl={'4%'} >
-                        <Grid
-                            container
+
+                <Box mt='5%' width="100%" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
+                    <Grid item width='100%' pt={'2.5%'} pb={'2.5%'} pr={'4%'} pl={'4%'} >
+                        <Stack
                             direction="row"
-                            width={'100%'}
+                            justifyContent="space-evenly"
+                            alignItems="center"
+                            spacing={2}
                         >
-                            <Grid item width={'20%'}>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    sx={{
-                                        paddingBottom: '0px',
-                                        backgroundColor: '#8f8f8f',
-                                        '&:hover': {
-                                            backgroundColor: '#398fe6',
-                                        }
-                                    }}
-                                    onClick={handleSortByQuantity}
-                                >
-                                    Sort Inventory
-                                </Button>
-                            </Grid>
-                            <Grid item width={'20%'}>
-                                <Button 
-                                    variant="contained" 
-                                    color="primary" 
-                                    sx={{ 
-                                        paddingBottom: '0px', 
-                                        backgroundColor: '#8f8f8f',
-                                        '&:hover': {
-                                            backgroundColor: '#398fe6',
-                                        }
-                                    }}
-                                    onClick={handleShowOnlyLowQuantities}
-                                >
-                                    {showOnlyLowQuantities ? "Show All Quantities" : "Show Low Quantities"}
-                                </Button>
-                            </Grid>
-                            <Grid item width={'20%'}>
-                                <Button  
-                                    variant="contained" 
-                                    color="primary" 
-                                    sx={{ 
-                                        paddingBottom: '0px', 
-                                        backgroundColor: '#8f8f8f',
-                                        '&:hover': {
-                                            backgroundColor: '#398fe6',
-                                        }
-                                    }}
-                                    onClick={() => window.open('https://project-3-full-stack-agile-web-project-3-095k.onrender.com/admin/pos_system/inventory/', '_blank')}
-                                >
-                                    Add Inventory
-                                </Button>
-                            </Grid>
-                        </Grid>
+
+                            <Box>
+                                <Typography level='title-lg'>
+                                    Filters:
+                                </Typography>
+                            </Box>
+                            <Button
+                                variant="solid"
+                                color="primary"
+                                sx={{
+                                    '&:hover': {
+                                        backgroundColor: '#398fe6',
+                                    }
+                                }}
+                                onClick={handleShowOnlyLowQuantities}
+                            >
+                                {showOnlyLowQuantities ? "Show All Quantities" : "Show Low Quantities"}
+                            </Button>
+                            <Button
+                                variant="solid"
+                                color="primary"
+                                sx={{
+                                    '&:hover': {
+                                        backgroundColor: '#398fe6',
+                                    }
+                                }}
+                                onClick={handleSortByQuantity}
+                            >
+                                {sortOrder === 'ascending' ? "Sort Ascending" : "Sort Decending"}
+                            </Button>
+
+                            <Button
+                                variant="solid"
+                                color="primary"
+                                sx={{
+                                    '&:hover': {
+                                        backgroundColor: '#398fe6',
+                                    }
+                                }}
+                                onClick={() => window.open('https://project-3-full-stack-agile-web-project-3-095k.onrender.com/admin/pos_system/inventory/', '_blank')}
+                            >
+                                Update Inventory
+                            </Button>
+                        </Stack>
                     </Grid>
                 </Box>
-
-                <Box mt='5%' width="100%" minHeight="70vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
-                    <Grid item width='100%' pt={'4%'} pr={'4%'} pl={'4%'} >
-                        <Grid
-                            container
+                <Box mt='2%' pb="5%" width="100%" minHeight="70vh" sx={{ backgroundColor: '#0b0d0e', borderRadius: '20px' }}>
+                    <Grid item width='100%' p={'4%'} >
+                        <Stack
                             direction="row"
-                            width={'100%'}
+                            justifyContent="space-evenly"
+                            alignItems="center"
+                            spacing={2}
+                            pr={'4%'} pl={'4%'}
                         >
-                            <Grid item width={'20%'}>
-                                <Typography textAlign={'center'} level="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
-                                    Name
-                                </Typography>
-                            </Grid>
-                            <Grid item width={'20%'}>
-                                <Typography textAlign={'center'} level="h4" sx={{paddingLeft: '90px', color: 'white', fontWeight: 'bold' }}>
-                                    Quantity
-                                </Typography>
-                            </Grid >
-                            <Grid item width={'20%'}>
-                                <Typography textAlign={'center'} level="h4" sx={{paddingLeft: '90px', color: 'white', fontWeight: 'bold' }}>
-                                    Unit
-                                </Typography>
-                            </Grid >
-                            <Divider  color="primary" sx={{ width: '100%', border: 'white solid 0.1px', marginTop: '3%', marginBottom: '1%', opacity:'0.3'}} />
-                        </Grid>
+                            <Typography width={'33%'} textAlign={'left'} level="h3">
+                                Name
+                            </Typography>
+                            <Typography width={'33%'} textAlign={'center'} level="h3">
+                                Quantity
+                            </Typography>
+                            <Typography width={'33%'} textAlign={'center'} level="h3" >
+                                Unit
+                            </Typography>
+                        </Stack>
                     </Grid>
-                    
-                    {inventory.map(item => (
-                        (showOnlyLowQuantities && getQuantityColor(item.quantity) === 'red') || !showOnlyLowQuantities ? (
-                            <Grid container item key={item.id}>
-                                <Grid item width={'30%'}>
-                                    <Typography textAlign={'left'} sx={{paddingLeft: '100px', color: 'white' }}>
+
+                    <Divider color="primary" sx={{ width: '90%', border: 'white solid 0.1px',margin:'auto', opacity: '0.3' }} />
+
+
+                    <Stack
+                        direction="column"
+                        justifyContent="space-evenly"
+                        alignItems="stretch"
+                        spacing={2}
+                        pt={'4%'} pr={'4%'} pl={'4%'}
+                    >
+                        {inventory.map(item => (
+                            (showOnlyLowQuantities && getQuantityColor(item.quantity) === 'red') || !showOnlyLowQuantities ? (
+                                <Stack
+                                    direction="row"
+                                    justifyContent="space-evenly"
+                                    alignItems="center"
+                                    spacing={2}
+                                    pr={'4%'} pl={'4%'} pb={'1%'}
+                                >
+                                    <Typography width={'33%'} level="title-lg" textAlign={'left'}>
                                         {item.name}
                                     </Typography>
-                                </Grid>
-                                <Grid item width={'10%'}>
-                                    <Typography textAlign={'center'} sx={{paddingLeft: '10px', color: 'white' }}>
+
+                                    <Typography width={'33%'} level="title-lg" textAlign={'center'}>
                                         <span style={{ color: getQuantityColor(item.quantity) }}>{item.quantity}</span>
                                     </Typography>
-                                </Grid>
-                                <Grid item width={'20%'}>
-                                    <Typography textAlign={'center'} sx={{paddingLeft: '90px', color: 'white' }}>
+
+                                    <Typography width={'33%'} level="title-lg" textAlign={'center'} >
                                         <span>{item.unit}</span>
                                     </Typography>
-                                </Grid>
-                            </Grid>
-                        ) : null
-                    ))}
+
+                                </Stack>
+                            ) : null
+                        ))}
+                    </Stack>
                 </Box>
             </Grid>
         </div>

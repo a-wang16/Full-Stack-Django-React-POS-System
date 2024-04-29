@@ -63,10 +63,10 @@ function CashierPage() {
             navigate('/cashier-display');
             setModalOpen(false);
 
-            setSuccessModalOpen(true); 
+            setSuccessModalOpen(true);
 
             setTimeout(() => {
-                setSuccessModalOpen(false); 
+                setSuccessModalOpen(false);
             }, 4000);
 
 
@@ -108,8 +108,16 @@ function CashierPage() {
 
     const SuccessModal = () => (
         <Modal width="20%" open={successModalOpen}>
-            <ModalDialog layout="center" size="lg" variant="plain">
-                <DialogTitle>Order Has Been Placed</DialogTitle>
+            <ModalDialog color="primary" layout="center" size="lg" variant="solid">
+                <Stack
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <ion-icon aria-label="Confirm Account" name="checkmark-outline" size="small"></ion-icon>
+                    <DialogTitle>Order Has Been Placed</DialogTitle>
+                </Stack>
             </ModalDialog>
         </Modal>
     );
@@ -207,7 +215,7 @@ function CashierPage() {
                     </Stack>
                     <Divider paddingLeft={'30px'} paddingRight={'30px'} sx={{ width: '100%', margin: 'auto' }} />
 
-                    <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                    <div style={{ overflowY: 'auto' }}>
                         {order.map((item) => (
                             <Stack
                                 direction="column"
@@ -286,10 +294,10 @@ function CashierPage() {
                                 spacing={1}
                                 pb={'40px'}
                             >
-                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='danger' onClick={() => clearOrder()}>
+                                <Button sx={{ paddingLeft: '10%', paddingRight: '10%', paddingTop: '2%', paddingBottom: '2%' }} color='danger' onClick={() => clearOrder()}>
                                     <Typography level="h4">Cancel</Typography>
                                 </Button>
-                                <Button sx={{paddingLeft:'10%', paddingRight:'10%', paddingTop:'2%', paddingBottom:'2%'}} color='success' onClick={() => setModalOpen(true)}>
+                                <Button sx={{ paddingLeft: '10%', paddingRight: '10%', paddingTop: '2%', paddingBottom: '2%' }} color='success' onClick={() => setModalOpen(true)}>
                                     <Typography level="h4">Place Order</Typography>
                                 </Button>
                             </Stack>
@@ -303,61 +311,58 @@ function CashierPage() {
 
             <SuccessModal />
             <Modal width="20%" open={modalOpen} onClose={() => setModalOpen(false)}>
-                            <ModalDialog
-                                color="primary"
-                                layout="center"
-                                size="lg"
-                                variant="plain"
-                            >
-                                <ModalClose />
-                                <DialogTitle>Name on Order: </DialogTitle>
+                <ModalDialog
+                    color="primary"
+                    layout="center"
+                    size="lg"
+                    variant="plain"
+                >
+                    <ModalClose />
+                    <DialogTitle>Name on Order: </DialogTitle>
 
 
-                                <Input
-                                    onChange={handleInputChange}
-                                    placeholder="Enter Name"
-                                    variant="outlined" 
-                                    // sx={{marginBottom:'2%'}}
-                                />
-                                    
-
-                                
-                                {receiveTextUpdates && (
-                                    <PhoneNumberInput 
-                                        onChange={handlePhoneInputChange}
-                                    />
-                                )}
-
-                                <Button onClick={handlePlaceOrder}>Place Order</Button>
-                                <Checkbox
-                                    onChange={handleCheckboxChange}
-                                    checked={receiveTextUpdates}
-                                    size="sm"
-                                    uncheckedIcon={<Done />}
-                                    maxWidth={'100px'}
-                                    label="I would you like to receive updates about your order's status and delivery. Opt-in to receive notifications directly to your phone or email. We'll send you occasional updates depending on your order's progress, and you can opt out at any time."
-                                    slotProps={{
-                                        root: ({ checked, focusVisible }) => ({
-                                            sx: !checked
-                                                ? {
-                                                    '& svg': { opacity: focusVisible ? 1 : 0 },
-                                                    '&:hover svg': {
-                                                        opacity: 1,
-                                                    },
-                                                }
-                                                : undefined,
-                                        }),
-                                    }}
-
-                                />
-                            </ModalDialog>
-                        </Modal>
+                    <Input
+                        onChange={handleInputChange}
+                        placeholder="Enter Name"
+                        variant="outlined"
+                    // sx={{marginBottom:'2%'}}
+                    />
 
 
 
+                    {receiveTextUpdates && (
+                        <PhoneNumberInput
+                            onChange={handlePhoneInputChange}
+                        />
+                    )}
+
+                    <Button onClick={handlePlaceOrder}>Place Order</Button>
+                    <Checkbox
+                        onChange={handleCheckboxChange}
+                        checked={receiveTextUpdates}
+                        size="sm"
+                        uncheckedIcon={<Done />}
+                        maxWidth={'100px'}
+                        label="I would you like to receive updates about your order's status and delivery. Opt-in to receive notifications directly to your phone or email. We'll send you occasional updates depending on your order's progress, and you can opt out at any time."
+                        slotProps={{
+                            root: ({ checked, focusVisible }) => ({
+                                sx: !checked
+                                    ? {
+                                        '& svg': { opacity: focusVisible ? 1 : 0 },
+                                        '&:hover svg': {
+                                            opacity: 1,
+                                        },
+                                    }
+                                    : undefined,
+                            }),
+                        }}
+
+                    />
+                </ModalDialog>
+            </Modal>
         </Box>
 
-        
+
     );
 
 }

@@ -48,7 +48,7 @@ export default function MenuItemCard({ item }) {
                     }}
                     onClick={(event) => {
                         setOpen(true);
-                        handleAddToOrder(event); // Call handleAddToOrder function with event parameter
+                        handleAddToOrder(event); 
                     }}
                 >
                     <ion-icon name="add-outline" style={{ fontSize: '24px' }}></ion-icon>
