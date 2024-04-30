@@ -386,6 +386,7 @@ def google_token_exchange(request):
         return Response({"error": "Token does not contain an email address"}, status=400)
 
     User = get_user_model()
+
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
