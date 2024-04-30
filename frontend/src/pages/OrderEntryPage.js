@@ -62,13 +62,14 @@ function OrderEntryPage() {
         const determineRecommendedItems = (weatherData) => {
             const temperature = weatherData.temperature;
 
-            if (temperature >= 24) {
+            if (temperature > 24) {
                 return [{ name: "Fountain Drink" }, { name: "Aggie Shake" }, { name: "Cookie Dough Shake" }];
-            } else if (temperature >= 16 && temperature <= 23) {
+            } else if (temperature >= 16 && temperature <= 24) {
                 return [{ name: "Caesar Chicken Salad" }, { name: "Onion Rings" }, { name: "Classic Burger" }];
-            } else if (temperature <= 15) {
+            } else if (temperature < 16) {
                 return [{ name: "Howdy Spicy Chicken Sandwich" }, { name: "Grilled Hot Dog" }, { name: "Grilled Cheese Dog" }];
-            } else {
+            } 
+            else {
                 return [];
             }
         };
