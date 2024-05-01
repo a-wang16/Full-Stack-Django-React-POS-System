@@ -30,7 +30,7 @@ const LoginPage = () => {
                 console.log('Login response:', response.data);
 
                 if (response.data.token) {
-                    login(response.data.token, values.username);
+                    login(response.data.token, response.data.username, response.data.position);
                     navigate('/order-entry');
                 } else {
                     setLoginError('Login failed: ' + response.data.error);

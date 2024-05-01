@@ -94,6 +94,7 @@ def login_employee(request):
     if user is not None:
         login(request, user)
         token, created = Token.objects.get_or_create(user=user)
+
         return Response({"token": token.key,
                          "position": user.position,
                          "username": user.username,
