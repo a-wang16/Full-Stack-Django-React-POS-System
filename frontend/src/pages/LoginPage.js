@@ -58,7 +58,7 @@ const handleGoogleSuccess = async (credentialResponse) => {
 
         if (response.data.token) {
             console.log("Login successful, received token:", response.data.token);
-            login(response.data.token);
+            login(response.data.token, response.data.username, response.data.position);
             navigate('/order-entry');
         } else {
             console.error("No token received in the response from the server.");

@@ -12,10 +12,11 @@ import GoogleTranslate from './GoogleTranslate';
 import { useOrder } from "../utils/OrderContext";
 
 const NavigationDrawer = ({ open, setOpen }) => {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout, position } = useAuth();
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
     const { clearOrder } = useOrder();
+const { user,  } = useAuth();
 
     const handleLogout = async () => {
         try {
@@ -33,6 +34,8 @@ const NavigationDrawer = ({ open, setOpen }) => {
     };
 
     useEffect(() => {
+        console.log("Current user's position:", position);
+
         const fetchMenuItems = async () => {
             try {
                 // Assuming you have an API endpoint for fetching menu items
