@@ -94,7 +94,10 @@ def login_employee(request):
     if user is not None:
         login(request, user)
         token, created = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key, "success": "Logged in successfully"})
+        return Response({"token": token.key,
+                         "position": user.position,
+                         "username": user.username,
+                         "success": "Logged in successfully"})
     else:
         return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -397,5 +400,7 @@ def google_token_exchange(request):
     return Response({
         "token": token.key,
         "user_id": user.id,
+        "username": user.username,
+        "position": user.position,
         "email": email
     })
