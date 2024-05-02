@@ -6,6 +6,9 @@ const INCREMENT_ITEM = 'INCREMENT_ITEM';
 const DECREMENT_ITEM = 'DECREMENT_ITEM';
 const CLEAR_ORDER = 'CLEAR_ORDER';
 
+/**
+ * Takes the current order state and a new item to add to the order.
+ */
 const addItemToOrder = (state, newItem) => {
     const existingItemIndex = state.findIndex((item) => item.name === newItem.name);
 
@@ -24,6 +27,9 @@ const addItemToOrder = (state, newItem) => {
     }
 };
 
+/**
+ * Takes the current order state and an item name to remove from the order.
+ */
 const removeItemFromOrder = (state, itemName) => {
     const existingItemIndex = state.findIndex(item => item.name === itemName);
 
@@ -45,6 +51,10 @@ const removeItemFromOrder = (state, itemName) => {
     }
 };
 
+
+/**
+ * Takes the current order state and an action to determine how to update the order.
+ */
 function orderReducer(state, action) {
     switch (action.type) {
         case ADD_ITEM:
@@ -58,8 +68,15 @@ function orderReducer(state, action) {
     }
 }
 
+/**
+ * Context and provider for managing the order state from anywhere in the application.
+ */
 const OrderContext = createContext();
 
+
+/**
+ * Provider for the OrderContext. Manages the order state and provides functions for adding, removing, and clearing the order.
+ */
 const OrderProvider = ({ children }) => {
     const [order, dispatch] = useReducer(orderReducer, []);
 
