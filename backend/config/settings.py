@@ -60,6 +60,8 @@ INSTALLED_APPS = [
 
     # our Django apps
     'pos_system',
+
+    'drf_yasg',
 ]
 
 SITE_ID = 1
