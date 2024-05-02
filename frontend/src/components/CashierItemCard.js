@@ -7,9 +7,7 @@ import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/joy/IconButton';
 import { useOrder } from "../utils/OrderContext";
 
-/**
- * Displays the buttons for each menu item in the Cashier View
- */
+
 export default function CashierItemCard({ item }) {
     const { id, name, price, category, description } = item;
     const { addItem, removeItem, order } = useOrder();
