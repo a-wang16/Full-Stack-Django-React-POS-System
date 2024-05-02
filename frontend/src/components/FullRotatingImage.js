@@ -4,6 +4,11 @@ import Box from '@mui/joy/Box';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 
+/**
+ * Displays a rotating image board every five seconds of the inputted menu list.
+ * @param {menuList} param0 
+ * @returns 
+ */
 function FullRotatingImage({ menuList }) {
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
