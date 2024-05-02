@@ -39,7 +39,6 @@ function App() {
             <NavigationDrawer open={open} setOpen={setOpen} />
             <FullScreenButton />
 
-
             <Routes>
                 <Route path="/" element={<LoginPage />} />
 
