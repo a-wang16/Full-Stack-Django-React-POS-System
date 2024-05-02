@@ -7,6 +7,12 @@ import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 
+
+/**
+ * LoginPage is a page that allows the user to log in. It uses the AuthContext functions to log in the user.
+ * It also uses the useFormik hook to handle form validation and submission. Additionally, it uses the GoogleLogin component
+ * to allow the user to log in with their Google acccount.
+ */
 const LoginPage = () => {
     const { login } = useAuth();
     const navigate = useNavigate();

@@ -4,7 +4,9 @@ import axiosInstance from '../utils/axiosInstance';
 import { Stack } from "@mui/joy";
 import GoogleTranslate from "../components/GoogleTranslate";
 
-
+/**
+ * StoreSettingsPage is a page that allows the user to change the store settings such as the zip code and the system language.
+ */
 function StoreSettingsPage() {
 
     if (localStorage.getItem("celsius") === null)
