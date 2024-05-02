@@ -3,6 +3,15 @@ import React, { useState, useEffect } from 'react';
 // import Box from '@mui/joy/Box';
 import {Box, AspectRatio, Sheet, Typography} from '@mui/joy/';
 
+/**
+ * RotatingImage is a component that displays a rotating image carousel with information about each image.
+ * It takes a list of categories as input and rotates through them at a specified interval.
+ * @param {Object[]} categoryList - An array of category objects containing information about each category.
+ * @param {string} categoryList[].name - The name of the category.
+ * @param {string} categoryList[].photo_url - The URL of the category's photo.
+ * @param {number} categoryList[].price - The price of the category.
+ * @returns {JSX.Element} The rotating image carousel.
+ */
 function RotatingImage({ categoryList }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     console.log(categoryList);
@@ -16,13 +25,6 @@ function RotatingImage({ categoryList }) {
     }, [categoryList]);
 
     return (
-        // <AspectRatio objectFit="cover" flex= {true} sx ={{height: '90vh'}}>
-        //     <img
-        //         src={categoryList[currentIndex].image}
-        //         alt="Menu Item"
-        //         style={{ borderRadius: '5px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}} 
-        //     />
-        // </AspectRatio>
 
         <Box style={{ position: 'relative' }}>
             <AspectRatio objectFit="cover" flex={true} sx={{ height: '90vh' }} >

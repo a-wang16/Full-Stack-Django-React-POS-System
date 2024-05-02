@@ -7,6 +7,10 @@ import { useOrder } from "../utils/OrderContext";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/joy/CircularProgress";
 
+
+/**
+ * OrderEntryPage is a page that displays the menu items and allows the user to add items to the cart.
+ */
 function OrderEntryPage() {
     const [menuItems, setMenuItems] = useState({});
     const [categories, setCategories] = useState([]);

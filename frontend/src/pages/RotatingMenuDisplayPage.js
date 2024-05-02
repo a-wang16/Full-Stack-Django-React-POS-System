@@ -5,6 +5,10 @@ import FullRotatingImage from "../components/FullRotatingImage";
 import FullRotatingMenu from "../components/FullRotatingMenu";
 import CircularProgress from "@mui/joy/CircularProgress";
 
+
+/**
+ * RotatingMenuDisplayPage is a page that displays a rotating menu and images.
+ */
 function RotatingMenuDisplayPage() {
     const [menuItem, setMenuItem] = useState(null);
     const [imageList, setImageList] = useState(null);

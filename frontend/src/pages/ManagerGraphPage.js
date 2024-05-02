@@ -8,6 +8,11 @@ import CircularProgress from "@mui/joy/CircularProgress";
 import { Line, LineChart, Tooltip, XAxis, YAxis, ResponsiveContainer, BarChart, Bar, Legend, Label } from "recharts";
 import moment from "moment";
 
+
+/**
+ * ManagerGraphPage is a page that displays the manager's view of the restaurant's and offers a variety of graphs.
+ * for visualizing the data.
+ */
 function ManagerGraphPage() {
     const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(true);

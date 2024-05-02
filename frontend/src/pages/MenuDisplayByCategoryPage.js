@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axiosInstance from '../utils/axiosInstance'; // Ensure this is correctly imported
+import axiosInstance from '../utils/axiosInstance';
 import { Box, Grid, Typography } from "@mui/joy";
 import MenuDisplayCard from "../components/MenuDisplayCard";
 import RotatingImage from "../components/RotatingImage";
 import CircularProgress from "@mui/joy/CircularProgress";
 
+
+/**
+ * MenuDisplayByCategoryPage is a page that displays the menu items by category.
+ */
 function MenuDisplayByCategoryPage() {
     const [menuItems, setMenuItems] = useState([]);
     const [imageList, setImageList] = useState([]);

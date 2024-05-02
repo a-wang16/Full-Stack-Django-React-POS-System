@@ -6,6 +6,13 @@ import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
 import Snackbar from '@mui/joy/Snackbar';
 
+
+/**
+ * SnackbarHideDuration is a component that demonstrates a snackbar with auto-hide functionality.
+ * It allows users to set the auto-hide duration in milliseconds and displays a snackbar that disappears after the specified duration.
+ * Users can also pause and resume the auto-hide countdown by hovering over the snackbar.
+ * @returns {JSX.Element} The snackbar with auto-hide duration functionality.
+ */
 export default function SnackbarHideDuration() {
     const [open, setOpen] = React.useState(false);
     const [duration, setDuration] = React.useState();

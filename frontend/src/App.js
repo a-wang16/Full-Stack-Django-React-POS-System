@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-// import LandingPage from "./pages/LandingPage";
 import OrderEntryPage from "./pages/OrderEntryPage";
 import CashierPage from "./pages/CashierPage";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -40,7 +39,6 @@ function App() {
             <NavigationDrawer open={open} setOpen={setOpen} />
             <FullScreenButton />
 
-
             <Routes>
                 <Route path="/" element={<LoginPage />} />
 
@@ -54,7 +52,6 @@ function App() {
                     <Route path="/kitchen-view" element={<KitchenViewPage />} />
                     <Route path="/store-settings" element={<StoreSettingsPage />} />
                     <Route path="/low-stock" element={<LowStockPage />} />
-
                 </Route>
             </Routes>
         </Router>

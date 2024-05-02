@@ -2,6 +2,10 @@ import { Box, Divider, Button, Grid, Stack, Typography } from "@mui/joy";
 import { useState, useEffect } from 'react';
 import axiosInstance from "../utils/axiosInstance";
 
+
+/**
+ * LowStockPage is a page that displays the inventory items with low stock
+ */
 function LowStockPage() {
 
     const [inventory, setInventory] = useState([]);
