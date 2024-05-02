@@ -12,6 +12,9 @@ import Link from '@mui/joy/Link';
 import { useOrder } from "../utils/OrderContext";
 import { Button, colors } from "@mui/joy";
 
+/**
+ * Displays and renders the menu item card for the cashier page in the case where it is out of stock by adding a out of stock label and making the card darker colored.
+ */
 export default function MenuItemCard({ item }) {
     const { id, name, price, calories, is_out_of_stock, category, description, photo } = item;
     const { addItem } = useOrder();
