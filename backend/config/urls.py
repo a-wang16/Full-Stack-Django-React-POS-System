@@ -10,11 +10,11 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="API Documentation",
+      title="Rev's POS - API Documentation",
       default_version='v1',
-      description="API description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@yourapi.com"),
+      description="Our backend API for Rev's POS.",
+      # terms_of_service="https://www.google.com/policies/terms/",
+      # contact=openapi.Contact(email="contact@yourapi.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
