@@ -2,8 +2,14 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
+/**
+ * Gives access to the authentication context
+ */
 export const useAuth = () => useContext(AuthContext);
 
+/**
+ * Provides authentication context to all components
+ */
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
