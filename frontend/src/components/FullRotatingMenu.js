@@ -3,7 +3,11 @@ import AspectRatio from '@mui/joy/AspectRatio';
 import {Box, Grid, MenuList, Sheet, Stack, Typography, stackClasses} from "@mui/joy";
 import MenuDisplayCard from "../components/MenuDisplayCard";
 
-
+/**
+ * Displays text regarding the inputted menu list.
+ * @param {menuList} param0 
+ * @returns 
+ */
 function FullRotatingMenu({menuList}) {
 
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
