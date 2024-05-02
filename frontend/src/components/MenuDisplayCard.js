@@ -5,7 +5,10 @@ import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import {Button, Sheet, autocompleteClasses} from "@mui/joy";
 
-export default function FAQCard({item}) {
+/**
+ * Formatting the item information on the menu displays
+ */
+export default function MenuDisplayCard({item}) {
     const { id, name, price, calories, category, description, photo } = item;
 
     return (
@@ -21,8 +24,6 @@ export default function FAQCard({item}) {
             orientation="horizontal"
             sx={{
                 textAlign: 'left',
-                // maxWidth: '100%',
-                // width: '100%',
                 backgroundColor:'transparent',
                 overflow: 'auto',
             }}
