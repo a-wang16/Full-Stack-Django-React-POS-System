@@ -11,7 +11,9 @@ import Snackbar from '@mui/joy/Snackbar';
 import MuiAlert from '@mui/joy/Alert';
 
 
-
+/**
+ * A checkout page for the customer to review their order. It displays each item, quantities, subtotals, and final price. Also prompts a user to put their name and number (optional) when placing the order. 
+ */
 function CheckoutPage() {
     const { order, removeItem, addItem, getItemCount, clearOrder } = useOrder();
     const [isProcessing, setIsProcessing] = useState(false);

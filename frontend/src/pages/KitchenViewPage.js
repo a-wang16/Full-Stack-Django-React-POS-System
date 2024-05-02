@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/joy/CircularProgress";
 import moment from 'moment';
 
+
+/**
+ * Displays the orders in progress and allows for a user to cancel or complete an in progress order 
+ */
 function KitchenViewPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
