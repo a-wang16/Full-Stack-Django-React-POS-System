@@ -19,7 +19,6 @@ import LowStockPage from "./pages/LowStockPage";
 function App() {
     const [open, setOpen] = useState(false);
 
-
     return (
         <Router>
             <Button onClick={() => setOpen(true)}
