@@ -11,6 +11,9 @@ import Link from '@mui/joy/Link';
 import { useOrder } from "../utils/OrderContext";
 import { Button, colors } from "@mui/joy";
 
+/**
+ * Menu item card for the customer view page that enables a customer to add a item to the cart
+ */
 export default function MenuItemCard({ item }) {
     const { id, name, price, calories, is_out_of_stock, category, description, photo } = item;
     const { addItem } = useOrder();

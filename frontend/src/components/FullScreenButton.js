@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import {Button} from '@mui/joy';
 
+
+/**
+ * Hidden button for making the display full screen  
+ */
 const FullScreenButton = () => {
     const [isFullScreen, setIsFullScreen] = useState(false);
 

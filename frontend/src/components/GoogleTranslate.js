@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 
+/**
+ * Google translate component that allows for language selection for the whole web page
+ */
 const GoogleTranslate = () => {
     useEffect(() => {
       const googleTranslateElementInit = () => {
