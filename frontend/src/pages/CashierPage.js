@@ -10,6 +10,9 @@ import PhoneNumberInput from "../components/PhoneNumberInput";
 import Checkbox from '@mui/joy/Checkbox';
 import Done from '@mui/icons-material/Done';
 
+/**
+ * A simplified and intuitive ordering page for a cashier to add items to an order and place the order. 
+ */
 function CashierPage() {
     const [menuItems, setMenuItems] = useState({});
     const [categories, setCategories] = useState([]);

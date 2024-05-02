@@ -11,6 +11,9 @@ import AccordionSummary, { accordionSummaryClasses, } from '@mui/joy/AccordionSu
 import GoogleTranslate from './GoogleTranslate';
 import { useOrder } from "../utils/OrderContext";
 
+/**
+ * Website navigation drawer that allows access to different pages dependent on the position of the user logged into the account
+ */
 const NavigationDrawer = ({ open, setOpen }) => {
     const { isAuthenticated, logout, position } = useAuth();
     const [categories, setCategories] = useState([]);
