@@ -14,8 +14,12 @@ class Inventory(models.Model):
     unit = models.CharField(max_length=50)
     minimum_quantity = models.IntegerField(default=10)
 
+    class Meta:
+        verbose_name_plural = "Inventories"
+
     def __str__(self):
         return self.name
+
 
 class MenuItem(models.Model):
     name = models.CharField(max_length=255)
@@ -50,6 +54,7 @@ class OrderItems(models.Model):
     quantity = models.IntegerField()
 
     class Meta:
+        verbose_name_plural = "Order Items"
         constraints = [
             models.CheckConstraint(check=models.Q(quantity__gt=0), name='quantity_gt_0'),
         ]
