@@ -32,11 +32,7 @@ def get_and_validate_dates(request):
     start = request.query_params.get('start_date')
     end = request.query_params.get('end_date')
 
-    if not end:
-        current_datetime = datetime.now()
-        end = current_datetime.strftime('%Y-%m-%d')
-
-    if not start:
+    if not start or not end:
         return None, None, JsonResponse({"error": "Both 'start_date' and 'end_date' query parameters are required."}, status=400)
 
     try:
