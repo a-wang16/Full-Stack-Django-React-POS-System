@@ -34,12 +34,24 @@ class MenuItemAdmin(admin.ModelAdmin):
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('id', 'menu_item', 'inventory_item', 'qty')
 
-@admin.register(CustomerOrder)
-class CustomerOrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'employee', 'created_at', 'status', 'name')
-
 @admin.register(OrderItems)
 class OrderItemsAdmin(admin.ModelAdmin):
     list_display = ('id', 'order', 'menu_item', 'quantity')
 
+class OrderItemsInline(admin.TabularInline):
+    model = OrderItems
+    extra = 1
+
+@admin.register(CustomerOrder)
+class CustomerOrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'employee', 'created_at', 'status', 'name', 'list_order_items')
+    inlines = [OrderItemsInline]
+
+    def list_order_items(self, obj):
+        order_items = obj.orderitems_set.all()
+        if order_items:
+            return ', '.join([f"{item.menu_item} (x{item.quantity})" for item in order_items])
+        else:
+            return 'No items'
+    list_order_items.short_description = 'Order Items'
 
