@@ -1,33 +1,38 @@
-from rest_framework import viewsets
-from .models import Inventory, MenuItem, Employee, Recipe, CustomerOrder, OrderItems
-from .serializers import (InventorySerializer, MenuItemSerializer,
-                          EmployeeSerializer, RecipeSerializer, CustomerOrderSerializer, OrderItemsSerializer)
-from phonenumber_field.phonenumber import to_python
-
+# Django imports
 from django.utils import timezone
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+from django.db.models import Count
+from django.db.models.functions import TruncDay
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from rest_framework import status
+
+# Django REST Framework imports
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
-
-from django.contrib.auth import authenticate
-from rest_framework.decorators import api_view
-from django.contrib.auth import authenticate, login
-from collections import defaultdict
 from rest_framework.views import APIView
-from django.db import transaction, connection
-from django.db.models.functions import TruncDay
-from django.db.models import Count
 
-from .serializers import MenuItemSerializer
+# Local application imports
+from .models import Inventory, MenuItem, Employee, Recipe, CustomerOrder, OrderItems
+from .serializers import (
+    InventorySerializer, MenuItemSerializer, EmployeeSerializer, RecipeSerializer,
+    CustomerOrderSerializer, OrderItemsSerializer
+)
+from .utils import send_sms, normalize_phone_number, get_and_validate_dates, get_city_by_zip
 
-from config.settings import OPEN_WEATHER_MAP_API_KEY
+# External imports
+from phonenumber_field.phonenumber import to_python
+from collections import defaultdict
+from enum import Enum
 import requests
 
-from .utils import send_sms, normalize_phone_number, get_and_validate_dates, get_city_by_zip
-from enum import Enum
+# Project settings
+from config.settings import OPEN_WEATHER_MAP_API_KEY
+
+
 
 class InventoryViewSet(viewsets.ModelViewSet):
     """
@@ -160,17 +165,17 @@ def login_employee(request):
 @api_view(['POST'])
 def create_order(request):
     """
-    Creates a new order, updates inventory, and optionally sends an SMS confirmation.
-    
-    Expects order details including menu items and quantities.
-    
-    Parameters:
-    - order_items: List of dictionaries containing menu item IDs and quantities.
-    - name: Customer's name.
-    - phone_number: Customer's phone number.
-    
-    Returns:
-    - Response indicating success or failure of the order creation.
+       Creates a new order, updates inventory, and optionally sends an SMS confirmation.
+
+       Expects order details including menu items and quantities.
+
+       Parameters:
+       - order_items: List of dictionaries containing menu item IDs and quantities.
+       - name: Customer's name.
+       - phone_number: Customer's phone number.
+
+       Returns:
+       - Response indicating success or failure of the order creation.
     """
     order_items = request.data.get('order_items')
     order_name = request.data.get('name')
@@ -180,54 +185,45 @@ def create_order(request):
     if not request.user.is_authenticated:
         return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    employee = request.user
-
-    with transaction.atomic():
-        newCustomerOrder = CustomerOrder(
-            employee = employee,
-            status = OrderStatus.INPROGRESS.value,
-            name = order_name,
-            phone_number = phone_number,
-            created_at = timezone.now()
-        )
-        newCustomerOrder.save()
-
-        for item in order_items:
-            # update inventory
-            menu_id = item['id']
-            menu_quantity = item['quantity']
-
-            inventory_items = list(Recipe.objects.filter(menu_item=menu_id).values_list('inventory_item', 'qty'))
-            parsed_inventory_items = [{'inventoryId': inv_item[0], 'quantity': inv_item[1] * menu_quantity} for inv_item
-                                      in inventory_items]
-
-            for inv_item in parsed_inventory_items:
-                inventory_id = inv_item['inventoryId']
-                required_quantity = inv_item['quantity']
-
-                inventory = Inventory.objects.select_for_update().get(id=inventory_id)
-                if inventory.quantity < required_quantity:
-                    return Response({"error": "Not enough items in inventory for item ID " + str(menu_id)},
-                                    status=status.HTTP_400_BAD_REQUEST)
-
-                inventory.quantity -= required_quantity
-                inventory.save()
-
-            # add new order items
-            menu = MenuItem.objects.get(id = menu_id)
-
-            newOrder = OrderItems(
-                order = newCustomerOrder,
-                menu_item = menu,
-                quantity = menu_quantity
+    try:
+        with transaction.atomic():
+            newCustomerOrder = CustomerOrder(
+                employee = request.user,
+                status = OrderStatus.INPROGRESS.value,
+                name = order_name,
+                phone_number = phone_number,
+                created_at = timezone.now()
             )
-            newOrder.save()
+            newCustomerOrder.save()
 
-        if normalized_phone_number:
-            send_sms(normalized_phone_number, f"{newCustomerOrder.name}, your order has been successfully placed. We will be ready with your food shortly!")
+            for item in order_items:
+                menu_id = item['id']
+                menu_quantity = item['quantity']
 
-    return Response({"message": "Order Success"}, status=status.HTTP_201_CREATED)
+                inventory_items = Recipe.objects.filter(menu_item=menu_id).values_list('inventory_item', 'qty')
+                for inv_item_id, qty_per_item in inventory_items:
+                    required_quantity = qty_per_item * menu_quantity
+                    inventory = Inventory.objects.select_for_update().get(id=inv_item_id)
+                    if inventory.quantity < required_quantity:
+                        raise ValueError(f"Not enough inventory for item ID {menu_id}")
 
+                    inventory.quantity -= required_quantity
+                    inventory.save()
+
+                menu = get_object_or_404(MenuItem, id=menu_id)
+                OrderItems.objects.create(
+                    order=newCustomerOrder,
+                    menu_item=menu,
+                    quantity=menu_quantity
+                )
+
+            if normalized_phone_number:
+                send_sms(normalized_phone_number, f"{newCustomerOrder.name}, your order has been successfully placed. We will be ready with your food shortly!")
+
+        return Response({"message": "Order Success"}, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class OrdersPerDayView(APIView):
     """
