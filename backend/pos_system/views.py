@@ -2,7 +2,7 @@
 from django.utils import timezone
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.db import transaction
+from django.db import transaction, connection
 from django.db.models import Count
 from django.db.models.functions import TruncDay
 from django.contrib.auth import authenticate, login
@@ -409,9 +409,9 @@ def excess_report(request):
     Returns:
     - JSON list of inventory items list of inventory items that sold less than 10% of their quantity between the timestamp and the current time, assuming no restocks have happened during the window.
     """
-    start, end, error_response = get_and_validate_dates(request)
-    if error_response:
-        return error_response
+    start_date = request.query_params.get('start_date')
+
+    start = timezone.datetime.strptime(start_date, '%Y-%m-%d')
 
     query = """
         SELECT * 
