@@ -277,12 +277,12 @@ def best_selling_combo(request):
 
     query = """
         SELECT aMenu.name as Menu_Item_1, bMenu.name as Menu_Item_2, COUNT(*) AS Times_Ordered_Together 
-        FROM Order_Items a 
-        JOIN Order_Items b ON a.Order_ID = b.Order_ID AND a.Menu_Item_ID < b.Menu_Item_ID 
-        JOIN Menu_Item aMenu ON a.Menu_Item_ID = aMenu.ID 
-        JOIN Menu_Item bMenu ON b.Menu_Item_ID = bMenu.ID 
-        JOIN Customer_Order co ON co.ID = a.Order_ID 
-        WHERE co.Created_At >= %s AND co.Created_At < %s 
+        FROM pos_system_orderitems a 
+        JOIN pos_system_orderitems b ON a.Order_ID = b.Order_ID AND a.Menu_Item_ID < b.Menu_Item_ID 
+        JOIN pos_system_menuitem aMenu ON a.Menu_Item_ID = aMenu.ID 
+        JOIN pos_system_menuitem bMenu ON b.Menu_Item_ID = bMenu.ID 
+        JOIN pos_system_customerorder co ON co.ID = a.Order_ID 
+        WHERE co.Created_At >= %s AND co.Created_At <= %s 
         GROUP BY aMenu.name, bMenu.name 
         ORDER BY Times_Ordered_Together DESC 
         LIMIT 15;
@@ -331,10 +331,10 @@ def sales_trend(request):
             mi.Name AS Menu_Item_Name,
             SUM(oi.Quantity) AS Total_Quantity_Sold,
             SUM(oi.Quantity * mi.Price) AS Total_Revenue
-            FROM Order_Items oi
-                JOIN Menu_Item mi ON oi.Menu_Item_ID = mi.ID
-                JOIN Customer_Order co ON oi.Order_ID = co.ID
-                WHERE co.Created_At >= %s AND co.Created_At < %s
+            FROM pos_system_orderitems oi
+                JOIN pos_system_menuitem mi ON oi.Menu_Item_ID = mi.ID
+                JOIN pos_system_customerorder co ON oi.Order_ID = co.ID
+                WHERE co.Created_At >= %s AND co.Created_At <= %s
                     GROUP BY mi.Name
                     ORDER BY Total_Quantity_Sold DESC;
     """
@@ -373,12 +373,12 @@ def inventory_usage(request):
 
     query = """
         SELECT i.Name, SUM(r.qty * oi.quantity) AS inventory_used 
-            FROM Menu_Item mi 
-            JOIN Order_Items oi ON mi.ID = oi.Menu_Item_ID 
-            JOIN Customer_Order co ON co.ID = oi.Order_ID 
-            JOIN Recipe r ON mi.ID = r.Menu_item 
-            JOIN Inventory i ON r.Inventory_item = i.ID 
-            WHERE co.Created_At >= %s AND co.Created_At < %s 
+            FROM pos_system_menuitem mi 
+            JOIN pos_system_orderitems oi ON mi.ID = oi.Menu_Item_ID 
+            JOIN pos_system_customerorder co ON co.ID = oi.Order_ID 
+            JOIN pos_system_recipe r ON mi.ID = r.Menu_item_ID 
+            JOIN pos_system_inventory i ON r.Inventory_item_ID = i.ID 
+            WHERE co.Created_At >= %s AND co.Created_At <= %s 
             GROUP BY i.Name 
             ORDER BY inventory_used DESC;
     """
@@ -435,9 +435,9 @@ def excess_report(request):
                         0 AS can_make, 
                         SUM(oi.Quantity) AS total_sold 
                     FROM 
-                        Menu_Item mi 
-                        JOIN Order_Items oi ON mi.ID = oi.Menu_Item_ID 
-                        JOIN Customer_Order co ON co.ID = oi.Order_ID 
+                        pos_system_menuitem mi 
+                        JOIN pos_system_orderitems oi ON mi.ID = oi.Menu_Item_ID 
+                        JOIN pos_system_customerorder co ON co.ID = oi.Order_ID 
                     WHERE 
                         Created_At >= %s
                     GROUP BY 
@@ -445,9 +445,9 @@ def excess_report(request):
                     ORDER BY 
                         mi.Name ASC
                 ) a
-                JOIN Menu_Item mi ON 1=1 
-                JOIN Recipe r ON mi.ID = r.Menu_item 
-                JOIN Inventory i ON r.Inventory_item = i.ID 
+                JOIN pos_system_menuitem mi ON 1=1 
+                JOIN pos_system_recipe r ON mi.ID = r.Menu_Item_ID 
+                JOIN pos_system_inventory i ON r.Inventory_item_ID = i.ID 
                 GROUP BY 
                     mi.Name, 
                     a.Name, 
