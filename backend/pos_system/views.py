@@ -2,7 +2,7 @@
 from django.utils import timezone
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.db import transaction
+from django.db import transaction, connection
 from django.db.models import Count
 from django.db.models.functions import TruncDay
 from django.contrib.auth import authenticate, login
@@ -409,9 +409,9 @@ def excess_report(request):
     Returns:
     - JSON list of inventory items list of inventory items that sold less than 10% of their quantity between the timestamp and the current time, assuming no restocks have happened during the window.
     """
-    start, end, error_response = get_and_validate_dates(request)
-    if error_response:
-        return error_response
+    start_date = request.query_params.get('start_date')
+
+    start = timezone.datetime.strptime(start_date, '%Y-%m-%d')
 
     query = """
         SELECT * 
@@ -420,7 +420,7 @@ def excess_report(request):
                 name, 
                 MAX(can_make) AS can_make, 
                 MAX(total_sold) AS total_sold, 
-                CAST(MAX(total_sold) AS FLOAT) / (MAX(total_sold) + MAX(can_make)) AS relative_sold 
+                CAST(MAX(can_make) AS FLOAT) * 100 / (MAX(total_sold) + MAX(can_make)) AS relative_excess 
             FROM (
                 SELECT 
                     mi.Name, 
@@ -459,9 +459,9 @@ def excess_report(request):
                 name
         ) magnus2 
         WHERE 
-            relative_sold <= 0.1 
+            relative_excess >= 90
         ORDER BY 
-            relative_sold ASC;
+            relative_excess ASC;
 
     """
 
@@ -476,7 +476,7 @@ def excess_report(request):
                 "name": row[0],
                 "can_make": row[1],
                 "total_sold": row[2],
-                "relative_sold": row[3],
+                "relative_excess": row[3],
             })
 
     return Response(formatted_result, status=status.HTTP_200_OK)
