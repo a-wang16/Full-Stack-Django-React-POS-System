@@ -51,7 +51,7 @@ export default function MenuItemCard({ item }) {
                     }}
                     onClick={(event) => {
                         setOpen(true);
-                        handleAddToOrder(event); 
+                        handleAddToOrder(event);
                     }}
                 >
                     <ion-icon name="add-outline" style={{ fontSize: '24px' }}></ion-icon>
@@ -66,23 +66,23 @@ export default function MenuItemCard({ item }) {
                 </Typography>
             </CardContent>
             <Snackbar
-                    color="success"
-                    size="lg"
-                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                    variant="solid"
-                    autoHideDuration={3000}
-                    open={open}
-                    onClose={(event, reason) => {
-                        if (reason === 'clickaway') {
-                            return;
-                        }
-                        setOpen(false);
-                    }}
-                >
-                    <ion-icon aria-label="Confirm Account" name="checkmark-outline" size="small"></ion-icon>
-                    <Typography level='title-medium'> {item.name} added to cart. </Typography>
-                    
-                </Snackbar>
+                color="success"
+                size="lg"
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                variant="solid"
+                autoHideDuration={3000}
+                open={open}
+                onClose={(event, reason) => {
+                    if (reason === 'clickaway') {
+                        return;
+                    }
+                    setOpen(false);
+                }}
+            >
+                <ion-icon aria-label="Confirm Account" name="checkmark-outline" size="small"></ion-icon>
+                <Typography level='title-medium'> {item.name} added to cart. </Typography>
+
+            </Snackbar>
         </Card>
     );
 }
