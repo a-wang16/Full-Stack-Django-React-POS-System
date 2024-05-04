@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Inventory, MenuItem, Employee, Recipe, CustomerOrder, OrderItems
+from django.contrib.auth.admin import UserAdmin
 
 
 class RecipeInline(admin.TabularInline):
@@ -9,9 +10,29 @@ class RecipeInline(admin.TabularInline):
     autocomplete_fields = ['inventory_item']
 
 @admin.register(Employee)
-class EmployeeAdmin(admin.ModelAdmin):
+class EmployeeAdmin(UserAdmin):
+    model = Employee
     list_display = ('username', 'position', 'first_name', 'last_name', 'email')
-    search_fields = ('username', 'first_name', 'last_name')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    search_fields = ('username', 'first_name', 'last_name', 'email')
+    ordering = ('username',)
+
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        ('Additional Info', {'fields': ('position',)}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2'),
+        }),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Additional Info', {'fields': ('position',)}),
+    )
 
 
 @admin.register(Inventory)

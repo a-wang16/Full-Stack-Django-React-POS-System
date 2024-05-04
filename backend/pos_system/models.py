@@ -6,6 +6,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 class Employee(AbstractUser):
     position = models.CharField(max_length=255)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
 
 
 class Inventory(models.Model):
