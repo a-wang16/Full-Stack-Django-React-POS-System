@@ -72,7 +72,7 @@ function OrderEntryPage() {
                 return [{ name: "Caesar Chicken Salad" }, { name: "Onion Rings" }, { name: "Classic Burger" }];
             } else if (temperature < 16) {
                 return [{ name: "Howdy Spicy Chicken Sandwich" }, { name: "Grilled Hot Dog" }, { name: "Grilled Cheese Dog" }];
-            } 
+            }
             else {
                 return [];
             }
@@ -87,7 +87,6 @@ function OrderEntryPage() {
         setSelectedCategory(category);
     };
 
-    // console.log(isFarenheight);
     if (isLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -97,7 +96,6 @@ function OrderEntryPage() {
     }
 
     let far = (9 / 5) * weather.temperature + 32;
-
 
     if (error) return <p>Error: {error.message}</p>;
 
@@ -113,7 +111,6 @@ function OrderEntryPage() {
                     textAlign: 'center',
                     height: '100vh',
                     position: 'sticky',
-                    // backgroundColor:'white',
                     top: 0
                 }}
                 >
@@ -124,30 +121,29 @@ function OrderEntryPage() {
                         spacing={0}
                     >
 
-                    <Typography level='h2' sx={{ width: '100%', paddingTop: '20px', paddingBottom: '20px' }}>Welcome to Rev's</Typography>
-                    {categories.map((category) => (
-                        <Box >
-                            <Divider sx={{ width: '80%', margin: 'auto' }} />
-                            <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'primary'} sx={{ width: '100%', borderRadius: '0px', paddingTop: '15px', paddingBottom: '15px' }} onClick={() => handleCategoryClick(category)}>
-                                <Typography level='h4'>{category}</Typography>
-                            </Button>
-                        </Box>
-
-                    ))}
-
-
-                    <Sheet variant="soft" color='primary' sx={{borderRadius:'10px', padding:'10px', marginTop:'10%', marginRight:'8%', marginLeft:'8%'}}>
-                        {recommendedItems.length > 0 && (
-                            <Box>
-                                <Typography level='title-lg' sx={{ paddingBottom: '10px' }}>Recommended Items To Try Today:</Typography>
-                                {recommendedItems.map((item, index) => (
-                                    <Box key={index}>
-                                        <Typography textAlign={'center'} level='title-md'>{item.name}</Typography>
-                                    </Box>
-                                ))}
+                        <Typography level='h2' sx={{ width: '100%', paddingTop: '20px', paddingBottom: '20px' }}>Welcome to Rev's</Typography>
+                        {categories.map((category) => (
+                            <Box >
+                                <Divider sx={{ width: '80%', margin: 'auto' }} />
+                                <Button key={category} variant={selectedCategory === category ? 'solid' : 'plain'} color={'primary'} sx={{ width: '100%', borderRadius: '0px', paddingTop: '15px', paddingBottom: '15px' }} onClick={() => handleCategoryClick(category)}>
+                                    <Typography level='h4'>{category}</Typography>
+                                </Button>
                             </Box>
-                        )}
-                    </Sheet>
+
+                        ))}
+
+                        <Sheet variant="soft" color='primary' sx={{ borderRadius: '10px', padding: '10px', marginTop: '10%', marginRight: '8%', marginLeft: '8%' }}>
+                            {recommendedItems.length > 0 && (
+                                <Box>
+                                    <Typography level='title-lg' sx={{ paddingBottom: '10px' }}>Recommended Items To Try Today:</Typography>
+                                    {recommendedItems.map((item, index) => (
+                                        <Box key={index}>
+                                            <Typography textAlign={'center'} level='title-md'>{item.name}</Typography>
+                                        </Box>
+                                    ))}
+                                </Box>
+                            )}
+                        </Sheet>
                     </Stack>
 
                 </Sheet>
@@ -176,7 +172,6 @@ function OrderEntryPage() {
                                 >
                                     <img src={`https://openweathermap.org/img/wn/${weather.icon}.png`} alt={`${weather.city} weather icon`} />
 
-                                    {console.log(isCelsius)}
                                     {!isCelsius && (
                                         <Typography level="title-lg" sx={{ margin: 1, paddingTop: '5px' }}>
                                             {weather.city}  -  {((9 / 5) * weather.temperature + 32).toFixed(2)}°F
@@ -190,9 +185,6 @@ function OrderEntryPage() {
                                         </Typography>
                                     )}
                                 </Stack>
-
-
-
                             )}
                         </Sheet>
 

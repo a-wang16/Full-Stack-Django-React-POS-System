@@ -25,6 +25,9 @@ function CheckoutPage() {
     const [receiveTextUpdates, setReceiveTextUpdates] = useState(false);
     const [itemToRemove, setItemToRemove] = useState(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [failureOpen, setFailureOpen] = useState(false);
+    const [successOpen, setSuccessOpen] = useState(false);
+
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
@@ -45,27 +48,27 @@ function CheckoutPage() {
 
 
     const handleRemoveAllItems = (itemName) => {
-        setItemToRemove(itemName); 
-        setModalOpenConfirm(true); 
+        setItemToRemove(itemName);
+        setModalOpenConfirm(true);
     };
 
     const handleCloseModal = () => {
         setModalOpenConfirm(false);
-        setItemToRemove(null); 
+        setItemToRemove(null);
     };
 
     const handleConfirmRemoveAllItems = () => {
         removeAllItems(itemToRemove);
         setModalOpenConfirm(false);
     };
-    
+
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
         setSnackbarOpen(false);
     };
-    
+
     const handleSnackbarOpen = () => {
         setSnackbarOpen(true);
     };
@@ -97,15 +100,53 @@ function CheckoutPage() {
             setTimeout(() => {
                 navigate('/order-entry');
                 clearOrder();
-            }, 4000);
+            }, 3000);
+            setSuccessOpen(true)
+
 
         } catch (error) {
-            console.error('Error placing order:', error);
-            alert('Failed to place order. Please try again.');
+            setFailureOpen(true);
+            setTimeout(() => {
+                navigate('/order-entry');
+                clearOrder();
+            }, 3000);
         } finally {
             setIsProcessing(false);
+
         }
     };
+
+    const SuccessModal = () => (
+        <Modal width="20%" open={successOpen}>
+            <ModalDialog color="success" layout="center" size="lg" variant="solid">
+                <Stack
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <ion-icon aria-label="Confirm Account" name="checkmark-outline" size="small"></ion-icon>
+                    <DialogTitle>Order Has Been Placed</DialogTitle>
+                </Stack>
+            </ModalDialog>
+        </Modal>
+    );
+
+    const FailureModal = () => (
+        <Modal width="20%" open={failureOpen}>
+            <ModalDialog color="danger" layout="center" size="lg" variant="solid">
+                <Stack
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <ion-icon aria-label="Confirm Account" name="checkmark-outline" size="small"></ion-icon>
+                    <DialogTitle>Trouble placing order</DialogTitle>
+                </Stack>
+            </ModalDialog>
+        </Modal>
+    );
 
     return (
         <Box display="flex" flexDirection="column" alignItems="center">
@@ -116,6 +157,9 @@ function CheckoutPage() {
                     <ion-icon size="large" name="arrow-back-outline"></ion-icon>
                 </IconButton>
             </Box>
+{/* 
+            <SuccessModal />
+            <FailureModal /> */}
 
             {subtotalPrice === 0 && (
                 <Typography variant="h4" style={{ color: 'red', marginTop: '10px' }}>
@@ -206,14 +250,14 @@ function CheckoutPage() {
                                 <Input
                                     onChange={handleInputChange}
                                     placeholder="Enter Name"
-                                    variant="outlined" 
-                                    // sx={{marginBottom:'2%'}}
+                                    variant="outlined"
+                                // sx={{marginBottom:'2%'}}
                                 />
-                                    
 
-                                
+
+
                                 {receiveTextUpdates && (
-                                    <PhoneNumberInput 
+                                    <PhoneNumberInput
                                         onChange={handlePhoneInputChange}
                                     />
                                 )}
@@ -242,8 +286,8 @@ function CheckoutPage() {
                                 />
                             </ModalDialog>
                         </Modal>
-                        
-                     
+
+
                         <Modal open={modalOpenConfirm} onClose={handleCloseModal}>
                             <ModalDialog color="primary" layout="center" size="lg" variant="plain">
                                 <ModalClose />
@@ -262,17 +306,42 @@ function CheckoutPage() {
             )}
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={snackbarOpen}
-                autoHideDuration={3000} 
-                onClose={handleSnackbarClose}
+                open={successOpen}
+                autoHideDuration={3000}
+                onClose={(event, reason) => {
+                    if (reason === 'clickaway') {
+                        return;
+                    }
+                    setSuccessOpen(false);
+                }}
                 color="success"
                 variant="solid"
                 sx={{ textAlign: 'center' }}
             >
-                Your Order Has Been Placed!
-               
+                <ion-icon aria-label="Confirm Account" name="checkmark-outline" size="large"></ion-icon>
+                <Typography level='h4'> Order placed successfully. </Typography>
+
             </Snackbar>
-            
+
+            <Snackbar
+                color="danger"
+                size="lg"
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                variant="solid"
+                autoHideDuration={3000}
+                open={failureOpen}
+                onClose={(event, reason) => {
+                    if (reason === 'clickaway') {
+                        return;
+                    }
+                    setFailureOpen(false);
+                }}
+            >
+                <ion-icon aria-label="Confirm Account" name="close-outline" size="large"></ion-icon>
+                <Typography level='h4'> Failure placing order. </Typography>
+
+            </Snackbar>
+
         </Box>
     );
 }

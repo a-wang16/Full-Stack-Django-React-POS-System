@@ -399,6 +399,90 @@ def inventory_usage(request):
 
 
 @api_view(['GET'])
+def excess_report(request):
+    """
+    Reports the total inventory used within a specified date range, grouped by inventory item.
+    
+    Query Parameters:
+    - start: Start date for the reporting period (YYYY-MM-DD).
+    
+    Returns:
+    - JSON list of inventory items list of inventory items that sold less than 10% of their quantity between the timestamp and the current time, assuming no restocks have happened during the window.
+    """
+    start, end, error_response = get_and_validate_dates(request)
+    if error_response:
+        return error_response
+
+    query = """
+        SELECT * 
+        FROM (
+            SELECT 
+                name, 
+                MAX(can_make) AS can_make, 
+                MAX(total_sold) AS total_sold, 
+                CAST(MAX(total_sold) AS FLOAT) / (MAX(total_sold) + MAX(can_make)) AS relative_sold 
+            FROM (
+                SELECT 
+                    mi.Name, 
+                    MIN(i.quantity / r.qty) AS can_make, 
+                    CASE 
+                        WHEN mi.Name = a.Name THEN a.total_sold 
+                        ELSE 0 
+                    END AS total_sold 
+                FROM (
+                    SELECT 
+                        mi.Name, 
+                        0 AS can_make, 
+                        SUM(oi.Quantity) AS total_sold 
+                    FROM 
+                        Menu_Item mi 
+                        JOIN Order_Items oi ON mi.ID = oi.Menu_Item_ID 
+                        JOIN Customer_Order co ON co.ID = oi.Order_ID 
+                    WHERE 
+                        Created_At >= %s
+                    GROUP BY 
+                        mi.Name 
+                    ORDER BY 
+                        mi.Name ASC
+                ) a
+                JOIN Menu_Item mi ON 1=1 
+                JOIN Recipe r ON mi.ID = r.Menu_item 
+                JOIN Inventory i ON r.Inventory_item = i.ID 
+                GROUP BY 
+                    mi.Name, 
+                    a.Name, 
+                    a.total_sold 
+                ORDER BY 
+                    mi.Name ASC
+            ) magnusOpus 
+            GROUP BY 
+                name
+        ) magnus2 
+        WHERE 
+            relative_sold <= 0.1 
+        ORDER BY 
+            relative_sold ASC;
+
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, [start])
+
+        res = cursor.fetchall()
+
+        formatted_result = []
+        for row in res:
+            formatted_result.append({
+                "name": row[0],
+                "can_make": row[1],
+                "total_sold": row[2],
+                "relative_sold": row[3],
+            })
+
+    return Response(formatted_result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
 def get_weather(request):
     """
     Retrieves the current weather information for a given zip code using the OpenWeatherMap API.

@@ -57,7 +57,7 @@ function LowStockPage() {
     };
 
     return (
-        <div>
+        <Box sx={{marginBottom:"100px"}}>
             <Grid
                 container
                 direction="column"
@@ -187,7 +187,7 @@ function LowStockPage() {
                     </Stack>
                 </Box>
             </Grid>
-        </div>
+        </Box>
     );
 }
 
