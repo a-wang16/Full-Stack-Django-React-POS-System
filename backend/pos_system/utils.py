@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.http import JsonResponse
 import phonenumbers
 import requests
+from datetime import datetime
 
 
 def send_sms(to, message):
@@ -31,7 +32,11 @@ def get_and_validate_dates(request):
     start = request.query_params.get('start_date')
     end = request.query_params.get('end_date')
 
-    if not start or not end:
+    if not end:
+        current_datetime = datetime.now()
+        end = current_datetime.strftime('%Y-%m-%d')
+
+    if not start:
         return None, None, JsonResponse({"error": "Both 'start_date' and 'end_date' query parameters are required."}, status=400)
 
     try:
