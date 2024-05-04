@@ -420,7 +420,7 @@ def excess_report(request):
                 name, 
                 MAX(can_make) AS can_make, 
                 MAX(total_sold) AS total_sold, 
-                CAST(MAX(total_sold) AS FLOAT) / (MAX(total_sold) + MAX(can_make)) AS relative_sold 
+                CAST(MAX(can_make) AS FLOAT) * 100 / (MAX(total_sold) + MAX(can_make)) AS relative_excess 
             FROM (
                 SELECT 
                     mi.Name, 
@@ -459,9 +459,9 @@ def excess_report(request):
                 name
         ) magnus2 
         WHERE 
-            relative_sold <= 0.1 
+            relative_excess >= 90
         ORDER BY 
-            relative_sold ASC;
+            relative_excess ASC;
 
     """
 
@@ -476,7 +476,7 @@ def excess_report(request):
                 "name": row[0],
                 "can_make": row[1],
                 "total_sold": row[2],
-                "relative_sold": row[3],
+                "relative_excess": row[3],
             })
 
     return Response(formatted_result, status=status.HTTP_200_OK)

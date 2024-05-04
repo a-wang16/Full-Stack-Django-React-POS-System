@@ -13,6 +13,10 @@ import moment from "moment";
  * ManagerGraphPage is a page that displays the manager's view of the restaurant's and offers a variety of graphs.
  * for visualizing the data.
  */
+let initialDate = "2023-01-01";
+const currDate = new Date().toISOString().split('T')[0];
+let finalDate = currDate;
+
 function ManagerGraphPage() {
     const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
@@ -22,9 +26,7 @@ function ManagerGraphPage() {
     const { getItemCount } = useOrder();
     const itemCount = getItemCount();
 
-    const currDate = new Date().toISOString().split('T')[0];
-    let initialDate = "2023-01-01";
-    let finalDate = currDate;
+
     let currCategory = selectedCategory;
 
     const navigate = useNavigate();
@@ -147,6 +149,23 @@ function ManagerGraphPage() {
                     </Stack>
                   );
             }
+
+
+            if(currCategory === "excess-report"){
+                return (
+                    <Stack sx={{ height: 'auto', width: 'auto' }}>
+                         <Sheet variant="outlined" sx={{
+                            width: 'auto',
+                            height: 'auto',
+                            alignItems: 'center',
+                            padding: "15px"
+                        }}>
+                            <Typography>{`Menu Item: ${label}`}</Typography>
+                            <Typography textColor="#0a6bcc">{`Percentage Excess: ${payload[0].value}`}</Typography>
+                        </Sheet>
+                    </Stack>
+                  );
+            }
         }
       
         return null;
@@ -190,6 +209,12 @@ function ManagerGraphPage() {
                             <Typography level='h4'>Inventory Usage</Typography>
                         </Button>
                     </Box>
+                    <Box >
+                        <Divider sx={{ width: '80%', margin: 'auto' }} />
+                        <Button key='inventory-usage' variant={selectedCategory === 'excess-report' ? 'solid' : 'plain'}  color={'primary'} sx={{ width: '100%', borderRadius: '0px', paddingTop: '15px', paddingBottom: '15px' }} onClick={() => handleCategoryClick('excess-report')}>
+                            <Typography level='h4'>Excess Inventory Report</Typography>
+                        </Button>
+                    </Box>
                 </Sheet>
 
 
@@ -214,34 +239,41 @@ function ManagerGraphPage() {
                                     },
                                 }}
                                 id='initial'
-                                defaultValue={'2023-01-01'}
+                                defaultValue={initialDate}
                                 onChange={function () {
                                     initialDate = document.getElementById("initial").value;
+                                    document.getElementById("initial").defaultValue = initialDate;
                                     fetchMenuItems();
                                 }}
                                 sx={{ width: '200px' }}
                             />
                         </Stack>
 
-                        <Stack>
+                        {selectedCategory != 'excess-report' &&
+                        (
+                            <Stack>
                             <Typography level="h5" sx={{ margin: 1 }}>End Date:</Typography>
-                            <Input
-                                type="date"
-                                slotProps={{
-                                    input: {
-                                        min: '2023-01-01',
-                                        max: currDate,
-                                    },
-                                }}
-                                id='final'
-                                defaultValue={currDate}
-                                onChange={function () {
-                                    finalDate = document.getElementById("final").value;
-                                    fetchMenuItems();
-                                }}
-                                sx={{ width: '200px' }}
-                            />
-                        </Stack>
+                                <Input
+                                    type="date"
+                                    slotProps={{
+                                        input: {
+                                            min: '2023-01-01',
+                                            max: currDate,
+                                        },
+                                    }}
+                                    id='final'
+                                    defaultValue={currDate}
+                                    onChange={function () {
+                                        finalDate = document.getElementById("final").value;
+                                        document.getElementById("final").defaultValue = finalDate;
+                                        fetchMenuItems();
+                                    }}
+                                    sx={{ width: '200px' }}
+                                />
+                            </Stack>
+                            )
+                        }
+                        
                     </Stack>
 
 
@@ -314,6 +346,22 @@ function ManagerGraphPage() {
                         </ResponsiveContainer>
                     )}
 
+
+                    {data.length != 0 && selectedCategory == 'excess-report' && (
+                        <ResponsiveContainer width="90%" height="80%">
+                            <BarChart width={900} height={900} data={data}>
+                                <XAxis dataKey="name" height={40}>
+                                    <Label value="Inventory Item" offset={0} position="insideBottom" />
+                                </XAxis>
+                                <YAxis dataKey="relative_excess" width={70}>
+                                    <Label value="Percentage Sold" position="insideLeft" angle={-90}/>
+                                </YAxis>
+                                <Line type="monotone" dataKey="count" stroke="#0a6bcc" />
+                                <Tooltip content={<CustomTooltip />}/>
+                                <Bar dataKey="relative_excess" fill="#0a6bcc" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    )}
 
                 </Stack>
 
