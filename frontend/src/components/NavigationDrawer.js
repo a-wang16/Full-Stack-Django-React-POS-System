@@ -8,7 +8,6 @@ import Accordion from '@mui/joy/Accordion';
 import AccordionDetails from '@mui/joy/AccordionDetails';
 import AccordionGroup from '@mui/joy/AccordionGroup';
 import AccordionSummary, { accordionSummaryClasses, } from '@mui/joy/AccordionSummary';
-import GoogleTranslate from './GoogleTranslate';
 import { useOrder } from "../utils/OrderContext";
 
 /**

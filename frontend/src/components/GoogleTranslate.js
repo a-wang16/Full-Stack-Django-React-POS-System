@@ -1,25 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useRef } from 'react';
 
 /**
  * Google translate component that allows for language selection for the whole web page
  */
-const GoogleTranslate = () => {
+function GoogleTranslate() {
+    const googleTranslateRef = useRef(null);
+
     useEffect(() => {
-      const googleTranslateElementInit = () => {
-        new window.google.translate.TranslateElement(
-          {
-            pageLanguage: "en",
-            autoDisplay: false
-          },
-          "google_translate_element"
-        );
-      };
+      let intervalID;
     
-      window.googleTranslateElementInit = googleTranslateElementInit;
+      const checkTranslate = () => {
+        if(window.google && window.google.translate){
+          clearInterval(intervalID);
+          new window.google.translate.TranslateElement(
+            {
+              pageLangauge: 'en',
+              layout: 'google.translate.TranslateElement.InlineLayout.SIMPLE'
+            },
+            googleTranslateRef.current
+          );
+        }
+      };
+      intervalID = setInterval(checkTranslate, 100);
+
     }, []);
 
       return (
-        <div id="google_translate_element"></div>
+        <div>
+          <div ref = {googleTranslateRef}></div>
+        </div>
       );
 };
 
