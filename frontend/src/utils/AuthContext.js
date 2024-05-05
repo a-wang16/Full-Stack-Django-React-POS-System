@@ -19,14 +19,19 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        const savedPosition = localStorage.getItem('position');
         if (token) {
             setIsAuthenticated(true);
+        }
+        if (savedPosition) {
+            setPosition(JSON.parse(savedPosition));
         }
         setIsLoading(false);
     }, []);
 
-   const login = (token, username, userPosition) => {
+    const login = (token, username, userPosition) => {
         localStorage.setItem('token', token);
+        localStorage.setItem('position', JSON.stringify(userPosition));
         setIsAuthenticated(true);
         setUser(username);
         setPosition(userPosition);
@@ -35,10 +40,10 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('position');
         setIsAuthenticated(false);
         setUser(null);
         setPosition(null);
-
     };
 
     const value = {
